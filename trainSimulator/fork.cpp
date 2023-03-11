@@ -12,7 +12,7 @@ Prong* Fork::getSelectedProng() {
     return m_prongList.at(m_selectedIndex);
 }
 
-bool Fork::setSelectedProng(unsigned int index) {
+bool Fork::setSelectedProng(int index) {
     if(index >=0 && index < m_prongList.size()) {
         m_selectedIndex = index;
         return true;

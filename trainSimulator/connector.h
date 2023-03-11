@@ -48,7 +48,7 @@ class Fork {
 public:
     Fork(Connector* parent);
     Prong* getSelectedProng();
-    bool setSelectedProng(unsigned int index);
+    bool setSelectedProng(int index);
     void toggleSelectedProng();
     int findIndexOfProngConnectedToNeighbour(Connector* neighbour);
 
