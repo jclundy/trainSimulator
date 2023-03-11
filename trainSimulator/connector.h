@@ -15,33 +15,46 @@ typedef enum {
     FORK
 } connector_type;
 
+typedef enum {
+    TRACK_FRONT,
+    TRACK_REAR
+} track_end;
+
 class Connector
 {
 
 public:
-    Connector(TrackSegment* parentTrackSegment);
+    Connector(TrackSegment* m_parentTrackSegment, track_end trackEnd);
     ~Connector();
-
     // public methods
     connector_type getConnectionType();
     bool isFront();
     bool isRear();
+
+    bool isTerminal();
+    bool isFork();
+
+    // modifiers
+    bool connectTo(Connector* neighbour);
+
+    // search methods
     TrackSegment* getTrackSegment();
-
-    // public members
-    QPointF position;
-
     TrackSegment* getConnectedTrackSegment();
     Connector* getNeighbouringConnection();
+
+
+
+    // public members
+    QPointF m_position;
 
 private:
     // private methods
 
     // private members
-    connector_type connectionType;
-    bool m_isFront;
-    TrackSegment* parentTrackSegment;
-    Fork* fork;
+    connector_type m_connectionType;
+    track_end m_trackEnd;
+    TrackSegment* m_parentTrackSegment;
+    Fork* m_fork;
 };
 
 class Fork {

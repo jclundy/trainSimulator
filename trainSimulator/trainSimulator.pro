@@ -27,7 +27,8 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     prong.cpp \
-    fork.cpp
+    fork.cpp \
+    connector.cpp
 
 HEADERS += \
         mainwindow.h \
