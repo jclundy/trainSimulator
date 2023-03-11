@@ -27,9 +27,8 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     prong.cpp \
-    fork.cpp \
-    connector.cpp
+    trackend.cpp
 
 HEADERS += \
         mainwindow.h \
-    connector.h
+    trackend.h

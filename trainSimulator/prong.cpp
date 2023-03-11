@@ -1,6 +1,6 @@
-#include "connector.h"
+#include "trackend.h"
 
-Prong::Prong(Fork* parent, uint8_t idx, float angle, float length) {
+Prong::Prong(TrackEnd* parent, uint8_t idx, float angle, float length) {
     m_parentFork = parent;
     m_angle = angle;
     m_length = length;
@@ -15,10 +15,10 @@ void Prong::connect(Prong *neighbour) {
     m_neighbour = neighbour;
 }
 
-bool Prong::isNeighbour(Connector* connector) {
+bool Prong::isNeighbour(TrackEnd* connector) {
     if(m_neighbour == NULL) {
         return false;
     } else {
-        return m_neighbour->m_parentFork->m_parentConnector == connector;
+        return m_neighbour->m_parentFork == connector;
     }
 }
