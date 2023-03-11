@@ -14,7 +14,7 @@ typedef enum {
 
 class TrackEnd {
 public:
-    TrackEnd(TrackSegment* m_parentTrackSegment, track_pole pole);
+    TrackEnd(TrackSegment* parent, track_pole pole);
 
     // Public Methods
     bool isFront();
@@ -33,7 +33,7 @@ public:
     Prong* getSelectedProng();
     bool setSelectedProng(int index);
     void toggleSelectedProng();
-    int findIndexOfProngConnectedToNeighbour(TrackSegment* neighbour);
+    int findIndexOfProngConnectedToNeighbour(TrackEnd* neighbour);
 
     // public members
     QPointF m_position;
@@ -41,7 +41,7 @@ public:
 private:
     // private methods
     void addProng(float angle = 0, float length = 1);
-    track_pole m_trackEnd;
+    track_pole m_pole;
 
     // private members
     TrackSegment* m_parentTrackSegment;

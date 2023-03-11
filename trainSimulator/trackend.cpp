@@ -1,11 +1,30 @@
 #include "trackend.h"
 #include <QDebug>
 
-TrackEnd::TrackEnd(TrackSegment *parent) {
-    m_parentConnector = parent;
+TrackEnd::TrackEnd(TrackSegment *parent, track_pole pole) {
+    m_parentTrackSegment = parent;
     m_selectedIndex = 0;
-    // always have one 'prong' by default
-    addProng();
+    m_pole = pole;
+
+    // position
+    m_position.setX(0);
+    m_position.setY(0);
+}
+
+bool TrackEnd::isFront() {
+    return m_pole == TRACK_FRONT;
+}
+
+bool TrackEnd::isRear() {
+    return m_pole == TRACK_REAR;
+}
+
+bool TrackEnd::isTerminal() {
+    return m_neighbourList.size() == 0;
+}
+
+bool TrackEnd::isFork() {
+    return m_neighbourList.size() >= 2;
 }
 
 Prong* TrackEnd::getSelectedProng() {
