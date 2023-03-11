@@ -2,6 +2,7 @@
 #define CONNECTOR_H
 
 #include <QPointF>
+#include <QList>
 
 class Connector;
 class Fork;
@@ -18,7 +19,7 @@ class Connector
 {
 
 public:
-    Connector(TrackSegment* parent);
+    Connector(TrackSegment* parentTrackSegment);
     ~Connector();
 
     // public methods
@@ -39,33 +40,47 @@ private:
     // private members
     connector_type connectionType;
     bool m_isFront;
-    TrackSegment* parent;
+    TrackSegment* parentTrackSegment;
     Fork* fork;
 };
 
 class Fork {
 public:
     Fork(Connector* parent);
-    QList<Prong*> prongList;
     Prong* getSelectedProng();
+    bool setSelectedProng(unsigned int index);
+    void toggleSelectedProng();
+    int findIndexOfProngConnectedToNeighbour(Connector* neighbour);
+
+    Connector* m_parentConnector;
+
 private:
-    unsigned int maxProngs; // for now keep to 2
-    unsigned int selectedIndex;
-    Connector* parent;
-} Fork;
+    // private methods
+    void addProng(float angle = 0, float length = 1);
+
+    // private members
+    unsigned int m_selectedIndex;
+    QList<Prong*> m_prongList;
+
+};
 
 class Prong {
 public:
-    Prong(Fork* parent);
+    Prong(Fork* parent, uint8_t idx, float angle = 0, float length = 1);
     bool isNeighbourConnected();
+    void connect(Prong* neighbour);
+
+    bool isNeighbour(Connector* connector);
+
+    Fork* m_parentFork;
+    Prong* m_neighbour;
 private:
     // private members
-    Fork* parent;
-    Prong * neighbour;
 
     // geometry
-    float angle; // relative to track segment
-    float length;
+    float m_angle; // relative to track segment
+    float m_length;
+    uint8_t m_index;
 };
 
 #endif // CONNECTOR_H
