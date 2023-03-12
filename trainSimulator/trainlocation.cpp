@@ -54,7 +54,7 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
     }
     // 3. check if the junction is connected both ways
     if(m_track->getForwardEnd()->isConnectedToNeighbourBothWays()) {
-        m_track = m_track->getForwardEnd()->m_parentTrackSegment;
+        m_track = m_track->getForwardEnd()->getParentTrackSegment();
         m_positionOnTrack = 0;
 
         /*
@@ -85,7 +85,7 @@ train_motion_result TrainLocation::moveToRearTrack(float delta) {
     }
     // 3. check if the junction is connected both ways
     if(m_track->getRearEnd()->isConnectedToNeighbourBothWays()) {
-        m_track = m_track->getRearEnd()->m_parentTrackSegment;
+        m_track = m_track->getRearEnd()->getParentTrackSegment();
         m_positionOnTrack = m_track->getLength();
         /*
          * Note - this results in recursion

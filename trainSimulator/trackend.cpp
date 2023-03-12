@@ -74,9 +74,13 @@ void TrackEnd::validateSelectedForkNumber() {
     }
 }
 
+TrackSegment* TrackEnd::getParentTrackSegment() {
+    return m_parentTrackSegment;
+}
+
 TrackSegment* TrackEnd::getSelectedTrackSegment() {
     if(m_selectedIndex >= 0) {
-        return m_neighbourList.at(m_selectedIndex)->m_parentTrackSegment;
+        return m_neighbourList.at(m_selectedIndex)->getParentTrackSegment();
     }
     return NULL;
 }

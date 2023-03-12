@@ -29,14 +29,14 @@ public:
     void disconnectAll();
     void validateSelectedForkNumber();
 
-    // Search methods
+    // Queries
+    TrackSegment* getParentTrackSegment();
     TrackSegment* getSelectedTrackSegment();
     TrackEnd* getSelectedTrackEnd();
     int getSelectedForkNumber();
     bool isNeighbour(TrackEnd* connector, int &forkNumber);
     int getMyForkNumberForNeighbour(TrackEnd* neighbour);
     int getNeighboursForkNumberForMe(TrackEnd* neighbour);
-
     bool isConnectedToNeighbourBothWays();
 
     // Fork-related methods
@@ -48,7 +48,6 @@ public:
 
     // neighbours need to access:
     QList<TrackEnd*> m_neighbourList;
-    TrackSegment* m_parentTrackSegment;
 
 private:
     // private methods
@@ -57,7 +56,7 @@ private:
 
     // private members
     int m_selectedIndex;
-
+    TrackSegment* m_parentTrackSegment;
 };
 
 #endif // CONNECTOR_H
