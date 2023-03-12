@@ -2,8 +2,7 @@
 #define TRAIN_H
 
 #include "tracksegment.h"
-
-class TrainLocation;
+#include "trainlocation.h"
 
 typedef enum {
     TRACK_FORWARD,
