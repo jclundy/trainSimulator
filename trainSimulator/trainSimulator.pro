@@ -28,10 +28,12 @@ SOURCES += \
         mainwindow.cpp \
     trackend.cpp \
     tracksegment.cpp \
-    train.cpp
+    train.cpp \
+    trainlocation.cpp
 
 HEADERS += \
         mainwindow.h \
     trackend.h \
     tracksegment.h \
-    train.h
+    train.h \
+    trainlocation.h
