@@ -69,8 +69,13 @@ void Train::drive(float dt) {
     m_controlModel->computeNewStates(m_speed,m_acceleration, m_speedSetpoint, dt);
 
     float positionDelta = m_speed * dt;
-    frontLocation.increment(positionDelta);
-    rearLocation.increment(positionDelta);
+    train_motion_result result1 = frontLocation.increment(positionDelta);
+    train_motion_result result2 = rearLocation.increment(positionDelta);
+    if(result1 != SUCCESS || result2 != SUCCESS) {
+        m_speedSetpoint = 0;
+        m_speed = 0;
+        qDebug() << "Train stopped.  Front and rear states: " << result1 << ", " << result2;
+    }
 }
 
 void Train::stop() {
