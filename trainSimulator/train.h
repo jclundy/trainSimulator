@@ -3,11 +3,7 @@
 
 #include "tracksegment.h"
 #include "trainlocation.h"
-
-typedef enum {
-    TRACK_FORWARD,
-    TRACK_REVERSE
-} train_direction;
+#include "traincontrolmodel.h"
 
 typedef enum {
     TRAIN_HEAD_TOWARDS_TRACK_FRONT,
@@ -21,18 +17,23 @@ public:
     // initialization
     void place(TrackSegment* track, train_orientation orientation);
     void setStartingSpeed(float speed);
+    void setControlModel(TrainControlModel *controlModel);
     // control and simulation
-    void setDesiredSpeed();
+    void setDesiredSpeed(float setpoint);
     void drive(float dt);
     void stop();
 
 
 private:
     int direction; // -1 reverse, 0 neutral, 1 forward
-    float m_speed;
+    float m_speed; // relative to track
     float m_acceleration;
+    float m_speedSetpoint;
+
     float m_length;
     bool m_isDriving;
+
+    TrainControlModel *m_controlModel;
 
     TrainLocation frontLocation;
     TrainLocation rearLocation;

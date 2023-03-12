@@ -1,16 +1,18 @@
 #include "train.h"
-
+#include "simplecontrolmodel.h"
 #include <QDebug>
 
 Train::Train(float length)
 {
     direction = 1;
-    // initialize front location
-    // initialize rear location
     m_speed = 0;
+    m_speedSetpoint = 0;
     m_acceleration = 0;
     m_length = length;
     m_isDriving = false;
+    m_controlModel = NULL;
+    // front and rear location are initialized by the default TrainLocation constructor
+
 }
 
 void Train::place(TrackSegment *track, train_orientation orientation) {
@@ -41,10 +43,34 @@ void Train::setStartingSpeed(float speed) {
         return;
     }
     m_speed = speed;
+    m_speedSetpoint = speed;
+}
+
+void Train::setControlModel(TrainControlModel *controlModel) {
+    // this assumes all train objects have a unique control model object
+    // train object will automatically initialize itself with a control model if none is given
+    if(m_controlModel != NULL) {
+        delete(m_controlModel);
+    }
+    m_controlModel = controlModel;
+}
+
+void Train::setDesiredSpeed(float setpoint) {
+    m_speedSetpoint = setpoint;
 }
 
 void Train::drive(float dt) {
     m_isDriving = true;
+
+    if(m_controlModel == NULL) {
+        m_controlModel = new SimpleControlModel();
+        qDebug() << "didn't set control model - creating new simple control model";
+    }
+    m_controlModel->computeNewStates(m_speed,m_acceleration, m_speedSetpoint, dt);
+
+    float positionDelta = m_speed * dt;
+    frontLocation.increment(positionDelta);
+    rearLocation.increment(positionDelta);
 }
 
 void Train::stop() {
