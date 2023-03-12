@@ -2,6 +2,10 @@
 
 TrainLocation::TrainLocation(TrackSegment* track, float position)
 {
+    resetPosition(track, position);
+}
+
+void TrainLocation::resetPosition(TrackSegment* track, float position) {
     m_track = track;
     m_positionOnTrack = position;
 

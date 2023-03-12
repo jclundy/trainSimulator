@@ -13,7 +13,8 @@ typedef enum {
 class TrainLocation
 {
 public:
-    TrainLocation(TrackSegment* track, float position);
+    TrainLocation(TrackSegment* track = NULL, float position = 0);
+    void resetPosition(TrackSegment* track, float position);
     train_motion_result increment(float delta);
 private:
     train_motion_result moveToForwardTrack(float delta);
