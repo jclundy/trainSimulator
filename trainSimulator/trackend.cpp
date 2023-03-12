@@ -3,7 +3,7 @@
 
 TrackEnd::TrackEnd(TrackSegment *parent, track_pole pole) {
     m_parentTrackSegment = parent;
-    m_selectedIndex = 0;
+    m_selectedIndex = -1;
     m_pole = pole;
 
     // position

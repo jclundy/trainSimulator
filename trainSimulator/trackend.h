@@ -48,7 +48,7 @@ private:
     static int maxForks() {return 2;}
 
     // private members
-    unsigned int m_selectedIndex;
+    int m_selectedIndex;
 
 };
 
