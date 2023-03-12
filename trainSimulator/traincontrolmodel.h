@@ -1,0 +1,11 @@
+#ifndef TRAINCONTROLMODEL_H
+#define TRAINCONTROLMODEL_H
+
+
+class TrainControlModel
+{
+public:
+    virtual void computeNewStates(float &speed, float &acceleration, float speedSetpoint, float dt) = 0;
+};
+
+#endif // TRAINCONTROLMODEL_H

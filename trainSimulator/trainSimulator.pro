@@ -36,4 +36,5 @@ HEADERS += \
     trackend.h \
     tracksegment.h \
     train.h \
-    trainlocation.h
+    trainlocation.h \
+    traincontrolmodel.h
