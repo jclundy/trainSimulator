@@ -5,18 +5,13 @@ TrainLocation::TrainLocation(TrackSegment* track, float position)
     resetPosition(track, position);
 }
 
-void TrainLocation::resetPosition(TrackSegment* track, float position) {
+void TrainLocation::resetPosition(TrackSegment* track, float newPosition) {
     m_track = track;
-    m_positionOnTrack = position;
+    m_positionOnTrack = 0;
 
-    // should do check against track length
-    float trackLength = track->getLength();
-    if(m_positionOnTrack > trackLength) {
-        m_positionOnTrack = trackLength;
-    }
-    if(m_positionOnTrack < 0) {
-        m_positionOnTrack = 0;
-    }
+    // this will handle case when placing a train that is longer then a track segment
+    float delta = newPosition;
+    increment(delta);
 }
 
 train_motion_result TrainLocation::increment(float delta) {
