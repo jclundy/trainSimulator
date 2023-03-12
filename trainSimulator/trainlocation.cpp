@@ -1,38 +1,44 @@
 #include "trainlocation.h"
 
-TrainLocation::TrainLocation(TrackSegment* track, float position)
+TrainLocation::TrainLocation()
 {
-    resetPosition(track, position);
+    m_state = DERAILED_OFF_TRACK;
+    m_track = NULL;
+    m_positionOnTrack = 0;
 }
 
-void TrainLocation::resetPosition(TrackSegment* track, float newPosition) {
+train_motion_result TrainLocation::resetPosition(TrackSegment* track, float newPosition) {
     m_track = track;
     m_positionOnTrack = 0;
+    m_state = SUCCESS;
 
     // this will handle case when placing a train that is longer then a track segment
     float delta = newPosition;
-    increment(delta);
+    m_state = increment(delta);
+    return m_state;
 }
 
 train_motion_result TrainLocation::increment(float delta) {
     float newPosition = m_positionOnTrack + delta;
+    train_motion_result result = SUCCESS;
     if(delta > 0) {
         if(newPosition < m_track->getLength()) {
             m_positionOnTrack = newPosition;
-            return SUCCESS;
+            result = SUCCESS;
         } else {
             float overshoot = newPosition - m_track->getLength();
-            return moveToForwardTrack(overshoot);
+            result = moveToForwardTrack(overshoot);
         }
     } else { // delta < 0
         if(newPosition > 0) {
             m_positionOnTrack = newPosition;
-            return SUCCESS;
+            result = SUCCESS;
         } else {
             float overshoot = newPosition;
-            return moveToRearTrack(overshoot);
+            result = moveToRearTrack(overshoot);
         }
     }
+    return result;
 }
 
 train_motion_result TrainLocation::moveToForwardTrack(float delta) {
