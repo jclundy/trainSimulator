@@ -1,5 +1,7 @@
 #include "train.h"
 
+#include <QDebug>
+
 Train::Train(float length)
 {
     direction = 1;
@@ -8,9 +10,14 @@ Train::Train(float length)
     m_speed = 0;
     m_acceleration = 0;
     m_length = length;
+    m_isDriving = false;
 }
 
 void Train::place(TrackSegment *track, train_orientation orientation) {
+    if(m_isDriving) {
+        qDebug() << "can't re-position train while driving";
+        return;
+    }
 
     float midpoint = track->getLength()/2;
     float headPosition = 0;
@@ -26,4 +33,20 @@ void Train::place(TrackSegment *track, train_orientation orientation) {
 
     frontLocation.resetPosition(track, headPosition);
     rearLocation.resetPosition(track, rearPosition);
+}
+
+void Train::setStartingSpeed(float speed) {
+    if(m_isDriving) {
+        qDebug() << "can't reset train speed while driving";
+        return;
+    }
+    m_speed = speed;
+}
+
+void Train::drive(float dt) {
+    m_isDriving = true;
+}
+
+void Train::stop() {
+    m_isDriving = false;
 }

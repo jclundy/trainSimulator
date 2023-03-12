@@ -18,17 +18,21 @@ class Train
 {
 public:
     Train(float length = 5);
+    // initialization
     void place(TrackSegment* track, train_orientation orientation);
-    void drive();
-    void setDirection();
+    void setStartingSpeed(float speed);
+    // control and simulation
+    void setDesiredSpeed();
+    void drive(float dt);
     void stop();
-    void setSpeed();
+
 
 private:
     int direction; // -1 reverse, 0 neutral, 1 forward
     float m_speed;
     float m_acceleration;
     float m_length;
+    bool m_isDriving;
 
     TrainLocation frontLocation;
     TrainLocation rearLocation;
