@@ -47,6 +47,33 @@ bool TrackEnd::connectTo(TrackEnd *neighbour) {
     return true;
 }
 
+void TrackEnd::disconnect(TrackEnd* neighbour) {
+    // remove me from neighbour's list
+    int neighbourIdxForMe = getNeighboursForkNumberForMe(neighbour);
+    if(neighbourIdxForMe != -1) {
+        neighbour->m_neighbourList.removeAt(neighbourIdxForMe);
+        neighbour->validateSelectedForkNumber();
+    }
+    // remove neighbour from my list
+    int myIdxForNeighbour = getMyForkNumberForNeighbour(neighbour);
+    if(myIdxForNeighbour != -1) {
+        m_neighbourList.removeAt(myIdxForNeighbour);
+        validateSelectedForkNumber();
+    }
+}
+
+void TrackEnd::disconnectAll() {
+    for (int i = m_neighbourList.size() - 1; i >= 0; i--) {
+        disconnect(m_neighbourList[i]);
+    }
+}
+
+void TrackEnd::validateSelectedForkNumber() {
+    if(m_selectedIndex > m_neighbourList.size()) {
+        m_selectedIndex = m_neighbourList.size() - 1;
+    }
+}
+
 TrackSegment* TrackEnd::getSelectedTrackSegment() {
     if(m_selectedIndex >= 0) {
         return m_neighbourList.at(m_selectedIndex)->m_parentTrackSegment;
@@ -61,15 +88,14 @@ TrackEnd* TrackEnd::getSelectedTrackEnd() {
     return NULL;
 }
 
+int TrackEnd::getSelectedForkNumber() {
+    return m_selectedIndex;
+}
+
+
 bool TrackEnd::isNeighbour(TrackEnd* connector, int &forkNumber) {
-    forkNumber = -1;
-    for(int i = 0; i < m_neighbourList.size(); i++) {
-        if (m_neighbourList.at(i) == connector) {
-            forkNumber = i;
-            return true;
-        }
-    }
-    return false;
+    forkNumber = m_neighbourList.indexOf(connector);
+    return forkNumber != -1;
 }
 int TrackEnd::getMyForkNumberForNeighbour(TrackEnd* neighbour) {
     int number = -1;

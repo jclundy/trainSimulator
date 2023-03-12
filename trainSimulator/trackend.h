@@ -24,9 +24,15 @@ public:
 
     bool connectTo(TrackEnd* neighbour);
 
+    // disconnectors
+    void disconnect(TrackEnd* neighbour);
+    void disconnectAll();
+    void validateSelectedForkNumber();
+
     // Search methods
     TrackSegment* getSelectedTrackSegment();
     TrackEnd* getSelectedTrackEnd();
+    int getSelectedForkNumber();
     bool isNeighbour(TrackEnd* connector, int &forkNumber);
     int getMyForkNumberForNeighbour(TrackEnd* neighbour);
     int getNeighboursForkNumberForMe(TrackEnd* neighbour);
