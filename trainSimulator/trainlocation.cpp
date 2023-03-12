@@ -56,6 +56,9 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
          * Note - this results in recursion
          * need to be careful that the incremented delta
          * is usually shorter than track length
+         *
+         * However the delta should be decreased every iteration,
+         * so the recursion should terminate evenutally
          */
         increment(delta);
         return SUCCESS;
@@ -83,9 +86,11 @@ train_motion_result TrainLocation::moveToRearTrack(float delta) {
          * Note - this results in recursion
          * need to be careful that the incremented delta
          * is usually shorter than track length
+         *
+         * However the delta should be decreased every iteration,
+         * so the recursion should terminate evenutally
          */
         return increment(delta);
-        // could return another error code
     } else {
         return DERAILED_AT_JUNCTION;
     }
