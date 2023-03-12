@@ -11,8 +11,8 @@ public:
 
     // public methods
     void disconnectFromNeighbours();
-    void connectRearToTrack(TrackSegment *track);
-    void connectFrontToTrack(TrackSegment *track);
+    bool connectRearToTrack(TrackSegment *track);
+    bool connectFrontToTrack(TrackSegment *track);
 
     //getters
     float getLength();

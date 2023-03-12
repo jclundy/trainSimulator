@@ -26,6 +26,14 @@ void TrackSegment::disconnectFromNeighbours() {
     m_rearEnd.disconnectAll();
 }
 
+bool TrackSegment::connectRearToTrack(TrackSegment *track) {
+    return m_rearEnd.connectTo(track->getForwardEnd());
+}
+
+bool TrackSegment::connectFrontToTrack(TrackSegment *track) {
+    return m_forwardEnd.connectTo(track->getRearEnd());
+}
+
 float TrackSegment::getLength() {
     return m_length;
 }
