@@ -26,8 +26,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    trackend.cpp
+    trackend.cpp \
+    tracksegment.cpp
 
 HEADERS += \
         mainwindow.h \
-    trackend.h
+    trackend.h \
+    tracksegment.h
