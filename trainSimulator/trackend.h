@@ -4,7 +4,6 @@
 #include <QPointF>
 #include <QList>
 
-class Prong;
 class TrackSegment;
 
 typedef enum {
@@ -28,45 +27,29 @@ public:
     // Search methods
     TrackSegment* getSelectedTrackSegment();
     TrackEnd* getSelectedTrackEnd();
+    bool isNeighbour(TrackEnd* connector, int &forkNumber);
+    int getMyForkNumberForNeighbour(TrackEnd* neighbour);
+    int getNeighboursForkNumberForMe(TrackEnd* neighbour);
 
     // Fork-related methods
-    Prong* getSelectedProng();
-    bool setSelectedProng(int index);
-    void toggleSelectedProng();
-    int findIndexOfProngConnectedToNeighbour(TrackEnd* neighbour);
+    bool setSelectedFork(int index);
+    void toggleSelectedFork();
 
     // public members
     QPointF m_position;
 
+    // neighbours need to access:
+    QList<TrackEnd*> m_neighbourList;
+    TrackSegment* m_parentTrackSegment;
+
 private:
     // private methods
-    void addProng(float angle = 0, float length = 1);
     track_pole m_pole;
+    static int maxForks() {return 2;}
 
     // private members
-    TrackSegment* m_parentTrackSegment;
     unsigned int m_selectedIndex;
-    QList<Prong*> m_prongList;
-    QList<TrackEnd*> m_neighbourList;
-};
 
-class Prong {
-public:
-    Prong(TrackEnd* parent, uint8_t idx, float angle = 0, float length = 1);
-    bool isNeighbourConnected();
-    void connect(Prong* neighbour);
-
-    bool isNeighbour(TrackEnd* connector);
-
-    TrackEnd* m_parentFork;
-    Prong* m_neighbour;
-private:
-    // private members
-
-    // geometry
-    float m_angle; // relative to track segment
-    float m_length;
-    uint8_t m_index;
 };
 
 #endif // CONNECTOR_H
