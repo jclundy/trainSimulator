@@ -30,7 +30,8 @@ SOURCES += \
     tracksegment.cpp \
     train.cpp \
     trainlocation.cpp \
-    simplecontrolmodel.cpp
+    simplecontrolmodel.cpp \
+    simplecontrolmodelwithbraking.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -39,4 +40,5 @@ HEADERS += \
     train.h \
     trainlocation.h \
     traincontrolmodel.h \
-    simplecontrolmodel.h
+    simplecontrolmodel.h \
+    simplecontrolmodelwithbraking.h
