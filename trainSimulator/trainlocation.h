@@ -16,8 +16,12 @@ public:
     TrainLocation(TrackSegment* track, float position);
     train_motion_result increment(float distance);
 private:
-    TrackSegment* track;
-    float positionOnTrack; // measured from track 'rear-end'
+    train_motion_result moveToForwardTrack(float distance);
+    train_motion_result moveToRearTrack(float distance);
+    train_motion_result moveToNextTrack(TrackSegment* track, float distance);
+
+    TrackSegment* m_track;
+    float m_positionOnTrack; // measured from track 'rear-end'
 };
 
 #endif // TRAINLOCATION_H

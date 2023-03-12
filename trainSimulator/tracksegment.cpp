@@ -17,6 +17,10 @@ TrackSegment::TrackSegment(float length, const QPointF &position):
     m_rearEnd.m_position.setY(position.y());
 }
 
+float TrackSegment::getLength() {
+    return m_length;
+}
+
 TrackEnd* TrackSegment::getForwardEnd() {
     return &m_forwardEnd;
 }

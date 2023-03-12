@@ -11,6 +11,7 @@ public:
     // public methods
 
     //getters
+    float getLength();
     TrackEnd* getForwardEnd();
     TrackEnd* getRearEnd();
     QPointF getCenter();
