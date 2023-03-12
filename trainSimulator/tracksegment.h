@@ -10,7 +10,7 @@ public:
     ~TrackSegment();
 
     // public methods
-    void remove();
+    void disconnectFromNeighbours();
     void connectRearToTrack(TrackSegment *track);
     void connectFrontToTrack(TrackSegment *track);
 

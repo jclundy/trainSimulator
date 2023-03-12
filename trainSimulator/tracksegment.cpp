@@ -17,6 +17,15 @@ TrackSegment::TrackSegment(float length, const QPointF &position):
     m_rearEnd.m_position.setY(position.y());
 }
 
+TrackSegment::~TrackSegment() {
+    disconnectFromNeighbours();
+}
+
+void TrackSegment::disconnectFromNeighbours() {
+    m_forwardEnd.disconnectAll();
+    m_rearEnd.disconnectAll();
+}
+
 float TrackSegment::getLength() {
     return m_length;
 }
