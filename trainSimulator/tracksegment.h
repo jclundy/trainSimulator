@@ -7,8 +7,12 @@ class TrackSegment
 {
 public:
     TrackSegment(float length, const QPointF &position = QPointF(0,0));
+    ~TrackSegment();
 
     // public methods
+    void remove();
+    void connectRearToTrack(TrackSegment *track);
+    void connectFrontToTrack(TrackSegment *track);
 
     //getters
     float getLength();
