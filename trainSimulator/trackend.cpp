@@ -87,6 +87,11 @@ int TrackEnd::getNeighboursForkNumberForMe(TrackEnd* neighbour) {
     return number;
 }
 
+bool TrackEnd::isConnectedToNeighbourBothWays() {
+    TrackEnd* neighbour = getSelectedTrackEnd();
+    return neighbour->getSelectedTrackEnd() == this;
+}
+
 bool TrackEnd::setSelectedFork(int index) {
     if(index >=0 && index < m_neighbourList.size()) {
         m_selectedIndex = index;

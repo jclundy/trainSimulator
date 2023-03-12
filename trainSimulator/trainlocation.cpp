@@ -15,33 +15,79 @@ TrainLocation::TrainLocation(TrackSegment* track, float position)
     }
 }
 
-train_motion_result TrainLocation::increment(float distance) {
-    if(distance > 0) {
-        if(distance < m_track->getLength()) {
-            m_positionOnTrack+= distance;
+train_motion_result TrainLocation::increment(float delta) {
+    float newPosition = m_positionOnTrack + delta;
+    if(delta > 0) {
+        if(newPosition < m_track->getLength()) {
+            m_positionOnTrack = newPosition;
             return SUCCESS;
         } else {
-
+            float overshoot = newPosition - m_track->getLength();
+            return moveToForwardTrack(overshoot);
+        }
+    } else { // delta < 0
+        if(newPosition > 0) {
+            m_positionOnTrack = newPosition;
+            return SUCCESS;
+        } else {
+            float overshoot = newPosition;
+            return moveToRearTrack(overshoot);
         }
     }
 }
 
-train_motion_result TrainLocation::moveToForwardTrack(float distance) {
-    // 1. check if there is a next track segment
-    if(m_track->getForwardEnd() == NULL) {
+train_motion_result TrainLocation::moveToForwardTrack(float delta) {
+    // 1. check if hit terminal
+    if(m_track->getForwardEnd()->isTerminal()) {
+        m_positionOnTrack = m_track->getLength();
+        return HIT_TERMINAL;
+    }
+    // 2. check if there is a next track segment
+    if(m_track->getForwardEnd()->getSelectedTrackSegment() == NULL) {
         m_positionOnTrack = m_track->getLength();
         return DERAILED_OFF_TRACK;
     }
-    // 2. check if the junction is connected both ways
-//    if(m_track->getForwardEnd()->)
-    return SUCCESS;
+    // 3. check if the junction is connected both ways
+    if(m_track->getForwardEnd()->isConnectedToNeighbourBothWays()) {
+        m_track = m_track->getForwardEnd()->m_parentTrackSegment;
+        m_positionOnTrack = 0;
+
+        /*
+         * Note - this results in recursion
+         * need to be careful that the incremented delta
+         * is usually shorter than track length
+         */
+        increment(delta);
+        return SUCCESS;
+    } else {
+        return DERAILED_AT_JUNCTION;
+    }
 }
 
-train_motion_result TrainLocation::moveToRearTrack(float distance) {
-    return SUCCESS;
-}
-
-train_motion_result TrainLocation::moveToNextTrack(TrackSegment* track, float distance) {
-    return SUCCESS;
+train_motion_result TrainLocation::moveToRearTrack(float delta) {
+    // 1. check if hit terminal
+    if(m_track->getRearEnd()->isTerminal()) {
+        m_positionOnTrack = 0;
+        return HIT_TERMINAL;
+    }
+    // 2. check if there is a next track segment
+    if(m_track->getRearEnd()->getSelectedTrackSegment() == NULL) {
+        m_positionOnTrack = 0;
+        return DERAILED_OFF_TRACK;
+    }
+    // 3. check if the junction is connected both ways
+    if(m_track->getRearEnd()->isConnectedToNeighbourBothWays()) {
+        m_track = m_track->getRearEnd()->m_parentTrackSegment;
+        m_positionOnTrack = m_track->getLength();
+        /*
+         * Note - this results in recursion
+         * need to be careful that the incremented delta
+         * is usually shorter than track length
+         */
+        return increment(delta);
+        // could return another error code
+    } else {
+        return DERAILED_AT_JUNCTION;
+    }
 }
 

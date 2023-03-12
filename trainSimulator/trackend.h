@@ -31,6 +31,8 @@ public:
     int getMyForkNumberForNeighbour(TrackEnd* neighbour);
     int getNeighboursForkNumberForMe(TrackEnd* neighbour);
 
+    bool isConnectedToNeighbourBothWays();
+
     // Fork-related methods
     bool setSelectedFork(int index);
     void toggleSelectedFork();

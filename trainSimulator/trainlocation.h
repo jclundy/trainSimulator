@@ -14,11 +14,10 @@ class TrainLocation
 {
 public:
     TrainLocation(TrackSegment* track, float position);
-    train_motion_result increment(float distance);
+    train_motion_result increment(float delta);
 private:
-    train_motion_result moveToForwardTrack(float distance);
-    train_motion_result moveToRearTrack(float distance);
-    train_motion_result moveToNextTrack(TrackSegment* track, float distance);
+    train_motion_result moveToForwardTrack(float delta);
+    train_motion_result moveToRearTrack(float delta);
 
     TrackSegment* m_track;
     float m_positionOnTrack; // measured from track 'rear-end'
