@@ -29,6 +29,11 @@ QPointF TrackSegment::getCenter() {
    return (m_forwardEnd.m_position + m_rearEnd.m_position) / 2.0;
 }
 
+float TrackSegment::getHeading() {
+    QPointF diff = m_forwardEnd.m_position - m_rearEnd.m_position;
+    return atan2(diff.y(), diff.x());
+}
+
 void TrackSegment::setCenter(const QPointF &newCenter) {
     QPointF offset = newCenter - getCenter();
     translate(offset);

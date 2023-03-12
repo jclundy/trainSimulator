@@ -14,6 +14,7 @@ public:
     TrackEnd* getForwardEnd();
     TrackEnd* getRearEnd();
     QPointF getCenter();
+    float getHeading();
 
     // modifiers
     void setCenter(const QPointF &newCenter);
