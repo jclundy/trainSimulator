@@ -5,6 +5,7 @@
 class TrainControlModel
 {
 public:
+    virtual ~TrainControlModel() {}
     virtual void computeNewStates(float &speed, float &acceleration, float speedSetpoint, float dt) = 0;
 };
 
