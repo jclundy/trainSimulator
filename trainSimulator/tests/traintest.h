@@ -14,7 +14,7 @@ public:
 
     void testSetup();
     void testDriving();
-    void cleanup();
+    void testCleanup();
 
     QList<TrackSegment*> m_trackList;
     Train* m_train;
