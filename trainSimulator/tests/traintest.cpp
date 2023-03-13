@@ -1,8 +1,8 @@
-#include "test1.h"
+#include "traintest.h"
 
 #include <QDebug>
 
-Test1::Test1()
+TrainTest::TrainTest()
 {
     m_train = new Train();
 

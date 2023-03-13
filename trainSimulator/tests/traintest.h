@@ -5,12 +5,12 @@
 #include "tracksegment.h"
 #include "train.h"
 
-class Test1 : QObject
+class TrainTest : QObject
 {
 Q_OBJECT
 
 public:
-    Test1();
+    TrainTest();
 
     void testSetup();
     void testDriving();

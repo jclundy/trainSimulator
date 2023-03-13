@@ -5,7 +5,7 @@
 #include "trainlocation.h"
 #include "traincontrolmodel.h"
 
-class Test1;
+class TrainTest;
 
 typedef enum {
     TRAIN_HEAD_TOWARDS_TRACK_FRONT,
@@ -14,7 +14,7 @@ typedef enum {
 
 class Train
 {
-friend class Test1;
+friend class TrainTest;
 
 public:
     Train(float length = 5);
