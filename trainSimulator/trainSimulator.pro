@@ -31,7 +31,8 @@ SOURCES += \
     train.cpp \
     trainlocation.cpp \
     simplecontrolmodel.cpp \
-    simplecontrolmodelwithbraking.cpp
+    simplecontrolmodelwithbraking.cpp \
+    tests/test1.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -41,4 +42,5 @@ HEADERS += \
     trainlocation.h \
     traincontrolmodel.h \
     simplecontrolmodel.h \
-    simplecontrolmodelwithbraking.h
+    simplecontrolmodelwithbraking.h \
+    tests/test1.h
