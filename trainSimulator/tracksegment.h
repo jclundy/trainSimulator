@@ -3,10 +3,13 @@
 
 #include "trackend.h"
 
+class TrainTest;
+
 class TrackSegment
 {
+friend class TrainTest;
 public:
-    TrackSegment(float length, const QPointF &position = QPointF(0,0));
+    TrackSegment(float length = 20, const QPointF &position = QPointF(0,0));
     ~TrackSegment();
 
     // public methods

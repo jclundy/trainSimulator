@@ -2,6 +2,7 @@
 #define TEST1_H
 
 #include <QList>
+#include <QPointF>
 #include "tracksegment.h"
 #include "train.h"
 
@@ -13,6 +14,7 @@ public:
     TrainTest();
 
     void testCreateTrain();
+    void testCreateTrackSegment();
     void testDriving();
     void testCleanup();
 
@@ -20,6 +22,11 @@ public:
 
     QList<TrackSegment*> m_trackList;
     Train* m_train;
+
+    // util functions
+    void printTrackInfo(TrackSegment *track);
+    void printTrackEndInfo(TrackEnd *end);
+    void printPosition(QPointF point);
 };
 
 #endif // TEST1_H

@@ -5,6 +5,7 @@
 #include <QList>
 
 class TrackSegment;
+class TrainTest;
 
 typedef enum {
     TRACK_FRONT,
@@ -12,6 +13,8 @@ typedef enum {
 } track_pole;
 
 class TrackEnd {
+friend class TrainTest;
+
 public:
     TrackEnd(TrackSegment* parent, track_pole pole);
 

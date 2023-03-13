@@ -25,6 +25,38 @@ void TrainTest::testCreateTrain() {
     qDebug() << "control model is null: " << (m_train->m_controlModel == NULL);
 }
 
+void TrainTest::testCreateTrackSegment() {
+    qDebug() << "=========== Test create track segment ==============";
+
+    TrackSegment* track0 = new TrackSegment();
+    printTrackInfo(track0);
+    m_trackList.push_back(track0);
+
+    TrackEnd* front = track0->getForwardEnd();
+    qDebug() << "front's parent is track0 " << (front->getParentTrackSegment() == track0);
+    TrackEnd* rear = track0->getRearEnd();
+    qDebug() << "rear's parent is track0 " << (rear->getParentTrackSegment() == track0);
+
+    // translate
+    track0->setCenter(QPointF(30,30));
+    qDebug() << "Moved track";
+    printTrackInfo(track0);
+
+    // rotate
+    track0->setRotationAboutCenter(90);
+    qDebug() << "Rotated about center";
+    printTrackInfo(track0);
+
+    track0->setRotationAboutFront(45);
+    qDebug() << "Rotated about front";
+    printTrackInfo(track0);
+
+    track0->setRotationAboutRear(45);
+    qDebug() << "Rotated about rear";
+    printTrackInfo(track0);
+
+}
+
 void TrainTest::testCleanup() {
     qDebug() << "=========== Test cleanup ==============";
 
