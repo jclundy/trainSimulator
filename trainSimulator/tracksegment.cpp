@@ -52,7 +52,7 @@ QPointF TrackSegment::getCenter() {
 
 float TrackSegment::getHeading() {
     QPointF diff = m_forwardEnd.m_position - m_rearEnd.m_position;
-    return atan2(diff.y(), diff.x());
+    return atan2(diff.y(), diff.x()) * 180.0 / M_PI;
 }
 
 void TrackSegment::setCenter(const QPointF &newCenter) {

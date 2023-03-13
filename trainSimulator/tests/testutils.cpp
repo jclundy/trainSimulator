@@ -1,5 +1,6 @@
 #include "traintest.h"
 #include <QDebug>
+#include <math.h>
 
 void TrainTest::printTrackInfo(TrackSegment *track) {
 
@@ -14,6 +15,12 @@ void TrainTest::printTrackInfo(TrackSegment *track) {
     qDebug() << "Rear TrackEnd:";
     TrackEnd* rear = track->getRearEnd();
     printPosition(rear->m_position);
+
+    QPointF diff = front->m_position - rear->m_position;
+    float length = sqrt(pow(diff.x(),2) + pow(diff.y(),2));
+    qDebug() << "computed length: " << length;
+
+
 }
 
 void TrainTest::printTrackEndInfo(TrackEnd *end) {

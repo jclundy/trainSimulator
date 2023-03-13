@@ -9,6 +9,8 @@ TrainTest::TrainTest()
 
 void TrainTest::runTests() {
     testCreateTrain();
+    testCreateTrackSegment();
+
     testCleanup();
 }
 
@@ -39,19 +41,23 @@ void TrainTest::testCreateTrackSegment() {
 
     // translate
     track0->setCenter(QPointF(30,30));
+    qDebug() << "---------------------------";
     qDebug() << "Moved track";
     printTrackInfo(track0);
 
     // rotate
     track0->setRotationAboutCenter(90);
+    qDebug() << "---------------------------";
     qDebug() << "Rotated about center";
     printTrackInfo(track0);
 
     track0->setRotationAboutFront(45);
+    qDebug() << "---------------------------";
     qDebug() << "Rotated about front";
     printTrackInfo(track0);
 
     track0->setRotationAboutRear(45);
+    qDebug() << "---------------------------";
     qDebug() << "Rotated about rear";
     printTrackInfo(track0);
 
