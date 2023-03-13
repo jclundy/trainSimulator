@@ -7,7 +7,12 @@ TrainTest::TrainTest()
     m_train = NULL;
 }
 
-void TrainTest::testSetup() {
+void TrainTest::runTests() {
+    testCreateTrain();
+    testCleanup();
+}
+
+void TrainTest::testCreateTrain() {
     qDebug() << "=========== Test setup ==============";
     m_train = new Train();
 

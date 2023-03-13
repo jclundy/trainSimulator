@@ -12,9 +12,11 @@ Q_OBJECT
 public:
     TrainTest();
 
-    void testSetup();
+    void testCreateTrain();
     void testDriving();
     void testCleanup();
+
+    void runTests();
 
     QList<TrackSegment*> m_trackList;
     Train* m_train;

@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     w.show();
 
     TrainTest mainTest;
-    mainTest.testSetup();
+    mainTest.runTests();
 
     return a.exec();
 }
