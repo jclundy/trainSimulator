@@ -1,7 +1,6 @@
 #ifndef TEST1_H
 #define TEST1_H
 
-#include <QObject>
 #include <QList>
 #include "tracksegment.h"
 #include "train.h"
@@ -12,7 +11,6 @@ Q_OBJECT
 
 public:
     Test1();
-    ~Test1();
 
     void testSetup();
     void testDriving();

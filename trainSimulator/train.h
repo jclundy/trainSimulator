@@ -5,6 +5,8 @@
 #include "trainlocation.h"
 #include "traincontrolmodel.h"
 
+class Test1;
+
 typedef enum {
     TRAIN_HEAD_TOWARDS_TRACK_FRONT,
     TRAIN_HEAD_TOWARDS_TRACK_REAR
@@ -12,6 +14,8 @@ typedef enum {
 
 class Train
 {
+friend class Test1;
+
 public:
     Train(float length = 5);
     // initialization
@@ -22,7 +26,6 @@ public:
     void setDesiredSpeed(float setpoint);
     void drive(float dt);
     void stop();
-
 
 private:
     int direction; // -1 reverse, 0 neutral, 1 forward
