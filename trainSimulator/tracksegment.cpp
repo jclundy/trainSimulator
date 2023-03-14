@@ -25,9 +25,45 @@ void TrackSegment::disconnectFromNeighbours() {
 }
 
 bool TrackSegment::connectRearToTrack(TrackSegment *track) {
+    // to keep things simple, make sure our rear end is a terminal
+    if(m_rearEnd.isTerminal() == false) {
+        return false;
+    }
+
+    bool success = m_rearEnd.connectTo(track->getForwardEnd());
+    if(success) {
+        // if front end is not fixed
+        if(m_forwardEnd.isTerminal()) {
+            QPointF delta = track->getForwardEnd()->m_position - m_rearEnd.m_position;
+            translate(delta);
+        } else {
+            // leave front end in place, modify track length
+            m_rearEnd.m_position = track->getForwardEnd()->m_position;
+        }
+    }
+    return success;
 }
 
 bool TrackSegment::connectFrontToTrack(TrackSegment *track) {
+
+    // to keep things simple, make sure our front end is a terminal
+    if(m_forwardEnd.isTerminal() == false) {
+        return false;
+    }
+
+    bool success = m_forwardEnd.connectTo(track->getRearEnd());
+
+    if(success) {
+        // if rear end is not fixed
+        if(m_rearEnd.isTerminal()) {
+            QPointF delta = track->getRearEnd()->m_position - m_forwardEnd.m_position;
+            translate(delta);
+        } else {
+            // leave front end in place, modify track length
+            m_forwardEnd.m_position = track->getRearEnd()->m_position;
+        }
+    }
+    return success;
 }
 
 float TrackSegment::getLength() {
