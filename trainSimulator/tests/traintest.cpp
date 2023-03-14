@@ -90,12 +90,14 @@ void TrainTest::testDriving() {
 
     qDebug() << "starting location";
     printTrainLocation(m_train);
+    qDebug() << "---------------------------";
 
     m_train->setDesiredSpeed(3);
     bool success = true;
-    for(int i = 0; i < 20 && success; i++) {
+    for(int i = 0; i < 40 && success; i++) {
         success = m_train->drive(dt);
         qDebug() << "---------------------------";
+        qDebug() << "iteration " << i;
         printTrainLocation(m_train);
         qDebug() << "train speed: " << m_train->m_speed;
     }
