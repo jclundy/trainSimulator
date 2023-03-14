@@ -21,6 +21,69 @@ LinearTrack::~LinearTrack() {
     disconnectFromNeighbours();
 }
 
+track_segment_type LinearTrack::getType() {
+    return LINEAR_TRACK;
+}
+
+bool LinearTrack::isJunction() {
+    return false;
+}
+
+bool LinearTrack::isLinear() {
+    return false;
+}
+
+float LinearTrack::getLength() {
+    QPointF diff = m_forwardEnd.m_position - m_rearEnd.m_position;
+    return sqrt(pow(diff.x(),2) + pow(diff.y(),2));
+}
+
+TrackEnd* LinearTrack::getSelectedForwardEnd() {
+    return &m_forwardEnd;
+}
+
+TrackEnd* LinearTrack::getSelectedRearEnd() {
+    return &m_rearEnd;
+}
+
+QList<ITrackSegment*> LinearTrack::getForwardNeighbours() {
+    // TODO - implement this after simplifying TrackEnd class
+    QList<ITrackSegment*> list;
+    return list;
+}
+
+QList<ITrackSegment*> LinearTrack::getRearNeighbours() {
+    // TODO - implement this after simplifying TrackEnd class
+    QList<ITrackSegment*> list;
+    return list;
+}
+
+QPointF LinearTrack::getFrontEndPosition() {
+    return m_forwardEnd.m_position;
+}
+
+QPointF LinearTrack::getRearEndPosition() {
+    return m_rearEnd.m_position;
+}
+
+bool LinearTrack::connectRearToTrack(ITrackSegment *track) {
+    if(track->isLinear()) {
+        return connectRearToTrack((LinearTrack *) track);
+    } else {
+        // TODO - implement this after implementing TrackJunction class
+        return false;
+    }
+}
+
+bool LinearTrack::connectFrontToTrack(ITrackSegment *track) {
+    if(track->isLinear()) {
+        return connectFrontToTrack((LinearTrack *) track);
+    } else {
+        // TODO - implement this after implementing TrackJunction class
+        return false;
+    }
+}
+
 void LinearTrack::disconnectFromNeighbours() {
     m_forwardEnd.disconnectAll();
     m_rearEnd.disconnectAll();
@@ -70,11 +133,6 @@ bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
 
 unsigned int LinearTrack::getId() {
     return m_id;
-}
-
-float LinearTrack::getLength() {
-    QPointF diff = m_forwardEnd.m_position - m_rearEnd.m_position;
-    return sqrt(pow(diff.x(),2) + pow(diff.y(),2));
 }
 
 TrackEnd* LinearTrack::getForwardEnd() {

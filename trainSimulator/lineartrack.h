@@ -20,8 +20,8 @@ public:
     float getLength() override;
     TrackEnd* getSelectedForwardEnd() override;
     TrackEnd* getSelectedRearEnd() override;
-    QList<ITrackSegment> getForwardNeighbours() override;
-    QList<ITrackSegment> getRearNeighbours() override;
+    QList<ITrackSegment*> getForwardNeighbours() override;
+    QList<ITrackSegment*> getRearNeighbours() override;
     QPointF getFrontEndPosition() override;
     QPointF getRearEndPosition() override;
     bool connectRearToTrack(ITrackSegment *track) override;

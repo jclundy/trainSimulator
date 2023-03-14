@@ -21,8 +21,8 @@ virtual float getLength() = 0;
 virtual TrackEnd* getSelectedForwardEnd() = 0;
 virtual TrackEnd* getSelectedRearEnd() = 0;
 
-virtual QList<ITrackSegment> getForwardNeighbours() = 0;
-virtual QList<ITrackSegment> getRearNeighbours() = 0;
+virtual QList<ITrackSegment*> getForwardNeighbours() = 0;
+virtual QList<ITrackSegment*> getRearNeighbours() = 0;
 
 virtual QPointF getFrontEndPosition() = 0;
 virtual QPointF getRearEndPosition() = 0;
