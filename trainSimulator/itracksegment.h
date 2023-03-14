@@ -3,8 +3,6 @@
 
 #include "trackend.h"
 
-class TrainTest;
-
 typedef enum {
     LINEAR_TRACK,
     JUCNTION_TRACK
@@ -12,7 +10,6 @@ typedef enum {
 
 class ITrackSegment
 {
-friend class TrainTest;
 
 public:
 virtual bool connectRearToTrack(ITrackSegment *track) = 0;
