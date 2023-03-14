@@ -61,6 +61,21 @@ void TrainTest::testCreateTrackSegment() {
     qDebug() << "Rotated about rear";
     printTrackInfo(track0);
 
+    qDebug() << "=========== Test 2nd track segment ==============";
+
+    TrackSegment* track1 = new TrackSegment();
+    m_trackList.push_back(track1);
+
+    track1->connectRearToTrack(track0);
+    qDebug() << "---------------------------";
+    qDebug() << "attached track1's rear to track0's front";
+    printTrackInfo(track1);
+
+    TrackSegment* track2 = new TrackSegment();
+    m_trackList.push_back(track2);
+
+    qDebug() << "attached track2's front to track0's rear";
+    track2->connectFrontToTrack(track0);
 }
 
 void TrainTest::testCleanup() {
