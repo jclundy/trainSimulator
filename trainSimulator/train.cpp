@@ -37,6 +37,14 @@ void Train::place(TrackSegment *track, train_orientation orientation) {
     rearLocation.resetPosition(track, rearPosition);
 }
 
+void Train::slide(float distance) {
+    if(!m_isDriving) {
+        frontLocation.increment(distance);
+        rearLocation.increment(distance);
+    }
+}
+
+
 void Train::setStartingSpeed(float speed) {
     if(m_isDriving) {
         qDebug() << "can't reset train speed while driving";
