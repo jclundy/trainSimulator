@@ -45,15 +45,12 @@ train_motion_result TrainLocation::increment(float delta) {
 train_motion_result TrainLocation::moveToForwardTrack(float delta) {
     // 1. check if hit terminal
     if(m_track->getForwardEnd()->isTerminal()) {
-        qDebug() << "hit terminal";
 
         m_positionOnTrack = m_track->getLength();
         return HIT_TERMINAL;
     }
     // 2. check if there is a next track segment
     if(m_track->getForwardEnd()->getSelectedTrackSegment() == NULL) {
-
-        qDebug() << "selected track segment is null ";
 
         m_positionOnTrack = m_track->getLength();
         return DERAILED_OFF_TRACK;
