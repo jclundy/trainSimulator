@@ -4,10 +4,12 @@
 // library includes
 #include <math.h>
 
-TrackSegment::TrackSegment(float length, const QPointF &position):
+TrackSegment::TrackSegment(unsigned int id, float length, const QPointF &position):
     m_forwardEnd(this, TRACK_FRONT),
     m_rearEnd(this, TRACK_REAR)
 {
+    m_id = id;
+
     m_forwardEnd.m_position.setX(position.x() + length/2);
     m_forwardEnd.m_position.setY(position.y());
 
@@ -64,6 +66,10 @@ bool TrackSegment::connectFrontToTrack(TrackSegment *track) {
         }
     }
     return success;
+}
+
+unsigned int TrackSegment::getId() {
+    return m_id;
 }
 
 float TrackSegment::getLength() {

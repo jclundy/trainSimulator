@@ -9,7 +9,7 @@ class TrackSegment
 {
 friend class TrainTest;
 public:
-    TrackSegment(float length = 20, const QPointF &position = QPointF(0,0));
+    TrackSegment(unsigned int id, float length = 20, const QPointF &position = QPointF(0,0));
     ~TrackSegment();
 
     // public methods
@@ -18,6 +18,7 @@ public:
     bool connectFrontToTrack(TrackSegment *track);
 
     //getters
+    unsigned int getId();
     float getLength();
     TrackEnd* getForwardEnd();
     TrackEnd* getRearEnd();
@@ -32,6 +33,7 @@ public:
     void setRotationAboutRear(float degrees);
 
 private:
+    unsigned int m_id;
     TrackEnd m_forwardEnd;
     TrackEnd m_rearEnd;
 };
