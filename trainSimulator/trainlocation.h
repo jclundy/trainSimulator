@@ -10,8 +10,11 @@ typedef enum {
     DERAILED_OFF_TRACK
 } train_motion_result;
 
+class TrainTest;
+
 class TrainLocation
 {
+friend class TrainTest;
 public:
     TrainLocation();
     train_motion_result resetPosition(TrackSegment* track, float position);

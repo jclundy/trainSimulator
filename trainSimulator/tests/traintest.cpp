@@ -92,13 +92,25 @@ void TrainTest::testDriving() {
     printTrainLocation(m_train);
 
     m_train->setDesiredSpeed(3);
-    for(int i = 0; i < 20; i++) {
-        m_train->drive(dt);
+    bool success = true;
+    for(int i = 0; i < 20 && success; i++) {
+        success = m_train->drive(dt);
         qDebug() << "---------------------------";
         printTrainLocation(m_train);
         qDebug() << "train speed: " << m_train->m_speed;
     }
+    qDebug() << "accident free? " << success;
     qDebug() << "done driving train";
+
+    TrackSegment* track = m_train->frontLocation.m_track;
+    TrackEnd* frontEnd = track->getForwardEnd();
+    qDebug() << "track0 front selected index " << frontEnd->m_selectedIndex;
+    TrackEnd* track1RearEnd = frontEnd->getSelectedTrackEnd();
+    if(track1RearEnd == NULL) {
+        qDebug() << "track 0's selected front end is NULL";
+    } else {
+        qDebug() << "track1 rear selected index " << track1RearEnd->m_selectedIndex;
+    }
 
 }
 
