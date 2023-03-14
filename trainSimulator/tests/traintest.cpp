@@ -35,11 +35,6 @@ void TrainTest::testCreateTrackSegment() {
     printTrackInfo(track0);
     m_trackList.push_back(track0);
 
-    TrackEnd* front = track0->getForwardEnd();
-    qDebug() << "front's parent is track0 " << (front->getParentTrackSegment() == track0);
-    TrackEnd* rear = track0->getRearEnd();
-    qDebug() << "rear's parent is track0 " << (rear->getParentTrackSegment() == track0);
-
     // translate
     track0->setCenter(QPointF(30,30));
     qDebug() << "---------------------------";
@@ -103,16 +98,6 @@ void TrainTest::testDriving() {
     }
     qDebug() << "accident free? " << success;
     qDebug() << "done driving train";
-
-    LinearTrack* track = m_train->frontLocation.m_track;
-    TrackEnd* frontEnd = track->getForwardEnd();
-    qDebug() << "track0 front selected index " << frontEnd->m_selectedIndex;
-    TrackEnd* track1RearEnd = frontEnd->getSelectedTrackEnd();
-    if(track1RearEnd == NULL) {
-        qDebug() << "track 0's selected front end is NULL";
-    } else {
-        qDebug() << "track1 rear selected index " << track1RearEnd->m_selectedIndex;
-    }
 
 }
 

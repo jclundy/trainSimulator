@@ -10,18 +10,10 @@ void TrainTest::printTrackInfo(LinearTrack *track) {
     qDebug() << "heading " << track->getHeading();
 
     qDebug() << "Front TrackEnd:";
-    TrackEnd* front = track->getForwardEnd();
-    printPosition(front->m_position);
+    printPosition(track->getFrontEndPosition());
 
     qDebug() << "Rear TrackEnd:";
-    TrackEnd* rear = track->getRearEnd();
-    printPosition(rear->m_position);
-
-    QPointF diff = front->m_position - rear->m_position;
-    float length = sqrt(pow(diff.x(),2) + pow(diff.y(),2));
-    qDebug() << "computed length: " << length;
-
-
+    printPosition(track->getRearEndPosition());
 }
 
 void TrainTest::printPosition(QPointF point) {
