@@ -17,6 +17,11 @@ public:
     bool isJunction() override;
     bool isLinear() override;
     float getLength() override;
+
+    bool isFrontTerminal() override;
+    bool isRearTerminal() override;
+    float getHeading() override;
+
     ITrackSegment* getSelectedForwardEnd() override;
     ITrackSegment* getSelectedRearEnd() override;
     QList<ITrackSegment*> getForwardNeighbours() override;
@@ -34,10 +39,6 @@ public:
     //getters
     unsigned int getId();
     QPointF getCenter();
-    float getHeading();
-
-    bool isFrontTerminal();
-    bool isRearTerminal();
 
     // modifiers
     void setCenter(const QPointF &newCenter);

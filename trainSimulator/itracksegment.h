@@ -17,6 +17,10 @@ virtual track_segment_type getType() = 0;
 virtual bool isJunction() = 0;
 virtual bool isLinear() = 0;
 virtual float getLength() = 0;
+virtual float getHeading() = 0;
+
+virtual bool isFrontTerminal() = 0;
+virtual bool isRearTerminal() = 0;
 
 virtual ITrackSegment* getSelectedForwardEnd() = 0;
 virtual ITrackSegment* getSelectedRearEnd() = 0;

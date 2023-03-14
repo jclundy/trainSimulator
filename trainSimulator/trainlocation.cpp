@@ -1,4 +1,5 @@
 #include "trainlocation.h"
+#include "itracksegment.h"
 #include <math.h>
 
 TrainLocation::TrainLocation()
@@ -8,7 +9,7 @@ TrainLocation::TrainLocation()
     m_positionOnTrack = 0;
 }
 
-train_motion_result TrainLocation::resetPosition(LinearTrack* track, float newPosition) {
+train_motion_result TrainLocation::resetPosition(ITrackSegment* track, float newPosition) {
     m_track = track;
     m_positionOnTrack = 0;
     m_state = SUCCESS;
@@ -49,15 +50,10 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
         m_positionOnTrack = m_track->getLength();
         return HIT_TERMINAL;
     }
-    // 2. check if there is a next track segment
-    if(m_track->getForwardEnd()->getSelectedTrackSegment() == NULL) {
-
-        m_positionOnTrack = m_track->getLength();
-        return DERAILED_OFF_TRACK;
-    }
-    // 3. check if the junction is connected both ways
-    if(m_track->getForwardEnd()->isConnectedToNeighbourBothWays()) {
-        m_track = m_track->getForwardEnd()->getSelectedTrackSegment();
+    // 2. check if the junction is connected both ways
+    ITrackSegment * frontSegment = m_track->getSelectedForwardEnd();
+    if(frontSegment->getSelectedRearEnd() == m_track) {
+        m_track = frontSegment;
         m_positionOnTrack = 0;
 
         /*
@@ -81,14 +77,10 @@ train_motion_result TrainLocation::moveToRearTrack(float delta) {
         m_positionOnTrack = 0;
         return HIT_TERMINAL;
     }
-    // 2. check if there is a next track segment
-    if(m_track->getRearEnd()->getSelectedTrackSegment() == NULL) {
-        m_positionOnTrack = 0;
-        return DERAILED_OFF_TRACK;
-    }
-    // 3. check if the junction is connected both ways
-    if(m_track->getRearEnd()->isConnectedToNeighbourBothWays()) {
-        m_track = m_track->getRearEnd()->getSelectedTrackSegment();
+    // 2. check if the junction is connected both ways
+    ITrackSegment * rearSegment = m_track->getSelectedRearEnd();
+    if(rearSegment->getSelectedForwardEnd() == m_track) {
+        m_track = rearSegment;
         m_positionOnTrack = m_track->getLength();
         /*
          * Note - this results in recursion
@@ -116,8 +108,8 @@ QPointF TrainLocation::getPositionInWorld() {
     float R = m_positionOnTrack; // measured from track 'rear-end'
     float heading_rads = m_track->getHeading() * M_PI / 180.0;
 
-    float x = m_track->getRearEnd()->m_position.x() + cos(heading_rads) * R;
-    float y = m_track->getRearEnd()->m_position.y() + sin(heading_rads) * R;
+    float x = m_track->getRearEndPosition().x() + cos(heading_rads) * R;
+    float y = m_track->getRearEndPosition().y() + sin(heading_rads) * R;
 
     return QPointF(x,y);
 }
