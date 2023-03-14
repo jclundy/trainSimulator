@@ -28,8 +28,8 @@ virtual TrackEnd* getSelectedRearEnd();
 virtual QList<ITrackSegment> getForwardNeighbours();
 virtual QList<ITrackSegment> getRearNeighbours();
 
-virtual PointF getFrontEndPosition();
-virtual PointF getRearEndPosition();
+virtual QPointF getFrontEndPosition();
+virtual QPointF getRearEndPosition();
 
 }
 
