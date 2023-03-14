@@ -112,23 +112,23 @@ bool LinearTrack::connectRearToTrack(LinearTrack *track) {
 bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
 
     // to keep things simple, make sure our front end is a terminal
-    if(isFrontTerminal == false) {
+    if(isFrontTerminal() == false || track->isRearTerminal() == false) {
         return false;
     }
 
-    bool success = m_forwardEnd.connectTo(track->getRearEnd());
+    m_forwardTrack = track;
+    track->m_rearTrack = track;
 
-    if(success) {
-        // if rear end is not fixed
-        if(isRearTerminal()) {
-            QPointF delta = track->getRearEnd()->m_position - m_forwardPosition;
-            translate(delta);
-        } else {
-            // leave front end in place, modify track length
-            m_forwardPosition = track->getRearEnd()->m_position;
-        }
+
+    // if rear end is not fixed
+    if(isRearTerminal()) {
+        QPointF delta = track->getRearEndPosition() - m_forwardPosition;
+        translate(delta);
+    } else {
+        // leave front end in place, modify track length
+        m_forwardPosition = track->getRearEndPosition();
     }
-    return success;
+    return true;
 }
 
 unsigned int LinearTrack::getId() {
