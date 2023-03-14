@@ -19,7 +19,7 @@ friend class TrainTest;
 public:
     Train(float length = 5);
     // initialization
-    void place(TrackSegment* track, train_orientation orientation);
+    void place(TrackSegment* track, train_orientation orientation=TRAIN_HEAD_TOWARDS_TRACK_FRONT);
     void setStartingSpeed(float speed);
     void setControlModel(TrainControlModel *controlModel);
     // control and simulation
