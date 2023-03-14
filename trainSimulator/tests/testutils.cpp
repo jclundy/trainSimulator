@@ -4,6 +4,7 @@
 
 void TrainTest::printTrackInfo(TrackSegment *track) {
 
+    qDebug() << "ID " << track->getId();
     qDebug() << "length " << track->getLength();
     qDebug() << "center " << track->getCenter();
     qDebug() << "heading " << track->getHeading();
