@@ -13,6 +13,7 @@ public:
     ~LinearTrack();
 
     // ITrackSegment Interface
+    unsigned int getId() override;
     track_segment_type getType() override;
     bool isJunction() override;
     bool isLinear() override;
@@ -26,8 +27,11 @@ public:
     ITrackSegment* getSelectedRearEnd() override;
     QList<ITrackSegment*> getForwardNeighbours() override;
     QList<ITrackSegment*> getRearNeighbours() override;
+
     QPointF getFrontEndPosition() override;
     QPointF getRearEndPosition() override;
+    QPointF getCenter() override;
+
     bool connectRearToTrack(ITrackSegment *track) override;
     bool connectFrontToTrack(ITrackSegment *track) override;
 
@@ -37,8 +41,7 @@ public:
     bool connectFrontToTrack(LinearTrack *track);
 
     //getters
-    unsigned int getId();
-    QPointF getCenter();
+
 
     // modifiers
     void setCenter(const QPointF &newCenter);

@@ -13,6 +13,7 @@ class ITrackSegment
 
 public:
 virtual ~ITrackSegment() {}
+virtual unsigned int getId() = 0;
 virtual track_segment_type getType() = 0;
 virtual bool isJunction() = 0;
 virtual bool isLinear() = 0;
@@ -30,6 +31,7 @@ virtual QList<ITrackSegment*> getRearNeighbours() = 0;
 
 virtual QPointF getFrontEndPosition() = 0;
 virtual QPointF getRearEndPosition() = 0;
+virtual QPointF getCenter() = 0;
 
 virtual bool connectRearToTrack(ITrackSegment *track) = 0;
 virtual bool connectFrontToTrack(ITrackSegment *track) = 0;
