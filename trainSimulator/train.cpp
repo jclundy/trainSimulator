@@ -59,7 +59,7 @@ void Train::setDesiredSpeed(float setpoint) {
     m_speedSetpoint = setpoint;
 }
 
-void Train::drive(float dt) {
+bool Train::drive(float dt) {
     m_isDriving = true;
 
     if(m_controlModel == NULL) {
@@ -76,6 +76,8 @@ void Train::drive(float dt) {
         m_speed = 0;
         qDebug() << "Train stopped.  Front and rear states: " << result1 << ", " << result2;
     }
+
+    return result1 == SUCCESS && result2 == SUCCESS;
 }
 
 void Train::stop() {

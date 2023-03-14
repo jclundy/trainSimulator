@@ -24,7 +24,7 @@ public:
     void setControlModel(TrainControlModel *controlModel);
     // control and simulation
     void setDesiredSpeed(float setpoint);
-    void drive(float dt);
+    bool drive(float dt);
     void stop();
 
     QPointF getLocationInWorld();
