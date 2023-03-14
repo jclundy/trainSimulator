@@ -19,6 +19,8 @@ public:
     train_motion_result getState();
     float getPositionOnTrack();
     QPointF getPositionInWorld();
+    unsigned int getTrackId();
+
 private:
     train_motion_result moveToForwardTrack(float delta);
     train_motion_result moveToRearTrack(float delta);
