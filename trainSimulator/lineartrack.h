@@ -2,15 +2,30 @@
 #define TRACKSEGMENT_H
 
 #include "trackend.h"
+#include "itracksegment.h"
 
 class TrainTest;
 
-class LinearTrack
+class LinearTrack : public ITrackSegment
 {
 friend class TrainTest;
 public:
     LinearTrack(unsigned int id, float length = 20, const QPointF &position = QPointF(0,0));
     ~LinearTrack();
+
+    // ITrackSegment Interface
+    track_segment_type getType() override;
+    bool isJunction() override;
+    bool isLinear() override;
+    float getLength() override;
+    TrackEnd* getSelectedForwardEnd() override;
+    TrackEnd* getSelectedRearEnd() override;
+    QList<ITrackSegment> getForwardNeighbours() override;
+    QList<ITrackSegment> getRearNeighbours() override;
+    QPointF getFrontEndPosition() override;
+    QPointF getRearEndPosition() override;
+    bool connectRearToTrack(ITrackSegment *track) override;
+    bool connectFrontToTrack(ITrackSegment *track) override;
 
     // public methods
     void disconnectFromNeighbours();
@@ -19,7 +34,6 @@ public:
 
     //getters
     unsigned int getId();
-    float getLength();
     TrackEnd* getForwardEnd();
     TrackEnd* getRearEnd();
     QPointF getCenter();

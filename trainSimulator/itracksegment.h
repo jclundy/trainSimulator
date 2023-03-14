@@ -12,22 +12,24 @@ class ITrackSegment
 {
 
 public:
+virtual ~ITrackSegment() {}
+virtual track_segment_type getType() = 0;
+virtual bool isJunction() = 0;
+virtual bool isLinear() = 0;
+virtual float getLength() = 0;
+
+virtual TrackEnd* getSelectedForwardEnd() = 0;
+virtual TrackEnd* getSelectedRearEnd() = 0;
+
+virtual QList<ITrackSegment> getForwardNeighbours() = 0;
+virtual QList<ITrackSegment> getRearNeighbours() = 0;
+
+virtual QPointF getFrontEndPosition() = 0;
+virtual QPointF getRearEndPosition() = 0;
+
 virtual bool connectRearToTrack(ITrackSegment *track) = 0;
 virtual bool connectFrontToTrack(ITrackSegment *track) = 0;
-virtual track_segment_type getType() = 0;
-virtual bool isJunction();
-virtual bool isLinear();
-virtual float getLength();
 
-virtual TrackEnd* getSelectedForwardEnd();
-virtual TrackEnd* getSelectedRearEnd();
-
-virtual QList<ITrackSegment> getForwardNeighbours();
-virtual QList<ITrackSegment> getRearNeighbours();
-
-virtual QPointF getFrontEndPosition();
-virtual QPointF getRearEndPosition();
-
-}
+};
 
 #endif // ITRACKSEGMENT_H
