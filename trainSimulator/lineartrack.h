@@ -27,7 +27,7 @@ public:
     bool connectRearToTrack(ITrackSegment *track) override;
     bool connectFrontToTrack(ITrackSegment *track) override;
 
-    // public methods
+    // connectors
     void disconnectFromNeighbours();
     bool connectRearToTrack(LinearTrack *track);
     bool connectFrontToTrack(LinearTrack *track);
