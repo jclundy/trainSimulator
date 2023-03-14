@@ -31,7 +31,7 @@ void TrainTest::testCreateTrain() {
 void TrainTest::testCreateTrackSegment() {
     qDebug() << "=========== Test create track segment ==============";
 
-    TrackSegment* track0 = new TrackSegment(0);
+    LinearTrack* track0 = new LinearTrack(0);
     printTrackInfo(track0);
     m_trackList.push_back(track0);
 
@@ -64,7 +64,7 @@ void TrainTest::testCreateTrackSegment() {
 
     qDebug() << "=========== Test 2nd track segment ==============";
 
-    TrackSegment* track1 = new TrackSegment(1);
+    LinearTrack* track1 = new LinearTrack(1);
     m_trackList.push_back(track1);
 
     bool success = track0->connectFrontToTrack(track1);
@@ -72,7 +72,7 @@ void TrainTest::testCreateTrackSegment() {
     printTrackInfo(track1);
     printTrackInfo(track0);
 
-    TrackSegment* track2 = new TrackSegment(2);
+    LinearTrack* track2 = new LinearTrack(2);
     m_trackList.push_back(track2);
     qDebug() << "---------------------------";
     success = track2->connectRearToTrack(track1);
@@ -104,7 +104,7 @@ void TrainTest::testDriving() {
     qDebug() << "accident free? " << success;
     qDebug() << "done driving train";
 
-    TrackSegment* track = m_train->frontLocation.m_track;
+    LinearTrack* track = m_train->frontLocation.m_track;
     TrackEnd* frontEnd = track->getForwardEnd();
     qDebug() << "track0 front selected index " << frontEnd->m_selectedIndex;
     TrackEnd* track1RearEnd = frontEnd->getSelectedTrackEnd();

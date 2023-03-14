@@ -8,7 +8,7 @@ TrainLocation::TrainLocation()
     m_positionOnTrack = 0;
 }
 
-train_motion_result TrainLocation::resetPosition(TrackSegment* track, float newPosition) {
+train_motion_result TrainLocation::resetPosition(LinearTrack* track, float newPosition) {
     m_track = track;
     m_positionOnTrack = 0;
     m_state = SUCCESS;

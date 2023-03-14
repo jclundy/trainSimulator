@@ -4,7 +4,7 @@
 #include <QPointF>
 #include <QList>
 
-class TrackSegment;
+class LinearTrack;
 class TrainTest;
 
 typedef enum {
@@ -16,7 +16,7 @@ class TrackEnd {
 friend class TrainTest;
 
 public:
-    TrackEnd(TrackSegment* parent, track_pole pole);
+    TrackEnd(LinearTrack* parent, track_pole pole);
 
     // Public Methods
     bool isFront();
@@ -33,8 +33,8 @@ public:
     void validateSelectedForkNumber();
 
     // Queries
-    TrackSegment* getParentTrackSegment();
-    TrackSegment* getSelectedTrackSegment();
+    LinearTrack* getParentTrackSegment();
+    LinearTrack* getSelectedTrackSegment();
     TrackEnd* getSelectedTrackEnd();
     int getSelectedForkNumber();
     bool isNeighbour(TrackEnd* connector, int &forkNumber);
@@ -59,7 +59,7 @@ private:
 
     // private members
     int m_selectedIndex;
-    TrackSegment* m_parentTrackSegment;
+    LinearTrack* m_parentTrackSegment;
 };
 
 #endif // CONNECTOR_H

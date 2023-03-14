@@ -5,17 +5,17 @@
 
 class TrainTest;
 
-class TrackSegment
+class LinearTrack
 {
 friend class TrainTest;
 public:
-    TrackSegment(unsigned int id, float length = 20, const QPointF &position = QPointF(0,0));
-    ~TrackSegment();
+    LinearTrack(unsigned int id, float length = 20, const QPointF &position = QPointF(0,0));
+    ~LinearTrack();
 
     // public methods
     void disconnectFromNeighbours();
-    bool connectRearToTrack(TrackSegment *track);
-    bool connectFrontToTrack(TrackSegment *track);
+    bool connectRearToTrack(LinearTrack *track);
+    bool connectFrontToTrack(LinearTrack *track);
 
     //getters
     unsigned int getId();

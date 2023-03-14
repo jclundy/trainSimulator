@@ -4,7 +4,7 @@
 // library includes
 #include <math.h>
 
-TrackSegment::TrackSegment(unsigned int id, float length, const QPointF &position):
+LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position):
     m_forwardEnd(this, TRACK_FRONT),
     m_rearEnd(this, TRACK_REAR)
 {
@@ -17,16 +17,16 @@ TrackSegment::TrackSegment(unsigned int id, float length, const QPointF &positio
     m_rearEnd.m_position.setY(position.y());
 }
 
-TrackSegment::~TrackSegment() {
+LinearTrack::~LinearTrack() {
     disconnectFromNeighbours();
 }
 
-void TrackSegment::disconnectFromNeighbours() {
+void LinearTrack::disconnectFromNeighbours() {
     m_forwardEnd.disconnectAll();
     m_rearEnd.disconnectAll();
 }
 
-bool TrackSegment::connectRearToTrack(TrackSegment *track) {
+bool LinearTrack::connectRearToTrack(LinearTrack *track) {
     // to keep things simple, make sure our rear end is a terminal
     if(m_rearEnd.isTerminal() == false) {
         return false;
@@ -46,7 +46,7 @@ bool TrackSegment::connectRearToTrack(TrackSegment *track) {
     return success;
 }
 
-bool TrackSegment::connectFrontToTrack(TrackSegment *track) {
+bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
 
     // to keep things simple, make sure our front end is a terminal
     if(m_forwardEnd.isTerminal() == false) {
@@ -68,43 +68,43 @@ bool TrackSegment::connectFrontToTrack(TrackSegment *track) {
     return success;
 }
 
-unsigned int TrackSegment::getId() {
+unsigned int LinearTrack::getId() {
     return m_id;
 }
 
-float TrackSegment::getLength() {
+float LinearTrack::getLength() {
     QPointF diff = m_forwardEnd.m_position - m_rearEnd.m_position;
     return sqrt(pow(diff.x(),2) + pow(diff.y(),2));
 }
 
-TrackEnd* TrackSegment::getForwardEnd() {
+TrackEnd* LinearTrack::getForwardEnd() {
     return &m_forwardEnd;
 }
 
-TrackEnd* TrackSegment::getRearEnd() {
+TrackEnd* LinearTrack::getRearEnd() {
     return &m_rearEnd;
 }
 
-QPointF TrackSegment::getCenter() {
+QPointF LinearTrack::getCenter() {
    return (m_forwardEnd.m_position + m_rearEnd.m_position) / 2.0;
 }
 
-float TrackSegment::getHeading() {
+float LinearTrack::getHeading() {
     QPointF diff = m_forwardEnd.m_position - m_rearEnd.m_position;
     return atan2(diff.y(), diff.x()) * 180.0 / M_PI;
 }
 
-void TrackSegment::setCenter(const QPointF &newCenter) {
+void LinearTrack::setCenter(const QPointF &newCenter) {
     QPointF offset = newCenter - getCenter();
     translate(offset);
 }
 
-void TrackSegment::translate(const QPointF &offset) {
+void LinearTrack::translate(const QPointF &offset) {
     m_forwardEnd.m_position += offset;
     m_rearEnd.m_position += offset;
 }
 
-void TrackSegment::setRotationAboutCenter(float degrees) {
+void LinearTrack::setRotationAboutCenter(float degrees) {
     QPointF center = getCenter();
     float R = getLength() / 2;
     float rads = degrees*M_PI / 180.0;
@@ -117,7 +117,7 @@ void TrackSegment::setRotationAboutCenter(float degrees) {
     m_rearEnd.m_position = center - offset;
 }
 
-void TrackSegment::setRotationAboutFront(float degrees) {
+void LinearTrack::setRotationAboutFront(float degrees) {
     float R = getLength();
     float rads = degrees*M_PI / 180.0;
     float x_offset = R * cos(rads);
@@ -127,7 +127,7 @@ void TrackSegment::setRotationAboutFront(float degrees) {
     m_rearEnd.m_position = m_forwardEnd.m_position + offset;
 }
 
-void TrackSegment::setRotationAboutRear(float degrees) {
+void LinearTrack::setRotationAboutRear(float degrees) {
     float R = getLength();
     float rads = degrees*M_PI / 180.0;
     float x_offset = R * cos(rads);

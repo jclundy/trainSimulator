@@ -20,11 +20,11 @@ public:
 
     void runTests();
 
-    QList<TrackSegment*> m_trackList;
+    QList<LinearTrack*> m_trackList;
     Train* m_train;
 
     // util functions
-    void printTrackInfo(TrackSegment *track);
+    void printTrackInfo(LinearTrack *track);
     void printTrackEndInfo(TrackEnd *end);
     void printPosition(QPointF point);
     void printTrainLocation(Train* train);

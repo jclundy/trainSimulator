@@ -15,7 +15,7 @@ Train::Train(float length)
 
 }
 
-void Train::place(TrackSegment *track, train_orientation orientation) {
+void Train::place(LinearTrack *track, train_orientation orientation) {
     if(m_isDriving) {
         qDebug() << "can't re-position train while driving";
         return;

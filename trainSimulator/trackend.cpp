@@ -1,7 +1,7 @@
 #include "trackend.h"
 #include <QDebug>
 
-TrackEnd::TrackEnd(TrackSegment *parent, track_pole pole) {
+TrackEnd::TrackEnd(LinearTrack *parent, track_pole pole) {
     m_parentTrackSegment = parent;
     m_selectedIndex = -1;
     m_pole = pole;
@@ -78,11 +78,11 @@ void TrackEnd::validateSelectedForkNumber() {
     }
 }
 
-TrackSegment* TrackEnd::getParentTrackSegment() {
+LinearTrack* TrackEnd::getParentTrackSegment() {
     return m_parentTrackSegment;
 }
 
-TrackSegment* TrackEnd::getSelectedTrackSegment() {
+LinearTrack* TrackEnd::getSelectedTrackSegment() {
     if(m_selectedIndex >= 0) {
         return m_neighbourList.at(m_selectedIndex)->getParentTrackSegment();
     }
