@@ -27,22 +27,22 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     trackend.cpp \
-    tracksegment.cpp \
     train.cpp \
     trainlocation.cpp \
     simplecontrolmodel.cpp \
     simplecontrolmodelwithbraking.cpp \
     tests/traintest.cpp \
-    tests/testutils.cpp
+    tests/testutils.cpp \
+    lineartrack.cpp
 
 HEADERS += \
         mainwindow.h \
     trackend.h \
-    tracksegment.h \
     train.h \
     trainlocation.h \
     traincontrolmodel.h \
     simplecontrolmodel.h \
     simplecontrolmodelwithbraking.h \
     tests/traintest.h \
-    itracksegment.h
+    itracksegment.h \
+    lineartrack.h

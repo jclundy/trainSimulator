@@ -1,4 +1,4 @@
-#include "tracksegment.h"
+#include "lineartrack.h"
 #include "trackend.h"
 
 // library includes

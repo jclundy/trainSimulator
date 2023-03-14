@@ -1,7 +1,7 @@
 #ifndef TRAINLOCATION_H
 #define TRAINLOCATION_H
 
-#include "tracksegment.h"
+#include "lineartrack.h"
 
 typedef enum {
     SUCCESS,
