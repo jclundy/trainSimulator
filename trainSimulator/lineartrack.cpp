@@ -3,17 +3,15 @@
 // library includes
 #include <math.h>
 
-LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position):
-    m_forwardEnd(this, TRACK_FRONT),
-    m_rearEnd(this, TRACK_REAR)
+LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
 {
     m_id = id;
 
-    m_forwardEnd.m_position.setX(position.x() + length/2);
-    m_forwardEnd.m_position.setY(position.y());
+    m_forwardPosition.setX(position.x() + length/2);
+    m_forwardPosition.setY(position.y());
 
-    m_rearEnd.m_position.setX(position.x() - length/2);
-    m_rearEnd.m_position.setY(position.y());
+    m_rearPosition.setX(position.x() - length/2);
+    m_rearPosition.setY(position.y());
 }
 
 LinearTrack::~LinearTrack() {
@@ -33,16 +31,16 @@ bool LinearTrack::isLinear() {
 }
 
 float LinearTrack::getLength() {
-    QPointF diff = m_forwardEnd.m_position - m_rearEnd.m_position;
+    QPointF diff = m_forwardPosition - m_rearPosition;
     return sqrt(pow(diff.x(),2) + pow(diff.y(),2));
 }
 
 ITrackSegment* LinearTrack::getSelectedForwardEnd() {
-    return &m_forwardEnd;
+    return m_forwardTrack;
 }
 
 ITrackSegment* LinearTrack::getSelectedRearEnd() {
-    return &m_rearEnd;
+    return m_rearTrack;
 }
 
 QList<ITrackSegment*> LinearTrack::getForwardNeighbours() {
@@ -58,11 +56,11 @@ QList<ITrackSegment*> LinearTrack::getRearNeighbours() {
 }
 
 QPointF LinearTrack::getFrontEndPosition() {
-    return m_forwardEnd.m_position;
+    return m_forwardPosition;
 }
 
 QPointF LinearTrack::getRearEndPosition() {
-    return m_rearEnd.m_position;
+    return m_rearPosition;
 }
 
 bool LinearTrack::connectRearToTrack(ITrackSegment *track) {
@@ -84,34 +82,37 @@ bool LinearTrack::connectFrontToTrack(ITrackSegment *track) {
 }
 
 void LinearTrack::disconnectFromNeighbours() {
-    m_forwardEnd.disconnectAll();
-    m_rearEnd.disconnectAll();
+//    m_forwardEnd.disconnectAll();
+//    m_rearEnd.disconnectAll();
+
+    // m_forwardEnd.oneWayDisconnect(this);
+    // m_rearEnd.oneWayDisconnect(this);
+    // m_forward
 }
 
 bool LinearTrack::connectRearToTrack(LinearTrack *track) {
-    // to keep things simple, make sure our rear end is a terminal
-    if(m_rearEnd.isTerminal() == false) {
+    // to keep things simple, make sure both ends are terminals
+    if(isRearTerminal() == false || track->isFrontTerminal() == false) {
         return false;
     }
 
-    bool success = m_rearEnd.connectTo(track->getForwardEnd());
-    if(success) {
-        // if front end is not fixed
-        if(m_forwardEnd.isTerminal()) {
-            QPointF delta = track->getForwardEnd()->m_position - m_rearEnd.m_position;
-            translate(delta);
-        } else {
-            // leave front end in place, modify track length
-            m_rearEnd.m_position = track->getForwardEnd()->m_position;
-        }
+    m_rearTrack = track;
+    track->m_forwardTrack = track;
+    // if front end is not fixed
+    if(isFrontTerminal()) {
+        QPointF delta = track->getFrontEndPosition() - m_rearPosition;
+        translate(delta);
+    } else {
+        // leave front end in place, modify track length
+        m_rearPosition = track->getFrontEndPosition();
     }
-    return success;
+    return true;
 }
 
 bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
 
     // to keep things simple, make sure our front end is a terminal
-    if(m_forwardEnd.isTerminal() == false) {
+    if(isFrontTerminal == false) {
         return false;
     }
 
@@ -119,12 +120,12 @@ bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
 
     if(success) {
         // if rear end is not fixed
-        if(m_rearEnd.isTerminal()) {
-            QPointF delta = track->getRearEnd()->m_position - m_forwardEnd.m_position;
+        if(isRearTerminal()) {
+            QPointF delta = track->getRearEnd()->m_position - m_forwardPosition;
             translate(delta);
         } else {
             // leave front end in place, modify track length
-            m_forwardEnd.m_position = track->getRearEnd()->m_position;
+            m_forwardPosition = track->getRearEnd()->m_position;
         }
     }
     return success;
@@ -135,11 +136,11 @@ unsigned int LinearTrack::getId() {
 }
 
 QPointF LinearTrack::getCenter() {
-   return (m_forwardEnd.m_position + m_rearEnd.m_position) / 2.0;
+   return (m_forwardPosition + m_rearPosition) / 2.0;
 }
 
 float LinearTrack::getHeading() {
-    QPointF diff = m_forwardEnd.m_position - m_rearEnd.m_position;
+    QPointF diff = m_forwardPosition - m_rearPosition;
     return atan2(diff.y(), diff.x()) * 180.0 / M_PI;
 }
 
@@ -157,8 +158,8 @@ void LinearTrack::setCenter(const QPointF &newCenter) {
 }
 
 void LinearTrack::translate(const QPointF &offset) {
-    m_forwardEnd.m_position += offset;
-    m_rearEnd.m_position += offset;
+    m_forwardPosition += offset;
+    m_rearPosition += offset;
 }
 
 void LinearTrack::setRotationAboutCenter(float degrees) {
@@ -170,8 +171,8 @@ void LinearTrack::setRotationAboutCenter(float degrees) {
 
     QPointF offset(x_offset, y_offset);
 
-    m_forwardEnd.m_position = center + offset;
-    m_rearEnd.m_position = center - offset;
+    m_forwardPosition = center + offset;
+    m_rearPosition = center - offset;
 }
 
 void LinearTrack::setRotationAboutFront(float degrees) {
@@ -181,7 +182,7 @@ void LinearTrack::setRotationAboutFront(float degrees) {
     float y_offset = R * sin(rads);
 
     QPointF offset(x_offset, y_offset);
-    m_rearEnd.m_position = m_forwardEnd.m_position + offset;
+    m_rearPosition = m_forwardPosition + offset;
 }
 
 void LinearTrack::setRotationAboutRear(float degrees) {
@@ -191,5 +192,5 @@ void LinearTrack::setRotationAboutRear(float degrees) {
     float y_offset = R * sin(rads);
 
     QPointF offset(x_offset, y_offset);
-    m_forwardEnd.m_position = m_rearEnd.m_position + offset;
+    m_forwardPosition = m_rearPosition + offset;
 }
