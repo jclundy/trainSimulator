@@ -67,25 +67,30 @@ void TrainTest::testCreateTrackSegment() {
     TrackSegment* track1 = new TrackSegment(1);
     m_trackList.push_back(track1);
 
-    track1->connectRearToTrack(track0);
-    qDebug() << "attached track1's rear to track0's front";
+    bool success = track0->connectFrontToTrack(track1);
+    qDebug() << "attached track0's front to track1's rear " << success;
     printTrackInfo(track1);
+    printTrackInfo(track0);
 
     TrackSegment* track2 = new TrackSegment(2);
     m_trackList.push_back(track2);
     qDebug() << "---------------------------";
-    track2->connectFrontToTrack(track0);
-    qDebug() << "attached track2's front to track0's rear";
+    success = track2->connectRearToTrack(track1);
+    qDebug() << "attached track2's rear to track0's front"  << success;
     printTrackInfo(track2);
 
 }
 
 void TrainTest::testDriving() {
     qDebug() << "=========== Test driving train ==============";
-    m_train->place(m_trackList.at(2));
-    qDebug() << "placed train on track2";
+    m_train->place(m_trackList.at(0));
+    qDebug() << "placed train on track0";
 
     float dt = 0.5; // seconds
+
+    qDebug() << "starting location";
+    printTrainLocation(m_train);
+
     m_train->setDesiredSpeed(3);
     for(int i = 0; i < 20; i++) {
         m_train->drive(dt);
