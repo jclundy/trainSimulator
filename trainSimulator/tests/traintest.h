@@ -27,6 +27,7 @@ public:
     void printTrackInfo(TrackSegment *track);
     void printTrackEndInfo(TrackEnd *end);
     void printPosition(QPointF point);
+    void printTrainLocation(Train* train);
 };
 
 #endif // TEST1_H

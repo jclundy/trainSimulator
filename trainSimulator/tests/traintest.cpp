@@ -10,6 +10,7 @@ TrainTest::TrainTest()
 void TrainTest::runTests() {
     testCreateTrain();
     testCreateTrackSegment();
+    testDriving();
 
     testCleanup();
 }
@@ -76,6 +77,23 @@ void TrainTest::testCreateTrackSegment() {
     track2->connectFrontToTrack(track0);
     qDebug() << "attached track2's front to track0's rear";
     printTrackInfo(track2);
+
+}
+
+void TrainTest::testDriving() {
+    qDebug() << "=========== Test driving train ==============";
+    m_train->place(m_trackList.at(2));
+    qDebug() << "placed train on track2";
+
+    float dt = 0.5; // seconds
+    m_train->setDesiredSpeed(3);
+    for(int i = 0; i < 20; i++) {
+        m_train->drive(dt);
+        qDebug() << "---------------------------";
+        printTrainLocation(m_train);
+        qDebug() << "train speed: " << m_train->m_speed;
+    }
+    qDebug() << "done driving train";
 
 }
 

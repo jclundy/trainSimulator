@@ -36,3 +36,9 @@ void TrainTest::printTrackEndInfo(TrackEnd *end) {
 void TrainTest::printPosition(QPointF point) {
     qDebug() << "Position (x,y): (" << point.x() << "," << point.y() << ")";
 }
+
+void TrainTest::printTrainLocation(Train* train) {
+    qDebug() << "Train world location" << train->getLocationInWorld();
+    qDebug() << "Train track id: " << train->frontLocation.getTrackId() << ", " << train->frontLocation.getPositionOnTrack() << " meters from track rear";
+}
+
