@@ -1,5 +1,4 @@
 #include "lineartrack.h"
-#include "trackend.h"
 
 // library includes
 #include <math.h>
@@ -38,11 +37,11 @@ float LinearTrack::getLength() {
     return sqrt(pow(diff.x(),2) + pow(diff.y(),2));
 }
 
-TrackEnd* LinearTrack::getSelectedForwardEnd() {
+ITrackSegment* LinearTrack::getSelectedForwardEnd() {
     return &m_forwardEnd;
 }
 
-TrackEnd* LinearTrack::getSelectedRearEnd() {
+ITrackSegment* LinearTrack::getSelectedRearEnd() {
     return &m_rearEnd;
 }
 
@@ -133,14 +132,6 @@ bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
 
 unsigned int LinearTrack::getId() {
     return m_id;
-}
-
-TrackEnd* LinearTrack::getForwardEnd() {
-    return &m_forwardEnd;
-}
-
-TrackEnd* LinearTrack::getRearEnd() {
-    return &m_rearEnd;
 }
 
 QPointF LinearTrack::getCenter() {

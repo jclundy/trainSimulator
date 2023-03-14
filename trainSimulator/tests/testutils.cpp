@@ -24,16 +24,6 @@ void TrainTest::printTrackInfo(LinearTrack *track) {
 
 }
 
-void TrainTest::printTrackEndInfo(TrackEnd *end) {
-
-    printPosition(end->m_position);
-    qDebug() << "Pole " << end->m_pole;
-    qDebug() << "Is Front " << end->isFront();
-    qDebug() << "Is Rear " << end->isRear();
-    qDebug() << "Is Fork " << end->isFork();
-    qDebug() << "num connections" << end->m_neighbourList.size();
-}
-
 void TrainTest::printPosition(QPointF point) {
     qDebug() << "Position (x,y): (" << point.x() << "," << point.y() << ")";
 }

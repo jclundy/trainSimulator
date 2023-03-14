@@ -1,7 +1,7 @@
 #ifndef ITRACKSEGMENT_H
 #define ITRACKSEGMENT_H
 
-#include "trackend.h"
+#include <QList>
 
 typedef enum {
     LINEAR_TRACK,
@@ -18,8 +18,8 @@ virtual bool isJunction() = 0;
 virtual bool isLinear() = 0;
 virtual float getLength() = 0;
 
-virtual TrackEnd* getSelectedForwardEnd() = 0;
-virtual TrackEnd* getSelectedRearEnd() = 0;
+virtual ITrackSegment* getSelectedForwardEnd() = 0;
+virtual ITrackSegment* getSelectedRearEnd() = 0;
 
 virtual QList<ITrackSegment*> getForwardNeighbours() = 0;
 virtual QList<ITrackSegment*> getRearNeighbours() = 0;

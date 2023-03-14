@@ -16,8 +16,8 @@ public:
     bool isJunction() override;
     bool isLinear() override;
     float getLength() override;
-    TrackEnd* getSelectedForwardEnd() override;
-    TrackEnd* getSelectedRearEnd() override;
+    ITrackSegment* getSelectedForwardEnd() override;
+    ITrackSegment* getSelectedRearEnd() override;
     QList<ITrackSegment*> getForwardNeighbours() override;
     QList<ITrackSegment*> getRearNeighbours() override;
     QPointF getFrontEndPosition() override;
@@ -37,8 +37,8 @@ public:
 
 private:
     unsigned int m_id;
-    QList<TrackEnd*> m_forwardConnections;
-    QList<TrackEnd*> m_rearConnections;
+    QList<ITrackSegment*> m_forwardConnections;
+    QList<ITrackSegment*> m_rearConnections;
 
     QPointF m_center;
     float m_length;

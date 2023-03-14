@@ -1,7 +1,6 @@
 #ifndef TRACKSEGMENT_H
 #define TRACKSEGMENT_H
 
-#include "trackend.h"
 #include "itracksegment.h"
 
 class TrainTest;
@@ -18,8 +17,8 @@ public:
     bool isJunction() override;
     bool isLinear() override;
     float getLength() override;
-    TrackEnd* getSelectedForwardEnd() override;
-    TrackEnd* getSelectedRearEnd() override;
+    ITrackSegment* getSelectedForwardEnd() override;
+    ITrackSegment* getSelectedRearEnd() override;
     QList<ITrackSegment*> getForwardNeighbours() override;
     QList<ITrackSegment*> getRearNeighbours() override;
     QPointF getFrontEndPosition() override;
@@ -34,10 +33,13 @@ public:
 
     //getters
     unsigned int getId();
-    TrackEnd* getForwardEnd();
-    TrackEnd* getRearEnd();
     QPointF getCenter();
     float getHeading();
+
+    bool isFrontTerminal();
+    bool isFrontJunction();
+    bool isRearTerminal();
+    bool isRearJunction();
 
     // modifiers
     void setCenter(const QPointF &newCenter);
@@ -48,8 +50,8 @@ public:
 
 private:
     unsigned int m_id;
-    TrackEnd m_forwardEnd;
-    TrackEnd m_rearEnd;
+    QPointF m_forwardPosition;
+    QPointF m_rearPosition;
 };
 
 #endif // TRACKSEGMENT_H

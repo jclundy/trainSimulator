@@ -27,10 +27,10 @@ bool JunctionTrack::isLinear() {
 float JunctionTrack::getLength() {
     return m_length;
 }
-TrackEnd* JunctionTrack::getSelectedForwardEnd() {
+ITrackSegment* JunctionTrack::getSelectedForwardEnd() {
     return NULL;
 }
-TrackEnd* JunctionTrack::getSelectedRearEnd() {
+ITrackSegment* JunctionTrack::getSelectedRearEnd() {
     return NULL;
 }
 QList<ITrackSegment*> JunctionTrack::getForwardNeighbours() {

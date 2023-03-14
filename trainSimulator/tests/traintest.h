@@ -25,7 +25,6 @@ public:
 
     // util functions
     void printTrackInfo(LinearTrack *track);
-    void printTrackEndInfo(TrackEnd *end);
     void printPosition(QPointF point);
     void printTrainLocation(Train* train);
 };
