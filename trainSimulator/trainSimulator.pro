@@ -44,4 +44,5 @@ HEADERS += \
     traincontrolmodel.h \
     simplecontrolmodel.h \
     simplecontrolmodelwithbraking.h \
-    tests/traintest.h
+    tests/traintest.h \
+    itracksegment.h
