@@ -44,7 +44,7 @@ train_motion_result TrainLocation::increment(float delta) {
 
 train_motion_result TrainLocation::moveToForwardTrack(float delta) {
     // 1. check if hit terminal
-    if(m_track->getForwardEnd()->isTerminal()) {
+    if(m_track->isFrontTerminal()) {
 
         m_positionOnTrack = m_track->getLength();
         return HIT_TERMINAL;
@@ -77,7 +77,7 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
 
 train_motion_result TrainLocation::moveToRearTrack(float delta) {
     // 1. check if hit terminal
-    if(m_track->getRearEnd()->isTerminal()) {
+    if(m_track->isRearTerminal()) {
         m_positionOnTrack = 0;
         return HIT_TERMINAL;
     }

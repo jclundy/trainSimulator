@@ -143,6 +143,14 @@ float LinearTrack::getHeading() {
     return atan2(diff.y(), diff.x()) * 180.0 / M_PI;
 }
 
+bool LinearTrack::isFrontTerminal() {
+    return m_forwardTrack == NULL;
+}
+
+bool LinearTrack::isRearTerminal() {
+    return m_rearTrack == NULL;
+}
+
 void LinearTrack::setCenter(const QPointF &newCenter) {
     QPointF offset = newCenter - getCenter();
     translate(offset);

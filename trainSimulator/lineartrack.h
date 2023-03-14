@@ -37,9 +37,7 @@ public:
     float getHeading();
 
     bool isFrontTerminal();
-    bool isFrontJunction();
     bool isRearTerminal();
-    bool isRearJunction();
 
     // modifiers
     void setCenter(const QPointF &newCenter);
@@ -50,6 +48,9 @@ public:
 
 private:
     unsigned int m_id;
+    ITrackSegment* m_forwardTrack;
+    ITrackSegment* m_rearTrack;
+
     QPointF m_forwardPosition;
     QPointF m_rearPosition;
 };
