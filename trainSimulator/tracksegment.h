@@ -32,7 +32,6 @@ public:
     void setRotationAboutRear(float degrees);
 
 private:
-    float m_length;
     TrackEnd m_forwardEnd;
     TrackEnd m_rearEnd;
 };

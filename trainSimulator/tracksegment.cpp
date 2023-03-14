@@ -8,12 +8,10 @@ TrackSegment::TrackSegment(float length, const QPointF &position):
     m_forwardEnd(this, TRACK_FRONT),
     m_rearEnd(this, TRACK_REAR)
 {
-    m_length = length;
-
-    m_forwardEnd.m_position.setX(position.x() + m_length/2);
+    m_forwardEnd.m_position.setX(position.x() + length/2);
     m_forwardEnd.m_position.setY(position.y());
 
-    m_rearEnd.m_position.setX(position.x() - m_length/2);
+    m_rearEnd.m_position.setX(position.x() - length/2);
     m_rearEnd.m_position.setY(position.y());
 }
 
@@ -27,15 +25,14 @@ void TrackSegment::disconnectFromNeighbours() {
 }
 
 bool TrackSegment::connectRearToTrack(TrackSegment *track) {
-    return m_rearEnd.connectTo(track->getForwardEnd());
 }
 
 bool TrackSegment::connectFrontToTrack(TrackSegment *track) {
-    return m_forwardEnd.connectTo(track->getRearEnd());
 }
 
 float TrackSegment::getLength() {
-    return m_length;
+    QPointF diff = m_forwardEnd.m_position - m_rearEnd.m_position;
+    return sqrt(pow(diff.x(),2) + pow(diff.y(),2));
 }
 
 TrackEnd* TrackSegment::getForwardEnd() {
@@ -67,7 +64,7 @@ void TrackSegment::translate(const QPointF &offset) {
 
 void TrackSegment::setRotationAboutCenter(float degrees) {
     QPointF center = getCenter();
-    float R = m_length / 2;
+    float R = getLength() / 2;
     float rads = degrees*M_PI / 180.0;
     float x_offset = R * cos(rads);
     float y_offset = R * sin(rads);
@@ -79,7 +76,7 @@ void TrackSegment::setRotationAboutCenter(float degrees) {
 }
 
 void TrackSegment::setRotationAboutFront(float degrees) {
-    float R = m_length;
+    float R = getLength();
     float rads = degrees*M_PI / 180.0;
     float x_offset = R * cos(rads);
     float y_offset = R * sin(rads);
@@ -89,7 +86,7 @@ void TrackSegment::setRotationAboutFront(float degrees) {
 }
 
 void TrackSegment::setRotationAboutRear(float degrees) {
-    float R = m_length;
+    float R = getLength();
     float rads = degrees*M_PI / 180.0;
     float x_offset = R * cos(rads);
     float y_offset = R * sin(rads);
