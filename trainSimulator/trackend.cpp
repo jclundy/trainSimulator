@@ -44,6 +44,10 @@ bool TrackEnd::connectTo(TrackEnd *neighbour) {
     m_neighbourList.push_back(neighbour);
     neighbour->m_neighbourList.push_back(this);
 
+    // Big assumption - the selected track is the most recently connected one
+    m_selectedIndex = m_neighbourList.size() - 1;
+    neighbour->setSelectedFork(neighbour->m_neighbourList.size() - 1);
+
     return true;
 }
 
