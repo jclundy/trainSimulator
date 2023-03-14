@@ -27,6 +27,8 @@ public:
     void drive(float dt);
     void stop();
 
+    QPointF getLocationInWorld();
+
 private:
     int direction; // -1 reverse, 0 neutral, 1 forward
     float m_speed; // relative to track

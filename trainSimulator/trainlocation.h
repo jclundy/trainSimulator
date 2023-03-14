@@ -17,6 +17,8 @@ public:
     train_motion_result resetPosition(TrackSegment* track, float position);
     train_motion_result increment(float delta);
     train_motion_result getState();
+    float getPositionOnTrack();
+    QPointF getPositionInWorld();
 private:
     train_motion_result moveToForwardTrack(float delta);
     train_motion_result moveToRearTrack(float delta);

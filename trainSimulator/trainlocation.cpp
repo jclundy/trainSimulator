@@ -1,4 +1,5 @@
 #include "trainlocation.h"
+#include <math.h>
 
 TrainLocation::TrainLocation()
 {
@@ -101,3 +102,20 @@ train_motion_result TrainLocation::moveToRearTrack(float delta) {
     }
 }
 
+train_motion_result TrainLocation::getState() {
+    return m_state;
+}
+
+float TrainLocation::getPositionOnTrack() {
+    return m_positionOnTrack;
+}
+
+QPointF TrainLocation::getPositionInWorld() {
+    float R = m_positionOnTrack; // measured from track 'rear-end'
+    float heading_rads = m_track->getHeading() * M_PI / 180.0;
+
+    float x = m_track->getRearEnd()->m_position.x() + cos(heading_rads) * R;
+    float y = m_track->getRearEnd()->m_position.y() + sin(heading_rads) * R;
+
+    return QPointF(x,y);
+}

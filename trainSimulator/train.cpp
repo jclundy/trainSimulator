@@ -81,3 +81,9 @@ void Train::drive(float dt) {
 void Train::stop() {
     m_isDriving = false;
 }
+
+QPointF Train::getLocationInWorld() {
+    QPointF frontPosition = frontLocation.getPositionInWorld();
+    QPointF rearPosition = rearLocation.getPositionInWorld();
+    return (frontPosition + rearPosition) / 2;
+}
