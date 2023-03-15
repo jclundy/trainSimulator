@@ -55,13 +55,33 @@ bool JunctionTrack::connectFrontToTrack(ITrackSegment *track) {
 }
 
 void JunctionTrack::disconnectFromTrackSegment(ITrackSegment *track) {
-
+    if(m_forwardConnections.contains(track)) {
+        m_forwardConnections.removeOne(track);
+    }
 }
 
 // connectors
 void JunctionTrack::disconnectFromNeighbours() {
-
+    disconnectFront();
+    disconnectRear();
 }
+
+void JunctionTrack::disconnectFront() {
+    for(int i = m_forwardConnections.size() - 1; i >= 0; i--) {
+        ITrackSegment* neighbour = m_forwardConnections.at(i);
+        neighbour->disconnectFromTrackSegment(this);
+        m_forwardConnections.removeLast();
+    }
+}
+
+void JunctionTrack::disconnectRear() {
+    for(int i = m_rearConnections.size() - 1; i >= 0; i--) {
+        ITrackSegment* neighbour = m_rearConnections.at(i);
+        neighbour->disconnectFromTrackSegment(this);
+        m_rearConnections.removeLast();
+    }
+}
+
 
 bool JunctionTrack::connectTrackToFront(ITrackSegment *track) {
     return false;
@@ -83,4 +103,19 @@ QPointF JunctionTrack::getCenter() {
 
 float JunctionTrack::getHeading() {
     return m_heading;
+}
+
+// Private methods
+void JunctionTrack::validateSelectedForwardIndex() {
+    int numConnections = m_forwardConnections.size();
+    if(m_selectedForwardIndex >= numConnections) {
+        m_selectedForwardIndex = numConnections - 1;
+    }
+}
+
+void JunctionTrack::validateSelectedRearIndex() {
+    int numConnections = m_rearConnections.size();
+    if(m_selectedForwardIndex >= numConnections) {
+        m_selectedForwardIndex = numConnections - 1;
+    }
 }

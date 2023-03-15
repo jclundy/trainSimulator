@@ -29,6 +29,9 @@ public:
 
     // connectors
     void disconnectFromNeighbours();
+    void disconnectFront();
+    void disconnectRear();
+
     bool connectTrackToFront(ITrackSegment *track);
     bool connectTrackToRear(ITrackSegment *track);
 
@@ -38,13 +41,21 @@ public:
     float getHeading();
 
 private:
+    // private members
     unsigned int m_id;
     QList<ITrackSegment*> m_forwardConnections;
     QList<ITrackSegment*> m_rearConnections;
 
+    unsigned int m_selectedForwardIndex;
+    unsigned int m_selectedRearIndex;
+
     QPointF m_center;
     float m_length;
     float m_heading;
+
+    // private methods
+    void validateSelectedForwardIndex();
+    void validateSelectedRearIndex();
 };
 
 #endif // JUNCTIONTRACK_H
