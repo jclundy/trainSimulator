@@ -1,5 +1,4 @@
 #include "lineartrack.h"
-#include "junctiontrack.h"
 // library includes
 #include <math.h>
 
@@ -39,6 +38,14 @@ bool LinearTrack::isLinear() {
     return false;
 }
 
+bool LinearTrack::isFrontTerminal() {
+    return m_forwardTrack == NULL;
+}
+
+bool LinearTrack::isRearTerminal() {
+    return m_rearTrack == NULL;
+}
+
 ITrackSegment* LinearTrack::getSelectedForwardEnd() {
     return m_forwardTrack;
 }
@@ -67,7 +74,7 @@ bool LinearTrack::connectRearToTrack(ITrackSegment *track) {
     if(track->isLinear()) {
         return connectRearToTrack((LinearTrack *) track);
     } else {
-        return ((JunctionTrack*) track)->connectFrontToTrack(this);
+        return connectRearToTrack((JunctionTrack*) track);
     }
 }
 
@@ -75,7 +82,7 @@ bool LinearTrack::connectFrontToTrack(ITrackSegment *track) {
     if(track->isLinear()) {
         return connectFrontToTrack((LinearTrack *) track);
     } else {
-        return ((JunctionTrack*) track)->connectRearToTrack(this);
+        return connectFrontToTrack((JunctionTrack*) track);
     }
 }
 
@@ -111,15 +118,33 @@ bool LinearTrack::connectRearToTrack(LinearTrack *track) {
 
     m_rearTrack = track;
     track->m_forwardTrack = this;
-    // if front end is not fixed
-    if(isFrontTerminal()) {
-        QPointF delta = track->getTrackGeometry()->getFrontEndPosition() - m_trackGeometry.getRearEndPosition();
-        m_trackGeometry.translate(delta);
-    } else {
-        // leave front end in place, modify track length
-        m_trackGeometry.setRearPosition(track->getTrackGeometry()->getFrontEndPosition());
-    }
+    updateRearPosition(track);
     return true;
+}
+
+bool LinearTrack::connectRearToTrack(JunctionTrack *track) {
+    if(isRearTerminal() == false) {
+        return false;
+    }
+    bool success = track->connectFrontToTrack(this);
+    if(success) {
+        updateRearPosition(track);
+    }
+    return success;
+}
+
+bool LinearTrack::connectFrontToTrack(JunctionTrack *track) {
+
+    if(isFrontTerminal() == false) {
+        return false;
+    }
+    bool success = track->connectFrontToTrack(this);
+    if(success) {
+        updateFrontPosition(track);
+    }
+    return success;
+
+    return ((JunctionTrack*) track)->connectRearToTrack(this);
 }
 
 bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
@@ -132,21 +157,28 @@ bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
     m_forwardTrack = track;
     track->m_rearTrack = this;
 
+    updateFrontPosition(track);
+    return true;
+}
+
+void LinearTrack::updateRearPosition(ITrackSegment* track) {
+    // if front end is not fixed
+    if(isFrontTerminal()) {
+        QPointF delta = track->getTrackGeometry()->getFrontEndPosition() - m_trackGeometry.getRearEndPosition();
+        m_trackGeometry.translate(delta);
+    } else {
+        // leave front end in place, modify track length
+        m_trackGeometry.setRearPosition(track->getTrackGeometry()->getFrontEndPosition());
+    }
+}
+
+void LinearTrack::updateFrontPosition(ITrackSegment* track) {
     // if rear end is not fixed
     if(isRearTerminal()) {
         QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry.getFrontEndPosition();
         m_trackGeometry.translate(delta);
     } else {
-        // leave front end in place, modify track length
+        // leave rear end in place, modify track length
         m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
     }
-    return true;
-}
-
-bool LinearTrack::isFrontTerminal() {
-    return m_forwardTrack == NULL;
-}
-
-bool LinearTrack::isRearTerminal() {
-    return m_rearTrack == NULL;
 }

@@ -2,6 +2,7 @@
 #define TRACKSEGMENT_H
 
 #include "itracksegment.h"
+#include "junctiontrack.h"
 #include <QLineF>
 
 class TrainTest;
@@ -41,12 +42,17 @@ public:
 
     bool connectRearToTrack(LinearTrack *track);
     bool connectFrontToTrack(LinearTrack *track);
+    bool connectRearToTrack(JunctionTrack *track);
+    bool connectFrontToTrack(JunctionTrack *track);
 
 private:
     unsigned int m_id;
     ITrackSegment* m_forwardTrack;
     ITrackSegment* m_rearTrack;
     TrackGeometry m_trackGeometry;
+
+    void updateRearPosition(ITrackSegment* track);
+    void updateFrontPosition(ITrackSegment* track);
 };
 
 #endif // TRACKSEGMENT_H
