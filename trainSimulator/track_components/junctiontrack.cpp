@@ -1,18 +1,30 @@
 #include "junctiontrack.h"
 
-JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position)
+JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position, unsigned int maxBranches):
+    m_forwardJunction(this, maxBranches),
+    m_rearJunction(this, maxBranches),
+    m_trackGeometry(length, position)
 {
-    m_center = position;
-    m_heading = 0;
-    m_length = length;
     m_id = id;
+
 }
 
 JunctionTrack::~JunctionTrack() {
-
+    disconnectFromNeighbours();
 }
 
 // ITrackSegment Interface
+unsigned int JunctionTrack::getId() {
+    return m_id;
+}
+
+TrackGeometry* JunctionTrack::getTrackGeometry() {
+    return &m_trackGeometry;
+}
+
+float JunctionTrack::getLength() {
+    return m_trackGeometry.getLength();
+}
 
 track_segment_type JunctionTrack::getType() {
     return JUNCTION_TRACK;
@@ -24,40 +36,78 @@ bool JunctionTrack::isJunction() {
 bool JunctionTrack::isLinear() {
     return false;
 }
-float JunctionTrack::getLength() {
-    return m_length;
-}
+
 ITrackSegment* JunctionTrack::getSelectedForwardEnd() {
-    return NULL;
+    return m_forwardJunction.getSelectedBranch();
 }
 ITrackSegment* JunctionTrack::getSelectedRearEnd() {
-    return NULL;
+    return m_rearJunction.getSelectedBranch();
 }
 QList<ITrackSegment*> JunctionTrack::getForwardNeighbours() {
-    QList<ITrackSegment*> list;
-    return list;
+    return m_forwardJunction.getBranches();
 }
 QList<ITrackSegment*> JunctionTrack::getRearNeighbours() {
-    QList<ITrackSegment*> list;
-    return list;
+   return m_rearJunction.getBranches();
 }
-QPointF JunctionTrack::getFrontEndPosition() {
-    return QPointF(0,0);
-}
-QPointF JunctionTrack::getRearEndPosition() {
-    return QPointF(0,0);
-}
+
 bool JunctionTrack::connectRearToTrack(ITrackSegment *track) {
-    return false;
+    // do not allow a junction to be connected to a junction
+    if(track->isJunction() || !track->isFrontTerminal()) {
+        return false;
+    }
+    // also ensure track front is a terminal
+    if(track->isFrontTerminal() == false) {
+        return false;
+    }
+
+    bool initiallyUnconnected = m_rearJunction.getNumBranches() == 0;
+    bool success = m_rearJunction.addBranch(track);
+    if(success) {
+        // instead of updating junction's position, we update the track's front position
+        track->getTrackGeometry()->setForwardPosition(m_trackGeometry.getRearEndPosition());
+
+        if(initiallyUnconnected) {
+            // move rear of our junction to track's front
+            m_trackGeometry.setRearPosition(track->getTrackGeometry()->getFrontEndPosition());
+        } else {
+            // if our junction already has a connection,
+            // update the track's front end position
+            track->getTrackGeometry()->setForwardPosition(m_trackGeometry.getRearEndPosition());
+
+        }
+    }
+    return success;
 }
+
 bool JunctionTrack::connectFrontToTrack(ITrackSegment *track) {
-    return false;
+    // do not allow a junction to be connected to a junction
+    if(track->isJunction() || !track->isRearTerminal()) {
+        return false;
+    }
+    // also ensure track rear is a terminal
+    if(track->isRearTerminal() == false) {
+        return false;
+    }
+
+    bool initiallyUnconnected = m_forwardJunction.getNumBranches() == 0;
+
+    bool success = m_forwardJunction.addBranch(track);
+    if(success) {
+        if(initiallyUnconnected) {
+            // move front of our junction to track's rear
+            m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
+        } else {
+            // if our junction already has a connection,
+            // update the track's rear end position
+            track->getTrackGeometry()->setRearPosition(m_trackGeometry.getFrontEndPosition());
+        }
+    }
+    return success;
 }
 
 void JunctionTrack::disconnectFromTrackSegment(ITrackSegment *track) {
-    if(m_forwardConnections.contains(track)) {
-        m_forwardConnections.removeOne(track);
-    }
+    m_forwardJunction.removeBranch(track);
+    m_rearJunction.removeBranch(track);
 }
 
 // connectors
@@ -67,55 +117,9 @@ void JunctionTrack::disconnectFromNeighbours() {
 }
 
 void JunctionTrack::disconnectFront() {
-    for(int i = m_forwardConnections.size() - 1; i >= 0; i--) {
-        ITrackSegment* neighbour = m_forwardConnections.at(i);
-        neighbour->disconnectFromTrackSegment(this);
-        m_forwardConnections.removeLast();
-    }
+    m_forwardJunction.removeAllBranches();
 }
 
 void JunctionTrack::disconnectRear() {
-    for(int i = m_rearConnections.size() - 1; i >= 0; i--) {
-        ITrackSegment* neighbour = m_rearConnections.at(i);
-        neighbour->disconnectFromTrackSegment(this);
-        m_rearConnections.removeLast();
-    }
-}
-
-
-bool JunctionTrack::connectTrackToFront(ITrackSegment *track) {
-    return false;
-}
-
-bool JunctionTrack::connectTrackToRear(ITrackSegment *track) {
-    return false;
-}
-
-
-//getters
-unsigned int JunctionTrack::getId() {
-    return m_id;
-}
-
-QPointF JunctionTrack::getCenter() {
-    return m_center;
-}
-
-float JunctionTrack::getHeading() {
-    return m_heading;
-}
-
-// Private methods
-void JunctionTrack::validateSelectedForwardIndex() {
-    int numConnections = m_forwardConnections.size();
-    if(m_selectedForwardIndex >= numConnections) {
-        m_selectedForwardIndex = numConnections - 1;
-    }
-}
-
-void JunctionTrack::validateSelectedRearIndex() {
-    int numConnections = m_rearConnections.size();
-    if(m_selectedForwardIndex >= numConnections) {
-        m_selectedForwardIndex = numConnections - 1;
-    }
+    m_rearJunction.removeAllBranches();
 }

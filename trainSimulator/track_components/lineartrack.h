@@ -2,6 +2,7 @@
 #define TRACKSEGMENT_H
 
 #include "itracksegment.h"
+#include <QLineF>
 
 class TrainTest;
 
@@ -14,23 +15,20 @@ public:
 
     // ITrackSegment Interface
     unsigned int getId() override;
+    TrackGeometry* getTrackGeometry() override;
+    float getLength() override;
+
     track_segment_type getType() override;
     bool isJunction() override;
     bool isLinear() override;
-    float getLength() override;
 
     bool isFrontTerminal() override;
     bool isRearTerminal() override;
-    float getHeading() override;
 
     ITrackSegment* getSelectedForwardEnd() override;
     ITrackSegment* getSelectedRearEnd() override;
     QList<ITrackSegment*> getForwardNeighbours() override;
     QList<ITrackSegment*> getRearNeighbours() override;
-
-    QPointF getFrontEndPosition() override;
-    QPointF getRearEndPosition() override;
-    QPointF getCenter() override;
 
     bool connectRearToTrack(ITrackSegment *track) override;
     bool connectFrontToTrack(ITrackSegment *track) override;
@@ -44,23 +42,11 @@ public:
     bool connectRearToTrack(LinearTrack *track);
     bool connectFrontToTrack(LinearTrack *track);
 
-    //getters
-
-
-    // modifiers
-    void setCenter(const QPointF &newCenter);
-    void translate(const QPointF &offset);
-    void setRotationAboutCenter(float degrees);
-    void setRotationAboutFront(float degrees);
-    void setRotationAboutRear(float degrees);
-
 private:
     unsigned int m_id;
     ITrackSegment* m_forwardTrack;
     ITrackSegment* m_rearTrack;
-
-    QPointF m_forwardPosition;
-    QPointF m_rearPosition;
+    TrackGeometry m_trackGeometry;
 };
 
 #endif // TRACKSEGMENT_H
