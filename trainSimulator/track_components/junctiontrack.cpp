@@ -22,6 +22,10 @@ TrackGeometry* JunctionTrack::getTrackGeometry() {
     return &m_trackGeometry;
 }
 
+float JunctionTrack::getLength() {
+    return m_trackGeometry.getLength();
+}
+
 track_segment_type JunctionTrack::getType() {
     return JUNCTION_TRACK;
 }

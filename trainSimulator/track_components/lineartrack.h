@@ -16,6 +16,7 @@ public:
     // ITrackSegment Interface
     unsigned int getId() override;
     TrackGeometry* getTrackGeometry() override;
+    float getLength() override;
 
     track_segment_type getType() override;
     bool isJunction() override;
