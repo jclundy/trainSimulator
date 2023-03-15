@@ -155,3 +155,21 @@ void JunctionTrack::disconnectFront() {
 void JunctionTrack::disconnectRear() {
     m_rearJunction.removeAllBranches();
 }
+
+// branching
+bool JunctionTrack::selectForwardBranch(ITrackSegment* track) {
+    return m_forwardJunction.selectBranch(track);
+}
+
+bool JunctionTrack::selectForwardBranchById(unsigned int id) {
+    return m_forwardJunction.selectBranchById(id);
+}
+
+bool JunctionTrack::selectRearBranch(ITrackSegment* track) {
+    return m_rearJunction.selectBranch(track);
+}
+
+bool JunctionTrack::selectRearBranchById(unsigned int id) {
+    return m_rearJunction.selectBranchById(id);
+
+}

@@ -43,6 +43,13 @@ public:
     void disconnectFront();
     void disconnectRear();
 
+    // switch
+    bool selectForwardBranch(ITrackSegment* track);
+    bool selectForwardBranchById(unsigned int id);
+    bool selectRearBranch(ITrackSegment* track);
+    bool selectRearBranchById(unsigned int id);
+
+
 private:
     // private members
     unsigned int m_id;
