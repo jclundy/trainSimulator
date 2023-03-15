@@ -119,7 +119,7 @@ float TrainLocation::getPositionOnTrack() {
 QPointF TrainLocation::getPositionInWorld() {
     float R = m_positionOnTrack; // measured from track 'rear-end'
     TrackGeometry* trackPosition = m_track->getTrackGeometry();
-    float heading_rads = trackPosition->getHeading() * M_PI / 180.0;
+    float heading_rads = (180 - trackPosition->getHeading()) * M_PI / 180.0;
 
     float x = trackPosition->getRearEndPosition().x() + cos(heading_rads) * R;
     float y = trackPosition->getRearEndPosition().y() + sin(heading_rads) * R;
