@@ -30,6 +30,9 @@ virtual ITrackSegment* getSelectedRearEnd() = 0;
 virtual QList<ITrackSegment*> getForwardNeighbours() = 0;
 virtual QList<ITrackSegment*> getRearNeighbours() = 0;
 
+virtual void addFrontConnection(ITrackSegment* track) = 0;
+virtual void addRearConnection(ITrackSegment* track) = 0;
+
 virtual bool connectRearToTrack(ITrackSegment *track) = 0;
 virtual bool connectFrontToTrack(ITrackSegment *track) = 0;
 virtual void disconnectFromTrackSegment(ITrackSegment *track) = 0;
