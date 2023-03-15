@@ -37,6 +37,14 @@ bool JunctionTrack::isLinear() {
     return false;
 }
 
+bool JunctionTrack::isFrontTerminal()  {
+    return m_forwardJunction.getNumBranches() == 0;
+}
+
+bool JunctionTrack::isRearTerminal() {
+    return m_rearJunction.getNumBranches() == 0;
+}
+
 ITrackSegment* JunctionTrack::getSelectedForwardEnd() {
     return m_forwardJunction.getSelectedBranch();
 }
