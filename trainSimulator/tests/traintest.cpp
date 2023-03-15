@@ -14,6 +14,7 @@ void TrainTest::runTests() {
 
     testJunctionPath1DerailingForward();
     testJunctionPath1SuccessForward();
+    testJunctionPath1SuccessReverse();
 
     testCleanup();
 }
@@ -157,16 +158,17 @@ void TrainTest::testCreateJunctionTrack() {
 
 }
 
-void TrainTest::testDriving(int iterations, float dt) {
+void TrainTest::testDriving(float speed, int iterations, float dt) {
     qDebug() << "---------------------------";
     qDebug() << "Driving train";
     m_train->stop();
+
+    m_train->setDesiredSpeed(speed);
 
     qDebug() << "starting location";
     printTrainLocation(m_train);
     qDebug() << "---------------------------";
 
-    m_train->setDesiredSpeed(4);
     bool success = true;
     int i;
     for(i = 0; i < iterations && success; i++) {
@@ -201,13 +203,15 @@ void TrainTest::testCleanup() {
 void TrainTest::testJunctionPath1DerailingForward() {
     m_train->place(m_trackList.at(0));
     qDebug() << "==============================";
-    qDebug() << "first drive test with junction";
+    qDebug() << "first junction path 1 forward derailing";
     testDriving();
 }
 
 void TrainTest::testJunctionPath1SuccessForward() {
+    m_train->stop();
+
     qDebug() << "==============================";
-    qDebug() << "first drive test with junction";
+    qDebug() << "first junction path 1 forward";
 
     m_train->place(m_trackList.at(0));
     JunctionTrack* track7 = (JunctionTrack*) m_trackList.at(7);
@@ -216,3 +220,12 @@ void TrainTest::testJunctionPath1SuccessForward() {
 
     testDriving();
 }
+
+void TrainTest::testJunctionPath1SuccessReverse() {
+    m_train->stop();
+    m_train->place(m_trackList.at(8));
+    qDebug() << "==============================";
+    qDebug() << "test junction path 1 reversing";
+    testDriving(-4);
+}
+
