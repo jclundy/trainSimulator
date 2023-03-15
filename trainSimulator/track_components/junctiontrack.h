@@ -47,6 +47,8 @@ private:
     Junction m_forwardJunction;
     Junction m_rearJunction;
 
+    QPointF m_forwardPosition;
+    QPointF m_rearPosition;
 
     QPointF m_center;
     float m_length;

@@ -1,13 +1,18 @@
 #include "junctiontrack.h"
 
 JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position, unsigned int maxBranches):
-m_forwardJunction(this, maxBranches),
-m_rearJunction(this, maxBranches)
+    m_forwardJunction(this, maxBranches),
+    m_rearJunction(this, maxBranches)
 {
-    m_center = position;
     m_heading = 0;
     m_length = length;
     m_id = id;
+
+    m_forwardPosition.setX(position.x() + length/2);
+    m_forwardPosition.setY(position.y());
+
+    m_rearPosition.setX(position.x() - length/2);
+    m_rearPosition.setY(position.y());
 }
 
 JunctionTrack::~JunctionTrack() {
@@ -42,10 +47,10 @@ QList<ITrackSegment*> JunctionTrack::getRearNeighbours() {
    return m_rearJunction.getBranches();
 }
 QPointF JunctionTrack::getFrontEndPosition() {
-    return QPointF(0,0);
+    return m_forwardPosition;
 }
 QPointF JunctionTrack::getRearEndPosition() {
-    return QPointF(0,0);
+    return m_rearPosition;
 }
 bool JunctionTrack::connectRearToTrack(ITrackSegment *track) {
     return false;
