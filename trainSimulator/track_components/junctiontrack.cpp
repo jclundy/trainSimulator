@@ -54,6 +54,10 @@ bool JunctionTrack::connectFrontToTrack(ITrackSegment *track) {
     return false;
 }
 
+void JunctionTrack::disconnectFromTrackSegment(ITrackSegment *track) {
+
+}
+
 // connectors
 void JunctionTrack::disconnectFromNeighbours() {
 

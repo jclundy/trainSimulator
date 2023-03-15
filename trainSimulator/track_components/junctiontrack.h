@@ -24,6 +24,8 @@ public:
     QPointF getRearEndPosition() override;
     bool connectRearToTrack(ITrackSegment *track) override;
     bool connectFrontToTrack(ITrackSegment *track) override;
+    void disconnectFromTrackSegment(ITrackSegment *track) override;
+
 
     // connectors
     void disconnectFromNeighbours();
