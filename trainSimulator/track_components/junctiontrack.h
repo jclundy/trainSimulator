@@ -13,6 +13,10 @@ public:
     ~JunctionTrack();
 
     // ITrackSegment Interface
+
+    unsigned int getId() override;
+    TrackGeometry* getTrackGeometry() override;
+
     track_segment_type getType() override;
     bool isJunction() override;
     bool isLinear() override;
@@ -21,8 +25,6 @@ public:
     ITrackSegment* getSelectedRearEnd() override;
     QList<ITrackSegment*> getForwardNeighbours() override;
     QList<ITrackSegment*> getRearNeighbours() override;
-    QPointF getFrontEndPosition() override;
-    QPointF getRearEndPosition() override;
     bool connectRearToTrack(ITrackSegment *track) override;
     bool connectFrontToTrack(ITrackSegment *track) override;
     void disconnectFromTrackSegment(ITrackSegment *track) override;
@@ -36,23 +38,13 @@ public:
     bool connectTrackToFront(ITrackSegment *track);
     bool connectTrackToRear(ITrackSegment *track);
 
-    //getters
-    unsigned int getId();
-    QPointF getCenter();
-    float getHeading();
-
 private:
     // private members
     unsigned int m_id;
     Junction m_forwardJunction;
     Junction m_rearJunction;
 
-    QPointF m_forwardPosition;
-    QPointF m_rearPosition;
-
-    QPointF m_center;
-    float m_length;
-    float m_heading;
+    TrackGeometry m_trackGeometry;
 };
 
 #endif // JUNCTIONTRACK_H

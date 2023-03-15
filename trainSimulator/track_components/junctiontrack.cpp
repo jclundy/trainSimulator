@@ -20,6 +20,13 @@ JunctionTrack::~JunctionTrack() {
 }
 
 // ITrackSegment Interface
+unsigned int JunctionTrack::getId() {
+    return m_id;
+}
+
+TrackGeometry* JunctionTrack::getTrackGeometry() {
+    return &m_trackGeometry;
+}
 
 track_segment_type JunctionTrack::getType() {
     return JUNCTION_TRACK;
@@ -46,6 +53,7 @@ QList<ITrackSegment*> JunctionTrack::getForwardNeighbours() {
 QList<ITrackSegment*> JunctionTrack::getRearNeighbours() {
    return m_rearJunction.getBranches();
 }
+
 QPointF JunctionTrack::getFrontEndPosition() {
     return m_forwardPosition;
 }
@@ -85,18 +93,4 @@ bool JunctionTrack::connectTrackToFront(ITrackSegment *track) {
 
 bool JunctionTrack::connectTrackToRear(ITrackSegment *track) {
     return false;
-}
-
-
-//getters
-unsigned int JunctionTrack::getId() {
-    return m_id;
-}
-
-QPointF JunctionTrack::getCenter() {
-    return m_center;
-}
-
-float JunctionTrack::getHeading() {
-    return m_heading;
 }
