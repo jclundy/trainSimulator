@@ -11,7 +11,7 @@ m_rearJunction(this, maxBranches)
 }
 
 JunctionTrack::~JunctionTrack() {
-
+    disconnectFromNeighbours();
 }
 
 // ITrackSegment Interface
@@ -30,18 +30,16 @@ float JunctionTrack::getLength() {
     return m_length;
 }
 ITrackSegment* JunctionTrack::getSelectedForwardEnd() {
-    return NULL;
+    return m_forwardJunction.getSelectedBranch();
 }
 ITrackSegment* JunctionTrack::getSelectedRearEnd() {
-    return NULL;
+    return m_rearJunction.getSelectedBranch();
 }
 QList<ITrackSegment*> JunctionTrack::getForwardNeighbours() {
-    QList<ITrackSegment*> list;
-    return list;
+    return m_forwardJunction.getBranches();
 }
 QList<ITrackSegment*> JunctionTrack::getRearNeighbours() {
-    QList<ITrackSegment*> list;
-    return list;
+   return m_rearJunction.getBranches();
 }
 QPointF JunctionTrack::getFrontEndPosition() {
     return QPointF(0,0);
