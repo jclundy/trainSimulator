@@ -12,8 +12,8 @@ void TrainTest::runTests() {
     testCreateTrackSegment();
     testCreateJunctionTrack();
 
-    qDebug() << "first drive test with junction";
-    testDriving();
+    testJunctionDerailingForward();
+    testJunctionSuccessForward();
 
     testCleanup();
 }
@@ -157,13 +157,10 @@ void TrainTest::testCreateJunctionTrack() {
 
 }
 
-void TrainTest::testDriving() {
-    qDebug() << "=========== Test driving train ==============";
+void TrainTest::testDriving(int iterations, float dt) {
+    qDebug() << "---------------------------";
+    qDebug() << "Driving train";
     m_train->stop();
-    m_train->place(m_trackList.at(0));
-    qDebug() << "placed train on track0";
-
-    float dt = 0.5; // seconds
 
     qDebug() << "starting location";
     printTrainLocation(m_train);
@@ -172,7 +169,7 @@ void TrainTest::testDriving() {
     m_train->setDesiredSpeed(4);
     bool success = true;
     int i;
-    for(i = 0; i < 100 && success; i++) {
+    for(i = 0; i < iterations && success; i++) {
         success = m_train->drive(dt);
         if(i % 5 == 0) {
             qDebug() << "---------------------------";
@@ -199,4 +196,23 @@ void TrainTest::testCleanup() {
 
     delete m_train;
     qDebug() << "train deleted " << (m_train == NULL);
+}
+
+void TrainTest::testJunctionDerailingForward() {
+    m_train->place(m_trackList.at(0));
+    qDebug() << "==============================";
+    qDebug() << "first drive test with junction";
+    testDriving();
+}
+
+void TrainTest::testJunctionSuccessForward() {
+    qDebug() << "==============================";
+    qDebug() << "first drive test with junction";
+
+    m_train->place(m_trackList.at(0));
+    JunctionTrack* track7 = (JunctionTrack*) m_trackList.at(7);
+    bool success = track7->selectRearBranchById(4);
+    qDebug() << "Set track7 rear branch to 4; success=" << success;
+
+    testDriving();
 }

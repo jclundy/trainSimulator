@@ -16,8 +16,10 @@ public:
     void testCreateTrain();
     void testCreateTrackSegment();
     void testCreateJunctionTrack();
-    void testDriving();
+    void testDriving(int iterations = 100, float dt=0.5);
     void testCleanup();
+    void testJunctionDerailingForward();
+    void testJunctionSuccessForward();
 
     void runTests();
 
