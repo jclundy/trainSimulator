@@ -33,7 +33,8 @@ SOURCES += \
     physics/simplecontrolmodel.cpp \
     physics/simplecontrolmodelwithbraking.cpp \
     train/train.cpp \
-    train/trainlocation.cpp
+    train/trainlocation.cpp \
+    track_components/junction.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,4 +46,5 @@ HEADERS += \
     physics/simplecontrolmodelwithbraking.h \
     physics/traincontrolmodel.h \
     train/train.h \
-    train/trainlocation.h
+    train/trainlocation.h \
+    track_components/junction.h
