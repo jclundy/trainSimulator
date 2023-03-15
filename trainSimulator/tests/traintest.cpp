@@ -1,5 +1,5 @@
 #include "traintest.h"
-
+#include "track_components/junctiontrack.h"
 #include <QDebug>
 
 TrainTest::TrainTest()
@@ -73,6 +73,16 @@ void TrainTest::testCreateTrackSegment() {
     success = track2->connectRearToTrack(track1);
     qDebug() << "attached track2's rear to track0's front"  << success;
     printTrackInfo(track2);
+
+}
+
+void TrainTest::testCreateJunctionTrack() {
+    JunctionTrack* track3 = new JunctionTrack(3);
+
+    ITrackSegment* track2 = m_trackList.at(2);
+    bool success = track3->connectRearToTrack(track2);
+    qDebug() << "attached track2's front to track3's front"  << success;
+    printTrackInfo(track3);
 
 }
 

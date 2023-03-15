@@ -3,7 +3,7 @@
 
 #include <QList>
 #include <QPointF>
-#include "track_components/lineartrack.h"
+#include "track_components/itracksegment.h"
 #include "train/train.h"
 
 class TrainTest : QObject
@@ -15,16 +15,17 @@ public:
 
     void testCreateTrain();
     void testCreateTrackSegment();
+    void testCreateJunctionTrack();
     void testDriving();
     void testCleanup();
 
     void runTests();
 
-    QList<LinearTrack*> m_trackList;
+    QList<ITrackSegment*> m_trackList;
     Train* m_train;
 
     // util functions
-    void printTrackInfo(LinearTrack *track);
+    void printTrackInfo(ITrackSegment *track);
     void printPosition(QPointF point);
     void printTrainLocation(Train* train);
 };

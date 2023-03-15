@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <math.h>
 
-void TrainTest::printTrackInfo(LinearTrack *track) {
+void TrainTest::printTrackInfo(ITrackSegment *track) {
 
     qDebug() << "ID " << track->getId();
     qDebug() << "length " << track->getTrackGeometry()->getLength();
