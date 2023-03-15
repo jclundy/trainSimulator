@@ -59,15 +59,9 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
     // 2. check if the junction is connected both ways
     ITrackSegment * frontSegment = m_track->getSelectedForwardEnd();
 
-    qDebug() << "Front segment " << frontSegment;
-
-
-
     if(frontSegment->getSelectedRearEnd() == m_track) {
         m_track = frontSegment;
         m_positionOnTrack = 0;
-
-        qDebug() << "Front segment " << frontSegment;
 
         /*
          * Note - this results in recursion
