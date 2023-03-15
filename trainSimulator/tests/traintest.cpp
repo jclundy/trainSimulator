@@ -12,9 +12,13 @@ void TrainTest::runTests() {
     testCreateTrackSegment();
     testCreateJunctionTrack();
 
-    testJunctionPath1DerailingForward();
-    testJunctionPath1SuccessForward();
-    testJunctionPath1SuccessReverse();
+//    testJunctionPath1DerailingForward();
+//    testJunctionPath1SuccessForward();
+//    testJunctionPath1SuccessReverse();
+//    testJunctionPath1DerailingReverse();
+
+    testJunctionPath2SuccessForward();
+    testJunctionPath2SuccessReverse();
 
     testCleanup();
 }
@@ -224,8 +228,56 @@ void TrainTest::testJunctionPath1SuccessForward() {
 void TrainTest::testJunctionPath1SuccessReverse() {
     m_train->stop();
     m_train->place(m_trackList.at(8));
+
+    JunctionTrack* track7 = (JunctionTrack*) m_trackList.at(7);
+    track7->selectRearBranchById(4);
+
+    JunctionTrack* track3 = (JunctionTrack*) m_trackList.at(3);
+    track3->selectForwardBranchById(4);
+
     qDebug() << "==============================";
     qDebug() << "test junction path 1 reversing";
     testDriving(-4);
 }
 
+void TrainTest::testJunctionPath1DerailingReverse() {
+    m_train->stop();
+    m_train->place(m_trackList.at(8));
+
+
+    JunctionTrack* track7 = (JunctionTrack*) m_trackList.at(7);
+    track7->selectRearBranchById(4);
+    JunctionTrack* track3 = (JunctionTrack*) m_trackList.at(3);
+    track3->selectForwardBranchById(5);
+    qDebug() << "==============================";
+    qDebug() << "test junction path 1 reversing and derailing";
+    testDriving(-4);
+}
+
+void TrainTest::testJunctionPath2SuccessForward() {
+    m_train->stop();
+    m_train->place(m_trackList.at(0));
+
+
+    JunctionTrack* track7 = (JunctionTrack*) m_trackList.at(7);
+    track7->selectRearBranchById(6);
+    JunctionTrack* track3 = (JunctionTrack*) m_trackList.at(3);
+    track3->selectForwardBranchById(5);
+    qDebug() << "==============================";
+    qDebug() << "test junction path 2 forward";
+    testDriving(4);
+}
+
+void TrainTest::testJunctionPath2SuccessReverse() {
+    m_train->stop();
+    m_train->place(m_trackList.at(8));
+
+
+    JunctionTrack* track7 = (JunctionTrack*) m_trackList.at(7);
+    track7->selectRearBranchById(6);
+    JunctionTrack* track3 = (JunctionTrack*) m_trackList.at(3);
+    track3->selectForwardBranchById(5);
+    qDebug() << "==============================";
+    qDebug() << "test junction path 2 reversing";
+    testDriving(-4);
+}

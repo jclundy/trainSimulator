@@ -21,6 +21,10 @@ public:
     void testJunctionPath1DerailingForward();
     void testJunctionPath1SuccessForward();
     void testJunctionPath1SuccessReverse();
+    void testJunctionPath1DerailingReverse();
+
+    void testJunctionPath2SuccessForward();
+    void testJunctionPath2SuccessReverse();
 
     void runTests();
 
