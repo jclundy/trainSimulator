@@ -1,5 +1,5 @@
 #include "lineartrack.h"
-
+#include "junctiontrack.h"
 // library includes
 #include <math.h>
 
@@ -67,8 +67,7 @@ bool LinearTrack::connectRearToTrack(ITrackSegment *track) {
     if(track->isLinear()) {
         return connectRearToTrack((LinearTrack *) track);
     } else {
-        // TODO - implement this after implementing TrackJunction class
-        return false;
+        return ((JunctionTrack*) track)->connectFrontToTrack(this);
     }
 }
 
@@ -76,8 +75,7 @@ bool LinearTrack::connectFrontToTrack(ITrackSegment *track) {
     if(track->isLinear()) {
         return connectFrontToTrack((LinearTrack *) track);
     } else {
-        // TODO - implement this after implementing TrackJunction class
-        return false;
+        return ((JunctionTrack*) track)->connectRearToTrack(this);
     }
 }
 
