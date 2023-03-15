@@ -2,6 +2,8 @@
 #include "itracksegment.h"
 #include <math.h>
 
+#include <QDebug>
+
 TrainLocation::TrainLocation()
 {
     m_state = DERAILED_OFF_TRACK;
@@ -29,6 +31,8 @@ train_motion_result TrainLocation::increment(float delta) {
             result = SUCCESS;
         } else {
             float overshoot = newPosition - m_track->getLength();
+            qDebug() << "moving to forward track with overshoot " << overshoot;
+
             result = moveToForwardTrack(overshoot);
         }
     } else { // delta < 0
@@ -47,14 +51,23 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
     // 1. check if hit terminal
     if(m_track->isFrontTerminal()) {
 
+        qDebug() << "Hit terminal";
+
         m_positionOnTrack = m_track->getLength();
         return HIT_TERMINAL;
     }
     // 2. check if the junction is connected both ways
     ITrackSegment * frontSegment = m_track->getSelectedForwardEnd();
+
+    qDebug() << "Front segment " << frontSegment;
+
+
+
     if(frontSegment->getSelectedRearEnd() == m_track) {
         m_track = frontSegment;
         m_positionOnTrack = 0;
+
+        qDebug() << "Front segment " << frontSegment;
 
         /*
          * Note - this results in recursion
@@ -67,6 +80,9 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
         increment(delta);
         return SUCCESS;
     } else {
+        qDebug() << "Derailed at junction" << frontSegment;
+        qDebug() << "next track's selected rear: " << frontSegment->getSelectedRearEnd();
+
         return DERAILED_AT_JUNCTION;
     }
 }
