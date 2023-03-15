@@ -15,7 +15,7 @@ JunctionTrack::~JunctionTrack() {
 // ITrackSegment Interface
 
 track_segment_type JunctionTrack::getType() {
-    return JUCNTION_TRACK;
+    return JUNCTION_TRACK;
 }
 
 bool JunctionTrack::isJunction() {

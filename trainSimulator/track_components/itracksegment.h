@@ -5,7 +5,7 @@
 
 typedef enum {
     LINEAR_TRACK,
-    JUCNTION_TRACK
+    JUNCTION_TRACK
 } track_segment_type;
 
 class ITrackSegment
