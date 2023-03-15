@@ -74,8 +74,8 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
         increment(delta);
         return SUCCESS;
     } else {
-        qDebug() << "Derailed at junction" << frontSegment;
-        qDebug() << "next track's selected rear: " << frontSegment->getSelectedRearEnd();
+        qDebug() << "Derailed at junction" << frontSegment->getId();
+        qDebug() << "next track's selected rear: " << frontSegment->getSelectedRearEnd()->getId();
 
         return DERAILED_AT_JUNCTION;
     }
@@ -102,6 +102,8 @@ train_motion_result TrainLocation::moveToRearTrack(float delta) {
          */
         return increment(delta);
     } else {
+        qDebug() << "Derailed at junction" << rearSegment->getId();
+        qDebug() << "next track's selected rear: " << rearSegment->getSelectedRearEnd()->getId();
         return DERAILED_AT_JUNCTION;
     }
 }
