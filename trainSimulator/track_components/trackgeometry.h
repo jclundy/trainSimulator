@@ -15,6 +15,7 @@ public:
     float getLength();
     float getHeading();
     QPointF getCenter();
+    QLineF getLine();
 
     // modifiers
     void setCenter(const QPointF &newCenter);

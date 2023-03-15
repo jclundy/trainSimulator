@@ -21,6 +21,10 @@ QPointF TrackGeometry::getCenter() {
    return m_lineSegment.center();
 }
 
+QLineF TrackGeometry::getLine() {
+    return m_lineSegment;
+}
+
 float TrackGeometry::getHeading() {
     return m_lineSegment.angle();
 }
