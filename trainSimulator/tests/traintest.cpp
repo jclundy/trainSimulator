@@ -10,8 +10,10 @@ TrainTest::TrainTest()
 void TrainTest::runTests() {
     testCreateTrain();
     testCreateTrackSegment();
-//    testDriving();
     testCreateJunctionTrack();
+
+    qDebug() << "first drive test with junction";
+    testDriving();
 
     testCleanup();
 }
@@ -157,6 +159,7 @@ void TrainTest::testCreateJunctionTrack() {
 
 void TrainTest::testDriving() {
     qDebug() << "=========== Test driving train ==============";
+    m_train->stop();
     m_train->place(m_trackList.at(0));
     qDebug() << "placed train on track0";
 
@@ -166,10 +169,19 @@ void TrainTest::testDriving() {
     printTrainLocation(m_train);
     qDebug() << "---------------------------";
 
-    m_train->setDesiredSpeed(3);
+    m_train->setDesiredSpeed(4);
     bool success = true;
-    for(int i = 0; i < 40 && success; i++) {
+    int i;
+    for(i = 0; i < 100 && success; i++) {
         success = m_train->drive(dt);
+        if(i % 5 == 0) {
+            qDebug() << "---------------------------";
+            qDebug() << "iteration " << i;
+            printTrainLocation(m_train);
+            qDebug() << "train speed: " << m_train->m_speed;
+        }
+    }
+    if(!success) {
         qDebug() << "---------------------------";
         qDebug() << "iteration " << i;
         printTrainLocation(m_train);
