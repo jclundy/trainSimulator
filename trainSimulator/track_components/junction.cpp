@@ -31,22 +31,39 @@ int Junction::getSelectedBranchId() {
 
 // setters
 bool Junction::addBranch(ITrackSegment* track) {
-    if(m_branches.contains(track) == false) {
+    if(m_branches.size() < m_maxBranches && m_branches.contains(track) == false) {
         m_branches.push_back(track);
         recomputeSelectedBranch();
+        return true;
     }
+    return false;
 }
 
 bool Junction::selectBranchByIndex(int idx) {
-
+    if(idx < m_branches.size() && idx > 0) {
+        m_selectedBranch = idx;
+        return true;
+    }
+    return false;
 }
 
 bool Junction::selectBranch(ITrackSegment *track) {
-
+    int idx = m_branches.indexOf(track, 0);
+    if(idx > 0 && idx < m_branches.size()) {
+        m_selectedBranch = idx;
+        return true;
+    }
+    return false;
 }
 
 bool Junction::selectBranchById(unsigned int id) {
-
+    for(int i = 0; i < m_branches.size(); i++) {
+        if(m_branches.at(i)->getId() == id) {
+            m_selectedBranch = i;
+            return true;
+        }
+    }
+    return false;
 }
 
 void Junction::recomputeSelectedBranch() {
