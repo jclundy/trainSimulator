@@ -51,10 +51,58 @@ QList<ITrackSegment*> JunctionTrack::getRearNeighbours() {
 }
 
 bool JunctionTrack::connectRearToTrack(ITrackSegment *track) {
-    return false;
+    // do not allow a junction to be connected to a junction
+    if(track->isJunction() || !track->isFrontTerminal()) {
+        return false;
+    }
+    // also ensure track front is a terminal
+    if(track->isFrontTerminal() == false) {
+        return false;
+    }
+
+    bool initiallyUnconnected = m_rearJunction.getNumBranches() == 0;
+    bool success = m_rearJunction.addBranch(track);
+    if(success) {
+        // instead of updating junction's position, we update the track's front position
+        track->getTrackGeometry()->setForwardPosition(m_trackGeometry.getRearEndPosition());
+
+        if(initiallyUnconnected) {
+            // move rear of our junction to track's front
+            m_trackGeometry.setRearPosition(track->getTrackGeometry()->getFrontEndPosition());
+        } else {
+            // if our junction already has a connection,
+            // update the track's front end position
+            track->getTrackGeometry()->setForwardPosition(m_trackGeometry.getRearEndPosition());
+
+        }
+    }
+    return success;
 }
+
 bool JunctionTrack::connectFrontToTrack(ITrackSegment *track) {
-    return false;
+    // do not allow a junction to be connected to a junction
+    if(track->isJunction() || !track->isRearTerminal()) {
+        return false;
+    }
+    // also ensure track rear is a terminal
+    if(track->isRearTerminal() == false) {
+        return false;
+    }
+
+    bool initiallyUnconnected = m_forwardJunction.getNumBranches() == 0;
+
+    bool success = m_forwardJunction.addBranch(track);
+    if(success) {
+        if(initiallyUnconnected) {
+            // move front of our junction to track's rear
+            m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
+        } else {
+            // if our junction already has a connection,
+            // update the track's rear end position
+            track->getTrackGeometry()->setRearPosition(m_trackGeometry.getFrontEndPosition());
+        }
+    }
+    return success;
 }
 
 void JunctionTrack::disconnectFromTrackSegment(ITrackSegment *track) {

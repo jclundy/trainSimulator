@@ -31,6 +31,10 @@ int Junction::getSelectedBranchId() {
     }
 }
 
+int Junction::getNumBranches() {
+    return m_branches.size();
+}
+
 // setters
 bool Junction::addBranch(ITrackSegment* track) {
     if(m_branches.size() < (int) m_maxBranches && m_branches.contains(track) == false) {

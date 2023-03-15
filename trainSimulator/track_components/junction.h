@@ -14,6 +14,7 @@ public:
     int getSelectedBranchIdx();
     ITrackSegment* getSelectedBranch();
     int getSelectedBranchId();
+    int getNumBranches();
 
     // setters
     bool addBranch(ITrackSegment* track);
