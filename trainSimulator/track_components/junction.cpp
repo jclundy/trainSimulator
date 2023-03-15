@@ -1,6 +1,6 @@
 #include "junction.h"
 
-Junction::Junction()
+Junction::Junction(unsigned int maxBranches)
 {
 
 }
