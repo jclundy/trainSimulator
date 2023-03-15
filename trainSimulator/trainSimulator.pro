@@ -26,7 +26,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    trackend.cpp \
     train.cpp \
     trainlocation.cpp \
     simplecontrolmodel.cpp \
@@ -37,7 +36,6 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    trackend.h \
     train.h \
     trainlocation.h \
     traincontrolmodel.h \
