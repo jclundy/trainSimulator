@@ -1,6 +1,8 @@
 #include "junctiontrack.h"
 
-JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position, unsigned int maxBranches)
+JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position, unsigned int maxBranches):
+m_forwardJunction(this, maxBranches),
+m_rearJunction(this, maxBranches)
 {
     m_center = position;
     m_heading = 0;
@@ -55,9 +57,8 @@ bool JunctionTrack::connectFrontToTrack(ITrackSegment *track) {
 }
 
 void JunctionTrack::disconnectFromTrackSegment(ITrackSegment *track) {
-    if(m_forwardConnections.contains(track)) {
-        m_forwardConnections.removeOne(track);
-    }
+    m_forwardJunction.removeBranch(track);
+    m_rearJunction.removeBranch(track);
 }
 
 // connectors
@@ -67,19 +68,11 @@ void JunctionTrack::disconnectFromNeighbours() {
 }
 
 void JunctionTrack::disconnectFront() {
-    for(int i = m_forwardConnections.size() - 1; i >= 0; i--) {
-        ITrackSegment* neighbour = m_forwardConnections.at(i);
-        neighbour->disconnectFromTrackSegment(this);
-        m_forwardConnections.removeLast();
-    }
+    m_forwardJunction.removeAllBranches();
 }
 
 void JunctionTrack::disconnectRear() {
-    for(int i = m_rearConnections.size() - 1; i >= 0; i--) {
-        ITrackSegment* neighbour = m_rearConnections.at(i);
-        neighbour->disconnectFromTrackSegment(this);
-        m_rearConnections.removeLast();
-    }
+    m_rearJunction.removeAllBranches();
 }
 
 
@@ -103,19 +96,4 @@ QPointF JunctionTrack::getCenter() {
 
 float JunctionTrack::getHeading() {
     return m_heading;
-}
-
-// Private methods
-void JunctionTrack::validateSelectedForwardIndex() {
-    int numConnections = m_forwardConnections.size();
-    if(m_selectedForwardIndex >= numConnections) {
-        m_selectedForwardIndex = numConnections - 1;
-    }
-}
-
-void JunctionTrack::validateSelectedRearIndex() {
-    int numConnections = m_rearConnections.size();
-    if(m_selectedForwardIndex >= numConnections) {
-        m_selectedForwardIndex = numConnections - 1;
-    }
 }
