@@ -5,15 +5,15 @@
 void TrainTest::printTrackInfo(LinearTrack *track) {
 
     qDebug() << "ID " << track->getId();
-    qDebug() << "length " << track->getLength();
-    qDebug() << "center " << track->getCenter();
-    qDebug() << "heading " << track->getHeading();
+    qDebug() << "length " << track->getTrackGeometry()->getLength();
+    qDebug() << "center " << track->getTrackGeometry()->getCenter();
+    qDebug() << "heading " << track->getTrackGeometry()->getHeading();
 
     qDebug() << "Front TrackEnd:";
-    printPosition(track->getFrontEndPosition());
+    printPosition(track->getTrackGeometry()->getFrontEndPosition());
 
     qDebug() << "Rear TrackEnd:";
-    printPosition(track->getRearEndPosition());
+    printPosition(track->getTrackGeometry()->getRearEndPosition());
 }
 
 void TrainTest::printPosition(QPointF point) {
