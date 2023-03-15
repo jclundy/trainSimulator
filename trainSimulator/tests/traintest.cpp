@@ -120,7 +120,7 @@ void TrainTest::testCreateJunctionTrack() {
     printTrackInfo(track5);
     result = track6->connectRearToTrack(track5);
     qDebug() << "attached track6 rear to track5's front" <<  result;
-    track5->getTrackGeometry()->setRotationAboutRear(200);
+    track6->getTrackGeometry()->setRotationAboutRear(200);
     printTrackInfo(track6);
 
     // attach junction [7] to 6
