@@ -71,7 +71,7 @@ bool JunctionTrack::connectRearToTrack(ITrackSegment *track) {
     bool success = m_rearJunction.addBranch(track);
     if(success) {
         track->addFrontConnection(this);
-        updateFrontPosition(track);
+        updateRearPosition(track);
     }
     return success;
 }
@@ -89,7 +89,7 @@ bool JunctionTrack::connectFrontToTrack(ITrackSegment *track) {
     bool success = m_forwardJunction.addBranch(track);
     if(success) {
         track->addRearConnection(this);
-        updateRearPosition(track);
+        updateFrontPosition(track);
     }
     return success;
 }

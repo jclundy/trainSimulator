@@ -35,7 +35,7 @@ bool LinearTrack::isJunction() {
 }
 
 bool LinearTrack::isLinear() {
-    return false;
+    return true;
 }
 
 bool LinearTrack::isFrontTerminal() {
@@ -150,7 +150,7 @@ bool LinearTrack::connectFrontToTrack(JunctionTrack *track) {
     if(isFrontTerminal() == false) {
         return false;
     }
-    bool success = track->connectFrontToTrack(this);
+    bool success = track->connectRearToTrack(this);
     if(success) {
         updateFrontPosition(track);
     }
