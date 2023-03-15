@@ -13,7 +13,7 @@ public:
     QList<ITrackSegment*> getBranches();
     int getSelectedBranchIdx();
     ITrackSegment* getSelectedBranch();
-    unsigned int getSelectedBranchId();
+    int getSelectedBranchId();
 
     // setters
     bool addBranch(ITrackSegment* track);
