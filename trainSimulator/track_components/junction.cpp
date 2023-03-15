@@ -1,7 +1,8 @@
 #include "junction.h"
 
-Junction::Junction(unsigned int maxBranches)
+Junction::Junction(ITrackSegment* parent, unsigned int maxBranches)
 {
+    m_parent = parent;
     m_maxBranches = maxBranches;
     m_selectedBranch = -1;
 }
@@ -64,6 +65,22 @@ bool Junction::selectBranchById(unsigned int id) {
         }
     }
     return false;
+}
+
+void Junction::removeBranch(ITrackSegment* track) {
+    int idx = m_branches.indexOf(track, 0);
+    if(idx > 0 && idx < m_branches.size()) {
+        track->disconnectFromTrackSegment(m_parent);
+        m_branches.removeAt(idx);
+    }
+}
+
+void Junction::removeAllBranches() {
+    for(int i = m_branches.size() - 1; i >= 0; i--) {
+        ITrackSegment* neighbour = m_branches.at(i);
+        neighbour->disconnectFromTrackSegment(m_parent);
+        m_branches.removeLast();
+    }
 }
 
 void Junction::recomputeSelectedBranch() {

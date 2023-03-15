@@ -7,7 +7,7 @@
 class Junction
 {
 public:
-    Junction(unsigned int maxBranches = 2);
+    Junction(ITrackSegment* parent, unsigned int maxBranches = 2);
 
     // getters
     QList<ITrackSegment*> getBranches();
@@ -20,11 +20,15 @@ public:
     bool selectBranchByIndex(int idx);
     bool selectBranch(ITrackSegment *track);
     bool selectBranchById(unsigned int id);
+    void removeBranch(ITrackSegment* track);
+    void removeAllBranches();
+
 
 private:
     unsigned int m_maxBranches;
     QList<ITrackSegment*> m_branches;
     int m_selectedBranch;
+    ITrackSegment* m_parent;
 
     // private methods
     void recomputeSelectedBranch();
