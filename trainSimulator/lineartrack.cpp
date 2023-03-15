@@ -6,6 +6,8 @@
 LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
 {
     m_id = id;
+    m_rearTrack = NULL;
+    m_forwardTrack = NULL;
 
     m_forwardPosition.setX(position.x() + length/2);
     m_forwardPosition.setY(position.y());
@@ -15,7 +17,7 @@ LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
 }
 
 LinearTrack::~LinearTrack() {
-    disconnectFromNeighbours();
+    disconnectBothEnds();
 }
 
 track_segment_type LinearTrack::getType() {
@@ -44,14 +46,18 @@ ITrackSegment* LinearTrack::getSelectedRearEnd() {
 }
 
 QList<ITrackSegment*> LinearTrack::getForwardNeighbours() {
-    // TODO - implement this after simplifying TrackEnd class
     QList<ITrackSegment*> list;
+    if(m_forwardTrack != NULL) {
+        list.append(m_forwardTrack);
+    }
     return list;
 }
 
 QList<ITrackSegment*> LinearTrack::getRearNeighbours() {
-    // TODO - implement this after simplifying TrackEnd class
     QList<ITrackSegment*> list;
+    if(m_rearTrack != NULL) {
+        list.append(m_rearTrack);
+    }
     return list;
 }
 
@@ -81,13 +87,28 @@ bool LinearTrack::connectFrontToTrack(ITrackSegment *track) {
     }
 }
 
-void LinearTrack::disconnectFromNeighbours() {
-//    m_forwardEnd.disconnectAll();
-//    m_rearEnd.disconnectAll();
+void LinearTrack::disconnectFromTrackSegment(ITrackSegment *track) {
+    if(track == m_forwardTrack) {
+        m_forwardTrack = NULL;
+    }
+    if(track == m_rearTrack) {
+        m_rearTrack = NULL;
+    }
+}
 
-    // m_forwardEnd.oneWayDisconnect(this);
-    // m_rearEnd.oneWayDisconnect(this);
-    // m_forward
+void LinearTrack::disconnectBothEnds() {
+    disconnectFront();
+    disconnectRear();
+}
+
+void LinearTrack::disconnectFront() {
+    m_forwardTrack->disconnectFromTrackSegment(this);
+    m_forwardTrack = NULL;
+}
+
+void LinearTrack::disconnectRear() {
+    m_rearTrack->disconnectFromTrackSegment(this);
+    m_rearTrack = NULL;
 }
 
 bool LinearTrack::connectRearToTrack(LinearTrack *track) {
@@ -97,7 +118,7 @@ bool LinearTrack::connectRearToTrack(LinearTrack *track) {
     }
 
     m_rearTrack = track;
-    track->m_forwardTrack = track;
+    track->m_forwardTrack = this;
     // if front end is not fixed
     if(isFrontTerminal()) {
         QPointF delta = track->getFrontEndPosition() - m_rearPosition;
@@ -117,8 +138,7 @@ bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
     }
 
     m_forwardTrack = track;
-    track->m_rearTrack = track;
-
+    track->m_rearTrack = this;
 
     // if rear end is not fixed
     if(isRearTerminal()) {

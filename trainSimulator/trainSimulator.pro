@@ -33,15 +33,6 @@ SOURCES += \
     tests/traintest.cpp \
     tests/testutils.cpp \
     lineartrack.cpp \
-    tests/testutils.cpp \
-    tests/traintest.cpp \
-    lineartrack.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    simplecontrolmodel.cpp \
-    simplecontrolmodelwithbraking.cpp \
-    train.cpp \
-    trainlocation.cpp \
     track_components/junctiontrack.cpp
 
 HEADERS += \
@@ -54,13 +45,4 @@ HEADERS += \
     tests/traintest.h \
     itracksegment.h \
     lineartrack.h \
-    tests/traintest.h \
-    itracksegment.h \
-    lineartrack.h \
-    mainwindow.h \
-    simplecontrolmodel.h \
-    simplecontrolmodelwithbraking.h \
-    train.h \
-    traincontrolmodel.h \
-    trainlocation.h \
     track_components/junctiontrack.h
