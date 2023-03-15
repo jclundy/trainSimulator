@@ -34,9 +34,13 @@ public:
 
     bool connectRearToTrack(ITrackSegment *track) override;
     bool connectFrontToTrack(ITrackSegment *track) override;
+    void disconnectFromTrackSegment(ITrackSegment *track) override;
 
     // connectors
-    void disconnectFromNeighbours();
+    void disconnectBothEnds();
+    void disconnectFront();
+    void disconnectRear();
+
     bool connectRearToTrack(LinearTrack *track);
     bool connectFrontToTrack(LinearTrack *track);
 

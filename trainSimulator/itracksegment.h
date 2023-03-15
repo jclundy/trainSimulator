@@ -35,6 +35,7 @@ virtual QPointF getCenter() = 0;
 
 virtual bool connectRearToTrack(ITrackSegment *track) = 0;
 virtual bool connectFrontToTrack(ITrackSegment *track) = 0;
+virtual void disconnectFromTrackSegment(ITrackSegment *track) = 0;
 
 };
 
