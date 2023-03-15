@@ -9,11 +9,15 @@ LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
     m_rearTrack = NULL;
     m_forwardTrack = NULL;
 
-    m_forwardPosition.setX(position.x() + length/2);
-    m_forwardPosition.setY(position.y());
+    // front position
+    float x1 = position.x() + length/2;
+    float y1 = position.y();
 
-    m_rearPosition.setX(position.x() - length/2);
-    m_rearPosition.setY(position.y());
+    // rear position
+    float x2 = position.x() - length/2;
+    float y2 = position.y();
+
+    m_lineSegment.setLine(x1, y1, x2, y2);
 }
 
 LinearTrack::~LinearTrack() {
@@ -33,8 +37,7 @@ bool LinearTrack::isLinear() {
 }
 
 float LinearTrack::getLength() {
-    QPointF diff = m_forwardPosition - m_rearPosition;
-    return sqrt(pow(diff.x(),2) + pow(diff.y(),2));
+    return m_lineSegment.length();
 }
 
 ITrackSegment* LinearTrack::getSelectedForwardEnd() {
@@ -62,11 +65,11 @@ QList<ITrackSegment*> LinearTrack::getRearNeighbours() {
 }
 
 QPointF LinearTrack::getFrontEndPosition() {
-    return m_forwardPosition;
+    return m_lineSegment.p1();
 }
 
 QPointF LinearTrack::getRearEndPosition() {
-    return m_rearPosition;
+    return m_lineSegment.p2();
 }
 
 bool LinearTrack::connectRearToTrack(ITrackSegment *track) {
@@ -121,11 +124,11 @@ bool LinearTrack::connectRearToTrack(LinearTrack *track) {
     track->m_forwardTrack = this;
     // if front end is not fixed
     if(isFrontTerminal()) {
-        QPointF delta = track->getFrontEndPosition() - m_rearPosition;
+        QPointF delta = track->getFrontEndPosition() - m_lineSegment.p2();
         translate(delta);
     } else {
         // leave front end in place, modify track length
-        m_rearPosition = track->getFrontEndPosition();
+        setRearPosition(track->getFrontEndPosition());
     }
     return true;
 }
@@ -142,11 +145,11 @@ bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
 
     // if rear end is not fixed
     if(isRearTerminal()) {
-        QPointF delta = track->getRearEndPosition() - m_forwardPosition;
+        QPointF delta = track->getRearEndPosition() - getFrontEndPosition();
         translate(delta);
     } else {
         // leave front end in place, modify track length
-        m_forwardPosition = track->getRearEndPosition();
+        setForwardPosition(track->getRearEndPosition());
     }
     return true;
 }
@@ -156,12 +159,11 @@ unsigned int LinearTrack::getId() {
 }
 
 QPointF LinearTrack::getCenter() {
-   return (m_forwardPosition + m_rearPosition) / 2.0;
+   return m_lineSegment.center();
 }
 
 float LinearTrack::getHeading() {
-    QPointF diff = m_forwardPosition - m_rearPosition;
-    return atan2(diff.y(), diff.x()) * 180.0 / M_PI;
+    return m_lineSegment.angle();
 }
 
 bool LinearTrack::isFrontTerminal() {
@@ -173,44 +175,39 @@ bool LinearTrack::isRearTerminal() {
 }
 
 void LinearTrack::setCenter(const QPointF &newCenter) {
-    QPointF offset = newCenter - getCenter();
-    translate(offset);
+    QPointF offset = newCenter - m_lineSegment.center();
+    m_lineSegment.translate(offset);
 }
 
 void LinearTrack::translate(const QPointF &offset) {
-    m_forwardPosition += offset;
-    m_rearPosition += offset;
+    m_lineSegment.translate(offset);
 }
 
 void LinearTrack::setRotationAboutCenter(float degrees) {
-    QPointF center = getCenter();
-    float R = getLength() / 2;
-    float rads = degrees*M_PI / 180.0;
-    float x_offset = R * cos(rads);
-    float y_offset = R * sin(rads);
-
-    QPointF offset(x_offset, y_offset);
-
-    m_forwardPosition = center + offset;
-    m_rearPosition = center - offset;
+    m_lineSegment.setAngle(degrees);
 }
 
 void LinearTrack::setRotationAboutFront(float degrees) {
-    float R = getLength();
-    float rads = degrees*M_PI / 180.0;
-    float x_offset = R * cos(rads);
-    float y_offset = R * sin(rads);
 
-    QPointF offset(x_offset, y_offset);
-    m_rearPosition = m_forwardPosition + offset;
+    QPointF oldFront = m_lineSegment.p1();
+    m_lineSegment.setAngle(degrees);
+    QPointF newFront = m_lineSegment.p1();
+    QPointF delta = oldFront - newFront;
+    m_lineSegment.translate(delta);
 }
 
 void LinearTrack::setRotationAboutRear(float degrees) {
-    float R = getLength();
-    float rads = degrees*M_PI / 180.0;
-    float x_offset = R * cos(rads);
-    float y_offset = R * sin(rads);
+    QPointF oldRear = m_lineSegment.p2();
+    m_lineSegment.setAngle(degrees);
+    QPointF newRear = m_lineSegment.p2();
+    QPointF delta = oldRear - newRear;
+    m_lineSegment.translate(delta);
+}
 
-    QPointF offset(x_offset, y_offset);
-    m_forwardPosition = m_rearPosition + offset;
+void LinearTrack::setForwardPosition(QPointF position) {
+    m_lineSegment.setP1(position);
+}
+
+void LinearTrack::setRearPosition(QPointF position) {
+    m_lineSegment.setP2(position);
 }

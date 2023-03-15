@@ -2,6 +2,7 @@
 #define TRACKSEGMENT_H
 
 #include "itracksegment.h"
+#include <QLineF>
 
 class TrainTest;
 
@@ -53,14 +54,17 @@ public:
     void setRotationAboutCenter(float degrees);
     void setRotationAboutFront(float degrees);
     void setRotationAboutRear(float degrees);
+    void setForwardPosition(QPointF position);
+    void setRearPosition(QPointF position);
+
+
+    // public members
+    QLineF m_lineSegment;
 
 private:
     unsigned int m_id;
     ITrackSegment* m_forwardTrack;
     ITrackSegment* m_rearTrack;
-
-    QPointF m_forwardPosition;
-    QPointF m_rearPosition;
 };
 
 #endif // TRACKSEGMENT_H
