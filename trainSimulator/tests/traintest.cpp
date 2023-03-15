@@ -115,26 +115,43 @@ void TrainTest::testCreateJunctionTrack() {
     qDebug() << "attached track4 rear to junction3's front" <<  result;
     printTrackInfo(track4);
     result = track5->connectRearToTrack(track3);
+
+    qDebug() << "---------------------------";
     qDebug() << "attached track5 rear to junction3's front" <<  result;
     track5->getTrackGeometry()->setRotationAboutRear(160);
     printTrackInfo(track5);
     result = track6->connectRearToTrack(track5);
+
+    qDebug() << "---------------------------";
     qDebug() << "attached track6 rear to track5's front" <<  result;
     track6->getTrackGeometry()->setRotationAboutRear(200);
     printTrackInfo(track6);
 
     // attach junction [7] to 6
     result = track7->connectRearToTrack(track6);
+
+    qDebug() << "---------------------------";
     qDebug() << "attached track6 front to junction 7's rear" <<  result;
     printTrackInfo(track7);
     // attach 4 to junction [7]
     result = track4->connectFrontToTrack(track7);
+
+    qDebug() << "---------------------------";
     qDebug() << "attached track4 front to junction 7's rear" <<  result;
     printTrackInfo(track4);
 
     result = track8->connectRearToTrack(track7);
+
+    qDebug() << "---------------------------";
     qDebug() << "attached track8 rear to junction 7's front" <<  result;
     printTrackInfo(track8);
+
+    qDebug() << "---------------------------";
+    qDebug() << "junction 3 selected rear track id " << track3->getSelectedRearEnd()->getId();
+    qDebug() << "junction 3 selected forward track id " << track3->getSelectedForwardEnd()->getId();
+
+    qDebug() << "junction 7 selected rear track id " << track7->getSelectedRearEnd()->getId();
+    qDebug() << "junction 7 selected forward track id " << track7->getSelectedForwardEnd()->getId();
 
 }
 
