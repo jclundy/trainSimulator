@@ -123,12 +123,3 @@ void JunctionTrack::disconnectFront() {
 void JunctionTrack::disconnectRear() {
     m_rearJunction.removeAllBranches();
 }
-
-
-bool JunctionTrack::connectTrackToFront(ITrackSegment *track) {
-    return false;
-}
-
-bool JunctionTrack::connectTrackToRear(ITrackSegment *track) {
-    return false;
-}

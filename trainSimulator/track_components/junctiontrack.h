@@ -35,9 +35,6 @@ public:
     void disconnectFront();
     void disconnectRear();
 
-    bool connectTrackToFront(ITrackSegment *track);
-    bool connectTrackToRear(ITrackSegment *track);
-
 private:
     // private members
     unsigned int m_id;
