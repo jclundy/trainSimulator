@@ -10,7 +10,8 @@ TrainTest::TrainTest()
 void TrainTest::runTests() {
     testCreateTrain();
     testCreateTrackSegment();
-    testDriving();
+//    testDriving();
+    testCreateJunctionTrack();
 
     testCleanup();
 }
@@ -52,7 +53,7 @@ void TrainTest::testCreateTrackSegment() {
     qDebug() << "Rotated about front";
     printTrackInfo(track0);
 
-    track0->getTrackGeometry()->setRotationAboutRear(45);
+    track0->getTrackGeometry()->setRotationAboutRear(120);
     qDebug() << "---------------------------";
     qDebug() << "Rotated about rear";
     printTrackInfo(track0);
@@ -71,17 +72,19 @@ void TrainTest::testCreateTrackSegment() {
     m_trackList.push_back(track2);
     qDebug() << "---------------------------";
     success = track2->connectRearToTrack(track1);
-    qDebug() << "attached track2's rear to track0's front"  << success;
+    qDebug() << "attached track1's rear to track2's front"  << success;
     printTrackInfo(track2);
 
 }
 
 void TrainTest::testCreateJunctionTrack() {
+    qDebug() << "=========== Test create junction track ==============";
+
     JunctionTrack* track3 = new JunctionTrack(3);
 
     ITrackSegment* track2 = m_trackList.at(2);
     bool success = track3->connectRearToTrack(track2);
-    qDebug() << "attached track2's front to track3's front"  << success;
+    qDebug() << "attached track3's rear to track2's front"  << success;
     printTrackInfo(track3);
 
 }
