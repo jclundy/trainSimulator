@@ -28,21 +28,21 @@ SOURCES += \
         mainwindow.cpp \
     train.cpp \
     trainlocation.cpp \
-    simplecontrolmodel.cpp \
-    simplecontrolmodelwithbraking.cpp \
     tests/traintest.cpp \
     tests/testutils.cpp \
     track_components/junctiontrack.cpp \
-    track_components/lineartrack.cpp
+    track_components/lineartrack.cpp \
+    physics/simplecontrolmodel.cpp \
+    physics/simplecontrolmodelwithbraking.cpp
 
 HEADERS += \
         mainwindow.h \
     train.h \
     trainlocation.h \
-    traincontrolmodel.h \
-    simplecontrolmodel.h \
-    simplecontrolmodelwithbraking.h \
     tests/traintest.h \
     track_components/junctiontrack.h \
     track_components/itracksegment.h \
-    track_components/lineartrack.h
+    track_components/lineartrack.h \
+    physics/simplecontrolmodel.h \
+    physics/simplecontrolmodelwithbraking.h \
+    physics/traincontrolmodel.h
