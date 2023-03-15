@@ -3,8 +3,8 @@
 
 #include <QList>
 #include <QPointF>
-#include "lineartrack.h"
-#include "train.h"
+#include "track_components/lineartrack.h"
+#include "train/train.h"
 
 class TrainTest : QObject
 {

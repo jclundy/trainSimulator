@@ -1,9 +1,9 @@
 #ifndef TRAIN_H
 #define TRAIN_H
 
-#include "lineartrack.h"
+#include "track_components/lineartrack.h"
 #include "trainlocation.h"
-#include "traincontrolmodel.h"
+#include "physics/traincontrolmodel.h"
 
 class TrainTest;
 

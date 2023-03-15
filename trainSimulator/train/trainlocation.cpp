@@ -1,5 +1,5 @@
 #include "trainlocation.h"
-#include "itracksegment.h"
+#include "track_components/itracksegment.h"
 #include <math.h>
 
 #include <QDebug>

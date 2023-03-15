@@ -1,5 +1,5 @@
 #include "train.h"
-#include "simplecontrolmodel.h"
+#include "physics/simplecontrolmodel.h"
 #include <QDebug>
 
 Train::Train(float length)
