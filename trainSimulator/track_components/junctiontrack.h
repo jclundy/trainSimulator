@@ -8,7 +8,7 @@ class JunctionTrack : public ITrackSegment
 friend class TrainTest;
 
 public:
-    JunctionTrack(unsigned int id, float length = 20, const QPointF &position = QPointF(0,0));
+    JunctionTrack(unsigned int id, float length = 20, const QPointF &position = QPointF(0,0), unsigned int maxBranches = 2);
     ~JunctionTrack();
 
     // ITrackSegment Interface

@@ -1,6 +1,6 @@
 #include "junctiontrack.h"
 
-JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position)
+JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position, unsigned int maxBranches)
 {
     m_center = position;
     m_heading = 0;

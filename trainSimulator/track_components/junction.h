@@ -7,7 +7,7 @@
 class Junction
 {
 public:
-    Junction(ITrackSegment* parent, unsigned int maxBranches = 2);
+    Junction(ITrackSegment* parent, unsigned int maxBranches);
 
     // getters
     QList<ITrackSegment*> getBranches();
