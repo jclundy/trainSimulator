@@ -34,6 +34,9 @@ virtual bool connectRearToTrack(ITrackSegment *track) = 0;
 virtual bool connectFrontToTrack(ITrackSegment *track) = 0;
 virtual void disconnectFromTrackSegment(ITrackSegment *track) = 0;
 
+virtual void updateRearPosition(ITrackSegment* track) = 0;
+virtual void updateFrontPosition(ITrackSegment* track) = 0;
+
 };
 
 #endif // ITRACKSEGMENT_H

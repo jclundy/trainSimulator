@@ -72,22 +72,15 @@ bool JunctionTrack::connectRearToTrack(ITrackSegment *track) {
     bool success = m_rearJunction.addBranch(track);
     if(success) {
 
-        if(rearWasInitiallyTerminal) {
-
-            if(isFrontTerminal()) {
-                // if both junctions were terminals, move both junctions
-                QPointF delta = track->getTrackGeometry()->getFrontEndPosition() - m_trackGeometry.getRearEndPosition();
-                m_trackGeometry.translate(delta);
-            } else {
-                // move rear junction to track's front, leave front junction in place
-                m_trackGeometry.setRearPosition(track->getTrackGeometry()->getFrontEndPosition());
-            }
+        if(rearWasInitiallyTerminal && isFrontTerminal()) {
+            // if both junctions were terminals, move both junctions
+            QPointF delta = track->getTrackGeometry()->getFrontEndPosition() - m_trackGeometry.getRearEndPosition();
+            m_trackGeometry.translate(delta);
 
         } else {
             // if our junction already has a connection,
             // update the track's front end position
-            track->getTrackGeometry()->setForwardPosition(m_trackGeometry.getRearEndPosition());
-
+            track->updateFrontPosition(this);
         }
     }
     return success;
@@ -107,20 +100,15 @@ bool JunctionTrack::connectFrontToTrack(ITrackSegment *track) {
 
     bool success = m_forwardJunction.addBranch(track);
     if(success) {
-        if(frontWasInitiallyTerminal) {
+        if(frontWasInitiallyTerminal && isRearTerminal()) {
 
-            if(isRearTerminal()) {
-                QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry.getFrontEndPosition();
-                m_trackGeometry.translate(delta);
-            } else {
-                // move front junction to track's rear, leave rear junction in place
-                m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
-            }
+            QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry.getFrontEndPosition();
+            m_trackGeometry.translate(delta);
 
         } else {
             // if our junction already has a connection,
             // update the track's rear end position
-            track->getTrackGeometry()->setRearPosition(m_trackGeometry.getFrontEndPosition());
+            track->updateRearPosition(this);
         }
     }
     return success;
@@ -129,6 +117,26 @@ bool JunctionTrack::connectFrontToTrack(ITrackSegment *track) {
 void JunctionTrack::disconnectFromTrackSegment(ITrackSegment *track) {
     m_forwardJunction.removeBranch(track);
     m_rearJunction.removeBranch(track);
+}
+
+void JunctionTrack::updateRearPosition(ITrackSegment* track) {
+    if(isFrontTerminal()) {
+        QPointF delta = track->getTrackGeometry()->getFrontEndPosition() - m_trackGeometry.getRearEndPosition();
+        m_trackGeometry.translate(delta);
+
+    } else {
+        m_trackGeometry.setRearPosition(track->getTrackGeometry()->getFrontEndPosition());
+    }
+}
+
+void JunctionTrack::updateFrontPosition(ITrackSegment* track) {
+    if(isRearTerminal()) {
+        QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry.getFrontEndPosition();
+        m_trackGeometry.translate(delta);
+
+    } else {
+        m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
+    }
 }
 
 // connectors

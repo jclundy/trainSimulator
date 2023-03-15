@@ -35,6 +35,9 @@ public:
     bool connectFrontToTrack(ITrackSegment *track) override;
     void disconnectFromTrackSegment(ITrackSegment *track) override;
 
+    void updateRearPosition(ITrackSegment* track) override;
+    void updateFrontPosition(ITrackSegment* track) override;
+
     // connectors
     void disconnectBothEnds();
     void disconnectFront();
@@ -50,9 +53,6 @@ private:
     ITrackSegment* m_forwardTrack;
     ITrackSegment* m_rearTrack;
     TrackGeometry m_trackGeometry;
-
-    void updateRearPosition(ITrackSegment* track);
-    void updateFrontPosition(ITrackSegment* track);
 };
 
 #endif // TRACKSEGMENT_H

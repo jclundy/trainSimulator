@@ -32,6 +32,8 @@ public:
     bool connectFrontToTrack(ITrackSegment *track) override;
     void disconnectFromTrackSegment(ITrackSegment *track) override;
 
+    void updateRearPosition(ITrackSegment* track) override;
+    void updateFrontPosition(ITrackSegment* track) override;
 
     // connectors
     void disconnectFromNeighbours();

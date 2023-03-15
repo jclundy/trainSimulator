@@ -144,7 +144,6 @@ bool LinearTrack::connectFrontToTrack(JunctionTrack *track) {
     }
     return success;
 
-    return ((JunctionTrack*) track)->connectRearToTrack(this);
 }
 
 bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
