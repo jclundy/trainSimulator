@@ -20,6 +20,7 @@ ITrackSegment* Junction::getSelectedBranch() {
     if(m_selectedBranch != -1 && m_selectedBranch < m_branches.size()) {
         return m_branches.at(m_selectedBranch);
     }
+    return NULL;
 }
 
 int Junction::getSelectedBranchId() {
@@ -32,7 +33,7 @@ int Junction::getSelectedBranchId() {
 
 // setters
 bool Junction::addBranch(ITrackSegment* track) {
-    if(m_branches.size() < m_maxBranches && m_branches.contains(track) == false) {
+    if(m_branches.size() < (int) m_maxBranches && m_branches.contains(track) == false) {
         m_branches.push_back(track);
         recomputeSelectedBranch();
         return true;
