@@ -6,6 +6,8 @@
 LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
 {
     m_id = id;
+    m_rearTrack = NULL;
+    m_forwardTrack = NULL;
 
     m_forwardPosition.setX(position.x() + length/2);
     m_forwardPosition.setY(position.y());
@@ -116,7 +118,7 @@ bool LinearTrack::connectRearToTrack(LinearTrack *track) {
     }
 
     m_rearTrack = track;
-    track->m_forwardTrack = track;
+    track->m_forwardTrack = this;
     // if front end is not fixed
     if(isFrontTerminal()) {
         QPointF delta = track->getFrontEndPosition() - m_rearPosition;
@@ -136,8 +138,7 @@ bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
     }
 
     m_forwardTrack = track;
-    track->m_rearTrack = track;
-
+    track->m_rearTrack = this;
 
     // if rear end is not fixed
     if(isRearTerminal()) {
