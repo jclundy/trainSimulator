@@ -17,7 +17,6 @@ float TrackGeometry::getLength() {
     return m_lineSegment.length();
 }
 
-
 QPointF TrackGeometry::getCenter() {
    return m_lineSegment.center();
 }

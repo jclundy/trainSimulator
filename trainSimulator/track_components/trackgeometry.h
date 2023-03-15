@@ -12,6 +12,8 @@ public:
     //getters
     QPointF getFrontEndPosition();
     QPointF getRearEndPosition();
+    float getLength();
+    float getHeading();
     QPointF getCenter();
 
     // modifiers

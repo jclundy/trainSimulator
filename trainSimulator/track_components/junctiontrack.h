@@ -20,7 +20,6 @@ public:
     track_segment_type getType() override;
     bool isJunction() override;
     bool isLinear() override;
-    float getLength() override;
     ITrackSegment* getSelectedForwardEnd() override;
     ITrackSegment* getSelectedRearEnd() override;
     QList<ITrackSegment*> getForwardNeighbours() override;

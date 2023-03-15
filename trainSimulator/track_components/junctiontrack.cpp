@@ -2,17 +2,11 @@
 
 JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position, unsigned int maxBranches):
     m_forwardJunction(this, maxBranches),
-    m_rearJunction(this, maxBranches)
+    m_rearJunction(this, maxBranches),
+    m_trackGeometry(length, position)
 {
-    m_heading = 0;
-    m_length = length;
     m_id = id;
 
-    m_forwardPosition.setX(position.x() + length/2);
-    m_forwardPosition.setY(position.y());
-
-    m_rearPosition.setX(position.x() - length/2);
-    m_rearPosition.setY(position.y());
 }
 
 JunctionTrack::~JunctionTrack() {
@@ -38,9 +32,7 @@ bool JunctionTrack::isJunction() {
 bool JunctionTrack::isLinear() {
     return false;
 }
-float JunctionTrack::getLength() {
-    return m_length;
-}
+
 ITrackSegment* JunctionTrack::getSelectedForwardEnd() {
     return m_forwardJunction.getSelectedBranch();
 }
@@ -54,12 +46,6 @@ QList<ITrackSegment*> JunctionTrack::getRearNeighbours() {
    return m_rearJunction.getBranches();
 }
 
-QPointF JunctionTrack::getFrontEndPosition() {
-    return m_forwardPosition;
-}
-QPointF JunctionTrack::getRearEndPosition() {
-    return m_rearPosition;
-}
 bool JunctionTrack::connectRearToTrack(ITrackSegment *track) {
     return false;
 }
