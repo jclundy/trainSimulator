@@ -31,7 +31,10 @@ int Junction::getSelectedBranchId() {
 
 // setters
 bool Junction::addBranch(ITrackSegment* track) {
-
+    if(m_branches.contains(track) == false) {
+        m_branches.push_back(track);
+        recomputeSelectedBranch();
+    }
 }
 
 bool Junction::selectBranchByIndex(int idx) {
@@ -44,4 +47,12 @@ bool Junction::selectBranch(ITrackSegment *track) {
 
 bool Junction::selectBranchById(unsigned int id) {
 
+}
+
+void Junction::recomputeSelectedBranch() {
+    if(m_selectedBranch < 0 && m_branches.size() > 0) {
+        m_selectedBranch = 0;
+    } else if (m_selectedBranch >= m_branches.size()) {
+        m_selectedBranch = m_branches.size() - 1;
+    }
 }

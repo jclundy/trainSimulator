@@ -25,6 +25,9 @@ private:
     unsigned int m_maxBranches;
     QList<ITrackSegment*> m_branches;
     int m_selectedBranch;
+
+    // private methods
+    void recomputeSelectedBranch();
 };
 
 #endif // JUNCTION_H
