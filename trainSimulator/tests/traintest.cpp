@@ -81,11 +81,60 @@ void TrainTest::testCreateJunctionTrack() {
     qDebug() << "=========== Test create junction track ==============";
 
     JunctionTrack* track3 = new JunctionTrack(3);
+    m_trackList.push_back(track3);
 
     ITrackSegment* track2 = m_trackList.at(2);
     bool success = track3->connectRearToTrack(track2);
     qDebug() << "attached track3's rear to track2's front"  << success;
     printTrackInfo(track3);
+
+    // create more track segments
+    LinearTrack* track4 = new LinearTrack(4);
+    m_trackList.push_back(track4);
+
+    LinearTrack* track5 = new LinearTrack(5, 30);
+    m_trackList.push_back(track5);
+
+    LinearTrack* track6 = new LinearTrack(6, 30);
+    m_trackList.push_back(track6);
+
+    JunctionTrack* track7 = new JunctionTrack(7);
+    m_trackList.push_back(track7);
+
+    LinearTrack* track8 = new LinearTrack(8);
+    m_trackList.push_back(track8);
+
+    qDebug() << "---------------------------";
+    bool result1 = track7->connectFrontToTrack(track3);
+    bool result2 = track7->connectRearToTrack(track3);
+    qDebug() << "tried connecting junction front to junction rear " <<  result1;
+    qDebug() << "tried connecting junction rear to junction front " <<  result2;
+
+    qDebug() << "---------------------------";
+    bool result = track4->connectRearToTrack(track3);
+    qDebug() << "attached track4 rear to junction3's front" <<  result;
+    printTrackInfo(track4);
+    result = track5->connectRearToTrack(track3);
+    qDebug() << "attached track5 rear to junction3's front" <<  result;
+    track5->getTrackGeometry()->setRotationAboutRear(160);
+    printTrackInfo(track5);
+    result = track6->connectRearToTrack(track5);
+    qDebug() << "attached track6 rear to track5's front" <<  result;
+    track5->getTrackGeometry()->setRotationAboutRear(200);
+    printTrackInfo(track6);
+
+    // attach junction [7] to 6
+    result = track7->connectRearToTrack(track6);
+    qDebug() << "attached track6 front to junction 7's rear" <<  result;
+    printTrackInfo(track7);
+    // attach 4 to junction [7]
+    result = track4->connectFrontToTrack(track7);
+    qDebug() << "attached track4 front to junction 7's rear" <<  result;
+    printTrackInfo(track4);
+
+    result = track8->connectRearToTrack(track7);
+    qDebug() << "attached track8 rear to junction 7's front" <<  result;
+    printTrackInfo(track8);
 
 }
 
