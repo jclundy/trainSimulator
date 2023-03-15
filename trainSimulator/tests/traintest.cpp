@@ -12,8 +12,8 @@ void TrainTest::runTests() {
     testCreateTrackSegment();
     testCreateJunctionTrack();
 
-    testJunctionDerailingForward();
-    testJunctionSuccessForward();
+    testJunctionPath1DerailingForward();
+    testJunctionPath1SuccessForward();
 
     testCleanup();
 }
@@ -198,14 +198,14 @@ void TrainTest::testCleanup() {
     qDebug() << "train deleted " << (m_train == NULL);
 }
 
-void TrainTest::testJunctionDerailingForward() {
+void TrainTest::testJunctionPath1DerailingForward() {
     m_train->place(m_trackList.at(0));
     qDebug() << "==============================";
     qDebug() << "first drive test with junction";
     testDriving();
 }
 
-void TrainTest::testJunctionSuccessForward() {
+void TrainTest::testJunctionPath1SuccessForward() {
     qDebug() << "==============================";
     qDebug() << "first drive test with junction";
 

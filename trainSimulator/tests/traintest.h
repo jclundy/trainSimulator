@@ -18,8 +18,8 @@ public:
     void testCreateJunctionTrack();
     void testDriving(int iterations = 100, float dt=0.5);
     void testCleanup();
-    void testJunctionDerailingForward();
-    void testJunctionSuccessForward();
+    void testJunctionPath1DerailingForward();
+    void testJunctionPath1SuccessForward();
 
     void runTests();
 
