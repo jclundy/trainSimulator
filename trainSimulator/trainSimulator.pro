@@ -26,23 +26,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    train.cpp \
-    trainlocation.cpp \
     tests/traintest.cpp \
     tests/testutils.cpp \
     track_components/junctiontrack.cpp \
     track_components/lineartrack.cpp \
     physics/simplecontrolmodel.cpp \
-    physics/simplecontrolmodelwithbraking.cpp
+    physics/simplecontrolmodelwithbraking.cpp \
+    train/train.cpp \
+    train/trainlocation.cpp
 
 HEADERS += \
         mainwindow.h \
-    train.h \
-    trainlocation.h \
     tests/traintest.h \
     track_components/junctiontrack.h \
     track_components/itracksegment.h \
     track_components/lineartrack.h \
     physics/simplecontrolmodel.h \
     physics/simplecontrolmodelwithbraking.h \
-    physics/traincontrolmodel.h
+    physics/traincontrolmodel.h \
+    train/train.h \
+    train/trainlocation.h
