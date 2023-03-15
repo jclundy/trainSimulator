@@ -32,7 +32,8 @@ SOURCES += \
     simplecontrolmodelwithbraking.cpp \
     tests/traintest.cpp \
     tests/testutils.cpp \
-    lineartrack.cpp
+    lineartrack.cpp \
+    track_components/junctiontrack.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,4 +44,5 @@ HEADERS += \
     simplecontrolmodelwithbraking.h \
     tests/traintest.h \
     itracksegment.h \
-    lineartrack.h
+    lineartrack.h \
+    track_components/junctiontrack.h
