@@ -77,7 +77,7 @@ void TrackSystemTest::testDrive1() {
     qDebug() << "starting location";
     printTrainLocation(train);
 
-    testDriving(50, 0.25);
+    testDriving(100, 0.25);
 }
 
 void TrackSystemTest::testDriving(int iterations, float dt) {
