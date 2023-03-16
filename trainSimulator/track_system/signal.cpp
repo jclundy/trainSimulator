@@ -1,10 +1,11 @@
 #include "signal.h"
 
-Signal::Signal()
+Signal::Signal(unsigned int id)
 {
     m_state = true;
     m_trackSegment = NULL;
     m_placement = SIGNAL_UNPLACED;
+    m_id = id;
 }
 
 Signal::~Signal()

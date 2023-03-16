@@ -151,3 +151,10 @@ JunctionTrack* TrackSystem::addJunctionTrack() {
     m_junctions.push_back(track);
     return track;
 }
+
+Signal* TrackSystem::addSignal() {
+    Signal* signal = new Signal(m_nextAvailableSignalId);
+    m_nextAvailableSignalId++;
+    m_signals.push_back(signal);
+    return signal;
+}

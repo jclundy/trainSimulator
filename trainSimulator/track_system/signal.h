@@ -12,7 +12,7 @@ typedef enum {
 class Signal : public ISignal
 {
 public:
-    Signal();
+    Signal(unsigned int id);
     ~Signal();
     // ISignal Interface
     bool isRed() override;
@@ -28,6 +28,7 @@ public:
     void placeOnTrackRear(ITrackSegment*);
 
 private:
+    unsigned int m_id;
     bool m_state; // true - green; red - false
     signal_placement m_placement;
     ITrackSegment* m_trackSegment;
