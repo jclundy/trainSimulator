@@ -36,7 +36,8 @@ SOURCES += \
     train/trainlocation.cpp \
     track_components/junction.cpp \
     track_components/trackgeometry.cpp \
-    track_system/tracksystem.cpp
+    track_system/tracksystem.cpp \
+    track_system/signal.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,4 +52,5 @@ HEADERS += \
     train/trainlocation.h \
     track_components/junction.h \
     track_components/trackgeometry.h \
-    track_system/tracksystem.h
+    track_system/tracksystem.h \
+    track_system/signal.h
