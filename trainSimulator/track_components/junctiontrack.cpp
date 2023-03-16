@@ -134,19 +134,19 @@ void JunctionTrack::updateFrontPosition(ITrackSegment* track) {
     }
 }
 
-Signal* JunctionTrack::getFrontSignal() {
+ISignal* JunctionTrack::getFrontSignal() {
     return NULL;
 }
 
-Signal* JunctionTrack::getRearSignal() {
+ISignal* JunctionTrack::getRearSignal() {
     return NULL;
 }
 
-bool JunctionTrack::placeFrontSignal(Signal* signal) {
+bool JunctionTrack::placeFrontSignal(ISignal* signal) {
     return false;
 }
 
-bool JunctionTrack::placeRearSignal(Signal* signal) {
+bool JunctionTrack::placeRearSignal(ISignal* signal) {
     return false;
 }
 

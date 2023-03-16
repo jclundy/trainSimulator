@@ -1,7 +1,7 @@
 #ifndef SIGNAL_H
 #define SIGNAL_H
 
-#include <track_components/itracksegment.h>
+#include "track_components/itracksegment.h"
 
 typedef enum {
     SIGNAL_UNPLACED,
@@ -9,18 +9,21 @@ typedef enum {
     SIGNAL_TRACK_REAR
 } signal_placement;
 
-class Signal
+class Signal : public ISignal
 {
 public:
     Signal();
-    bool isRed();
-    bool isGreen();
+    ~Signal();
+    // ISignal Interface
+    bool isRed() override;
+    bool isGreen() override;
+    // setters and getters
     void setRed();
     void setGreen();
     void setState(bool state);
     ITrackSegment* getTrackSegment();
     signal_placement getPlacement();
-
+    // placement
     void placeOnTrackFront(ITrackSegment*);
     void placeOnTrackRear(ITrackSegment*);
 

@@ -183,19 +183,19 @@ void LinearTrack::updateRearPosition(ITrackSegment* track) {
     }
 }
 
-Signal* LinearTrack::getFrontSignal() {
+ISignal* LinearTrack::getFrontSignal() {
     return NULL;
 }
 
-Signal* LinearTrack::getRearSignal() {
+ISignal* LinearTrack::getRearSignal() {
     return NULL;
 }
 
-bool LinearTrack::placeFrontSignal(Signal* signal) {
+bool LinearTrack::placeFrontSignal(ISignal* signal) {
     return false;
 }
 
-bool LinearTrack::placeRearSignal(Signal* signal) {
+bool LinearTrack::placeRearSignal(ISignal* signal) {
     return false;
 }
 

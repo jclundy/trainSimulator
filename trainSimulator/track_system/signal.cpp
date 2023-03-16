@@ -7,6 +7,11 @@ Signal::Signal()
     m_placement = SIGNAL_UNPLACED;
 }
 
+Signal::~Signal()
+{
+
+}
+
 bool Signal::isRed() {
     return m_state == false;
 }
