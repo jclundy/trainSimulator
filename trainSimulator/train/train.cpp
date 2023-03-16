@@ -32,6 +32,14 @@ int Train::getPriority() {
     return m_priority;
 }
 
+TrainLocation Train::getFrontLocation() {
+    return frontLocation;
+}
+
+TrainLocation Train::getRearLocation() {
+    return rearLocation;
+}
+
 void Train::setPriority(int priority) {
     m_priority = priority;
 }

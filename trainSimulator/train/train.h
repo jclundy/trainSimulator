@@ -23,8 +23,11 @@ public:
     float getSpeed();
     float getAcceleration();
     int getPriority();
+    TrainLocation getFrontLocation();
+    TrainLocation getRearLocation();
     void setPriority(int priority);
     void setLength(float length);
+
 
     // initialization
     void place(ITrackSegment* track, train_orientation orientation=TRAIN_HEAD_TOWARDS_TRACK_FRONT);
