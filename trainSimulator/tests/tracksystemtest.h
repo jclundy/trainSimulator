@@ -10,6 +10,7 @@ public:
     void testSetup();
     void testDriving();
     void testSignals();
+    void printTrackSystemInfo();
 private:
     TrackSystem* m_trackSystem;
 };

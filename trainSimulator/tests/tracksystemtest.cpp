@@ -52,6 +52,10 @@ void TrackSystemTest::testSetup() {
     result = track5->connectRearToTrack(track1);
     qDebug() << "connected track5 rear to junction 1" << result;
 
+    qDebug() << "--------------------------------";
+    printTrackSystemInfo();
+    qDebug() << "================================";
+
 }
 
 void TrackSystemTest::testDriving() {
@@ -60,4 +64,11 @@ void TrackSystemTest::testDriving() {
 
 void TrackSystemTest::testSignals() {
 
+}
+
+void TrackSystemTest::printTrackSystemInfo() {
+    QList<ITrackSegment *> trackList = m_trackSystem->getTrackSegments();
+    for (int i = 0; i < trackList.size(); i++) {
+        printTrackInfo(trackList.at(i));
+    }
 }
