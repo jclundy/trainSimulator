@@ -23,6 +23,12 @@ train_motion_result TrainLocation::resetPosition(ITrackSegment* track, float new
 }
 
 train_motion_result TrainLocation::increment(float delta) {
+
+    if(m_track == NULL) {
+        m_state = DERAILED_OFF_TRACK;
+        return m_state;
+    }
+
     float newPosition = m_positionOnTrack + delta;
     train_motion_result result = ON_TRACK;
     if(delta > 0) {
@@ -48,6 +54,10 @@ train_motion_result TrainLocation::increment(float delta) {
 }
 
 train_motion_result TrainLocation::moveToForwardTrack(float delta) {
+    if(m_track == NULL) {
+        m_state = DERAILED_OFF_TRACK;
+        return m_state;
+    }
     // 1. check if hit terminal
     if(m_track->isFrontTerminal()) {
 
@@ -82,6 +92,10 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
 }
 
 train_motion_result TrainLocation::moveToRearTrack(float delta) {
+    if(m_track == NULL) {
+        m_state = DERAILED_OFF_TRACK;
+        return m_state;
+    }
     // 1. check if hit terminal
     if(m_track->isRearTerminal()) {
         m_positionOnTrack = 0;
@@ -117,6 +131,9 @@ float TrainLocation::getPositionOnTrack() {
 }
 
 QPointF TrainLocation::getPositionInWorld() {
+    if(m_track == NULL) {
+        return QPointF(0,0);
+    }
     float R = m_positionOnTrack; // measured from track 'rear-end'
     TrackGeometry* trackPosition = m_track->getTrackGeometry();
     float heading_rads = (180 - trackPosition->getHeading()) * M_PI / 180.0;
