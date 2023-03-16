@@ -53,4 +53,5 @@ HEADERS += \
     track_components/junction.h \
     track_components/trackgeometry.h \
     track_system/tracksystem.h \
-    track_system/signal.h
+    track_system/signal.h \
+    track_system/isignal.h
