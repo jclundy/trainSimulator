@@ -41,6 +41,11 @@ public:
     void updateRearPosition(ITrackSegment* track) override;
     void updateFrontPosition(ITrackSegment* track) override;
 
+    ISignal* getFrontSignal() override;
+    ISignal* getRearSignal() override;
+    bool placeFrontSignal(ISignal* signal) override;
+    bool placeRearSignal(ISignal* signal) override;
+
     // connectors
     void disconnectBothEnds();
     void disconnectFront();
@@ -56,6 +61,8 @@ private:
     ITrackSegment* m_forwardTrack;
     ITrackSegment* m_rearTrack;
     TrackGeometry m_trackGeometry;
+    ISignal * m_frontSignal;
+    ISignal * m_rearSignal;
 };
 
 #endif // TRACKSEGMENT_H

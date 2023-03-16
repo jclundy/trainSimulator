@@ -3,6 +3,7 @@
 
 #include <QList>
 #include "trackgeometry.h"
+#include "track_system/isignal.h"
 
 typedef enum {
     LINEAR_TRACK,
@@ -39,6 +40,11 @@ virtual void disconnectFromTrackSegment(ITrackSegment *track) = 0;
 
 virtual void updateRearPosition(ITrackSegment* track) = 0;
 virtual void updateFrontPosition(ITrackSegment* track) = 0;
+
+virtual ISignal* getFrontSignal() = 0;
+virtual ISignal* getRearSignal() = 0;
+virtual bool placeFrontSignal(ISignal* signal) = 0;
+virtual bool placeRearSignal(ISignal* signal) = 0;
 
 };
 
