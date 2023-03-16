@@ -7,7 +7,7 @@ typedef enum {
     SIGNAL_UNPLACED,
     SIGNAL_TRACK_FRONT,
     SIGNAL_TRACK_REAR
-} signal_position;
+} signal_placement;
 
 class Signal
 {
@@ -19,14 +19,14 @@ public:
     void setGreen();
     void setState(bool state);
     ITrackSegment* getTrackSegment();
-    signal_position getPosition();
+    signal_placement getPlacement();
 
     void placeOnTrackFront(ITrackSegment*);
     void placeOnTrackRear(ITrackSegment*);
 
 private:
     bool m_state; // true - green; red - false
-    signal_position m_position;
+    signal_placement m_placement;
     ITrackSegment* m_trackSegment;
 };
 

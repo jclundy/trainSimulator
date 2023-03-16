@@ -4,7 +4,7 @@ Signal::Signal()
 {
     m_state = true;
     m_trackSegment = NULL;
-    m_position = SIGNAL_UNPLACED;
+    m_placement = SIGNAL_UNPLACED;
 }
 
 bool Signal::isRed() {
@@ -31,16 +31,16 @@ ITrackSegment* Signal::getTrackSegment() {
     return m_trackSegment;
 }
 
-signal_position Signal::getPosition() {
-    return m_position;
+signal_placement Signal::getPlacement() {
+    return m_placement;
 }
 
 void Signal::placeOnTrackFront(ITrackSegment* track) {
-    m_position = SIGNAL_TRACK_FRONT;
+    m_placement = SIGNAL_TRACK_FRONT;
     m_trackSegment = track;
 }
 
 void Signal::placeOnTrackRear(ITrackSegment* track) {
-    m_position = SIGNAL_TRACK_REAR;
+    m_placement = SIGNAL_TRACK_REAR;
     m_trackSegment = track;
 }
