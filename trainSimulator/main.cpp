@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
 #if RUN_SYSTEM_TEST
     TrackSystemTest test;
-    test.testSetup();
+    test.runTests();
 #endif
 
     return a.exec();

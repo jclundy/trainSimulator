@@ -7,6 +7,11 @@ TrackSystemTest::TrackSystemTest()
     m_trackSystem = new TrackSystem();
 }
 
+void TrackSystemTest::runTests() {
+    testSetup();
+    testDrive1();
+}
+
 void TrackSystemTest::testSetup() {
     Train* train0 = m_trackSystem->addTrain();
     qDebug() << "added train " << train0->getId();
@@ -51,11 +56,48 @@ void TrackSystemTest::testSetup() {
 
     qDebug() << "--------------------------------";
     printTrackSystemInfo();
-    qDebug() << "================================";
 
 }
 
-void TrackSystemTest::testDriving() {
+void TrackSystemTest::testDrive1() {
+    qDebug() << "================================";
+    qDebug() << "Test Drive 1, from track 4, to junction 1, to track 2,3";
+    Train* train = m_trackSystem->getTrainById(0);
+    ITrackSegment* track4 = m_trackSystem->getTrackSegmentById(4);
+
+    JunctionTrack* track1 = m_trackSystem->getJunctionById(1);
+
+    track1->selectRearBranchById(4);
+    track1->selectForwardBranchById(2);
+
+    train->place(track4);
+    train->setDesiredSpeed(3);
+
+
+    qDebug() << "starting location";
+    printTrainLocation(train);
+
+    testDriving(50, 0.25);
+}
+
+void TrackSystemTest::testDriving(int iterations, float dt) {
+    qDebug() << "---------------------------";
+    qDebug() << "Driving trains in track system";
+
+    bool success = true;
+    int i = 0;
+    for(i = 0; i < iterations && success; i++) {
+        m_trackSystem->driveTrains(dt);
+
+        qDebug() << "---------------------------";
+        qDebug() << "iteration " << i;
+        Train * train = m_trackSystem->getTrainById(0);
+        printTrainLocation(train);
+        qDebug() << "train speed: " << train->getSpeed();
+    }
+
+    qDebug() << "accident free? " << success;
+    qDebug() << "done driving train";
 
 }
 

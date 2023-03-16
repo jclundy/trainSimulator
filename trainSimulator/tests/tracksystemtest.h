@@ -7,12 +7,15 @@ class TrackSystemTest
 {
 public:
     TrackSystemTest();
+    void runTests();
     void testSetup();
-    void testDriving();
+    void testDrive1();
     void testSignals();
     void printTrackSystemInfo();
 private:
     TrackSystem* m_trackSystem;
+    void testDriving(int iterations = 100, float dt=0.5);
+
 };
 
 #endif // TRACKSYSTEMTEST_H
