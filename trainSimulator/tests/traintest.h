@@ -30,11 +30,6 @@ public:
 
     QList<ITrackSegment*> m_trackList;
     Train* m_train;
-
-    // util functions
-    void printTrackInfo(ITrackSegment *track);
-    void printPosition(QPointF point);
-    void printTrainLocation(Train* train);
 };
 
 #endif // TEST1_H

@@ -1,5 +1,6 @@
 #include "traintest.h"
 #include "track_components/junctiontrack.h"
+#include "testutils.h"
 #include <QDebug>
 
 TrainTest::TrainTest()

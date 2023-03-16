@@ -1,4 +1,5 @@
 #include "tracksystemtest.h"
+#include <QDebug>
 
 TrackSystemTest::TrackSystemTest()
 {
