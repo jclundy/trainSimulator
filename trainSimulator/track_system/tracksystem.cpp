@@ -92,15 +92,30 @@ QList<ITrackSegment*> TrackSystem::getTrackSegments() {
     return m_trackSegments;
 }
 
-Train* TrackSystem::getTrainById() {
+Train* TrackSystem::getTrainById(unsigned int id) {
+    for(int i = 0; i < m_trains.size(); i++) {
+        if(m_trains.at(i)->getId() == id) {
+            return m_trains.at(i);
+        }
+    }
     return NULL;
 }
 
-JunctionTrack* TrackSystem::getJunctionById() {
+JunctionTrack* TrackSystem::getJunctionById(unsigned int id) {
+    for(int i = 0; i < m_junctions.size(); i++) {
+        if(m_junctions.at(i)->getId() == id) {
+            return m_junctions.at(i);
+        }
+    }
     return NULL;
 }
 
-ITrackSegment* TrackSystem::getTrackSegmentById() {
+ITrackSegment* TrackSystem::getTrackSegmentById(unsigned int id) {
+    for(int i = 0; i < m_trackSegments.size(); i++) {
+        if(m_trackSegments.at(i)->getId() == id) {
+            return m_trackSegments.at(i);
+        }
+    }
     return NULL;
 }
 

@@ -22,9 +22,9 @@ public:
     QList<ITrackSegment*> getTrackSegments();
     //QList<Signals*> getSignals();
 
-    Train* getTrainById();
-    JunctionTrack* getJunctionById();
-    ITrackSegment* getTrackSegmentById();
+    Train* getTrainById(unsigned int id);
+    JunctionTrack* getJunctionById(unsigned int id);
+    ITrackSegment* getTrackSegmentById(unsigned int id);
 
     // adders
     Train* addTrain();
