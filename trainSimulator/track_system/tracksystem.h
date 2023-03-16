@@ -9,11 +9,11 @@
 class TrackSystem
 {
 public:
-    TrackSystem();
+    TrackSystem(unsigned int maxForksPerJunction = 2, int defaultTrackLength = 20);
 
     // drivers
     void driveJunctions();
-//    void driveSignals();
+    void driveSignals();
     void driveTrains(float dt);
 
     // getters
@@ -33,10 +33,15 @@ public:
 //    Signal* addSignal();
 
 private:
+
+    // configuration parameters
     unsigned int m_maxForksPerJunction;
+    unsigned int m_defaultTrackLength;
+
+    // ids
     unsigned int m_nextAvailableTrackId;
     unsigned int m_nextAvailableTrainId;
-//    unsigned int m_nextAvailableSignalId;
+    unsigned int m_nextAvailableSignalId;
 
     QList<ITrackSegment*> m_trackSegments;
     QList<JunctionTrack*> m_junctions;
