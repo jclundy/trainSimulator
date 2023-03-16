@@ -37,7 +37,8 @@ SOURCES += \
     track_components/junction.cpp \
     track_components/trackgeometry.cpp \
     track_system/tracksystem.cpp \
-    track_system/signal.cpp
+    track_system/signal.cpp \
+    tests/tracksystemtest.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -54,4 +55,5 @@ HEADERS += \
     track_components/trackgeometry.h \
     track_system/tracksystem.h \
     track_system/signal.h \
-    track_system/isignal.h
+    track_system/isignal.h \
+    tests/tracksystemtest.h
