@@ -84,10 +84,11 @@ void TrackSystemTest::testDriving(int iterations, float dt) {
     qDebug() << "---------------------------";
     qDebug() << "Driving trains in track system";
 
-    bool success = true;
+    bool stopped = false;
     int i = 0;
-    for(i = 0; i < iterations && success; i++) {
+    for(i = 0; i < iterations && !stopped; i++) {
         m_trackSystem->driveTrains(dt);
+        stopped = m_trackSystem->areAllTrainsStopped();
 
         qDebug() << "---------------------------";
         qDebug() << "iteration " << i;
@@ -96,7 +97,13 @@ void TrackSystemTest::testDriving(int iterations, float dt) {
         qDebug() << "train speed: " << train->getSpeed();
     }
 
-    qDebug() << "accident free? " << success;
+    qDebug() << "iterations: " << i << ", all trains stopped? " << stopped;
+
+    for (int i = 0; i < m_trackSystem->getTrains().size(); i++) {
+        Train* train = m_trackSystem->getTrains().at(i);
+        qDebug() << "rail state of train ID=" << train->getId() << ": railState=" << train->getRailState();
+    }
+
     qDebug() << "done driving train";
 
 }
