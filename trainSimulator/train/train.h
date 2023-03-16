@@ -28,7 +28,7 @@ public:
     void setPriority(int priority);
     void setLength(float length);
     bool isStopped();
-
+    train_motion_result getRailState();
 
     // initialization
     void place(ITrackSegment* track, train_orientation orientation=TRAIN_HEAD_TOWARDS_TRACK_FRONT);
@@ -55,6 +55,7 @@ private:
     bool m_isDriving;
 
     TrainControlModel *m_controlModel;
+    train_motion_result m_railState;
 
     TrainLocation m_frontLocation;
     TrainLocation m_rearLocation;

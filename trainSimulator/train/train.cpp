@@ -11,6 +11,7 @@ Train::Train(unsigned int id, float length)
     m_length = length;
     m_isDriving = false;
     m_controlModel = NULL;
+    m_railState = DERAILED_OFF_TRACK;
     // front and rear location are initialized by the default TrainLocation constructor
 
 }
@@ -55,6 +56,9 @@ bool Train::isStopped() {
     return m_isDriving == false;
 }
 
+train_motion_result Train::getRailState() {
+    return m_railState;
+}
 
 /* Initialization */
 void Train::place(ITrackSegment *track, train_orientation orientation) {
@@ -62,6 +66,8 @@ void Train::place(ITrackSegment *track, train_orientation orientation) {
         qDebug() << "can't re-position train while driving";
         return;
     }
+
+    m_railState = ON_TRACK;
 
     float midpoint = track->getLength()/2;
     float headPosition = 0;
@@ -119,14 +125,21 @@ bool Train::drive(float dt) {
     m_controlModel->computeNewStates(m_speed,m_acceleration, m_speedSetpoint, dt);
 
     float positionDelta = m_speed * dt;
-    train_motion_result result1 = m_frontLocation.increment(positionDelta);
-    train_motion_result result2 = m_rearLocation.increment(positionDelta);
-    if(result1 != ON_TRACK || result2 != ON_TRACK) {
-        stop();
-        qDebug() << "Train stopped.  Front and rear states: " << result1 << ", " << result2;
+    train_motion_result frontResult = m_frontLocation.increment(positionDelta);
+    train_motion_result rearResult = m_rearLocation.increment(positionDelta);
+
+    if(frontResult != ON_TRACK) {
+        m_railState = frontResult;
+    } else if(rearResult != ON_TRACK) {
+        m_railState = rearResult;
     }
 
-    return result1 == ON_TRACK && result2 == ON_TRACK;
+    if(frontResult != ON_TRACK || rearResult != ON_TRACK) {
+        stop();
+        qDebug() << "Train stopped.  Front and rear states: " << frontResult << ", " << rearResult;
+    }
+
+    return frontResult == ON_TRACK && rearResult == ON_TRACK;
 }
 
 void Train::stop() {
