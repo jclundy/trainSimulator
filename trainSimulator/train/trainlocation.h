@@ -22,7 +22,8 @@ public:
     train_motion_result getState();
     float getPositionOnTrack();
     QPointF getPositionInWorld();
-    unsigned int getTrackId();
+    int getTrackId();
+    bool onTrack();
 
 private:
     train_motion_result moveToForwardTrack(float delta);

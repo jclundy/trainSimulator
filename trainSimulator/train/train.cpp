@@ -36,6 +36,12 @@ void Train::setPriority(int priority) {
     m_priority = priority;
 }
 
+void Train::setLength(float length) {
+    // Don't allow length change if train has been placed on track or is driving
+    if(!m_isDriving && !frontLocation.onTrack()) {
+        m_length = length;
+    }
+}
 
 /* Initialization */
 void Train::place(ITrackSegment *track, train_orientation orientation) {

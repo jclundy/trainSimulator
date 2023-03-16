@@ -127,6 +127,13 @@ QPointF TrainLocation::getPositionInWorld() {
     return QPointF(x,y);
 }
 
-unsigned int TrainLocation::getTrackId() {
-    return m_track->getId();
+int TrainLocation::getTrackId() {
+    if(m_track != NULL) {
+        return m_track->getId();
+    }
+    return -1;
+}
+
+bool TrainLocation::onTrack() {
+    return m_track != NULL;
 }
