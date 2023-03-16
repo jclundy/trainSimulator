@@ -18,6 +18,7 @@ public:
     bool isRed() override;
     bool isGreen() override;
     // setters and getters
+    unsigned int getId();
     void setRed();
     void setGreen();
     void setState(bool state);

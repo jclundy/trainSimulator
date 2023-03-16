@@ -21,6 +21,10 @@ bool Signal::isGreen() {
     return m_state;
 }
 
+unsigned int Signal::getId() {
+    return m_id;
+}
+
 void Signal::setRed() {
     setState(false);
 }
