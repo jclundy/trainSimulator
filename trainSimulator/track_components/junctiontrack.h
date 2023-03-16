@@ -62,6 +62,8 @@ private:
     Junction m_rearJunction;
 
     TrackGeometry m_trackGeometry;
+    ISignal * m_frontSignal;
+    ISignal * m_rearSignal;
 };
 
 #endif // JUNCTIONTRACK_H

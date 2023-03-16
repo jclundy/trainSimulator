@@ -61,6 +61,8 @@ private:
     ITrackSegment* m_forwardTrack;
     ITrackSegment* m_rearTrack;
     TrackGeometry m_trackGeometry;
+    ISignal * m_frontSignal;
+    ISignal * m_rearSignal;
 };
 
 #endif // TRACKSEGMENT_H
