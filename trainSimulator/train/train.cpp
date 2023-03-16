@@ -51,6 +51,11 @@ void Train::setLength(float length) {
     }
 }
 
+bool Train::isStopped() {
+    return m_isDriving == false;
+}
+
+
 /* Initialization */
 void Train::place(ITrackSegment *track, train_orientation orientation) {
     if(m_isDriving) {
@@ -117,8 +122,7 @@ bool Train::drive(float dt) {
     train_motion_result result1 = frontLocation.increment(positionDelta);
     train_motion_result result2 = rearLocation.increment(positionDelta);
     if(result1 != SUCCESS || result2 != SUCCESS) {
-        m_speedSetpoint = 0;
-        m_speed = 0;
+        stop();
         qDebug() << "Train stopped.  Front and rear states: " << result1 << ", " << result2;
     }
 
@@ -127,6 +131,8 @@ bool Train::drive(float dt) {
 
 void Train::stop() {
     m_isDriving = false;
+    m_speedSetpoint = 0;
+    m_speed = 0;
 }
 
 /* Train 2D location */

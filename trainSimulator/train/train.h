@@ -27,6 +27,7 @@ public:
     TrainLocation getRearLocation();
     void setPriority(int priority);
     void setLength(float length);
+    bool isStopped();
 
 
     // initialization
