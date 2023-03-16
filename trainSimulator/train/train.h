@@ -56,8 +56,8 @@ private:
 
     TrainControlModel *m_controlModel;
 
-    TrainLocation frontLocation;
-    TrainLocation rearLocation;
+    TrainLocation m_frontLocation;
+    TrainLocation m_rearLocation;
 };
 
 #endif // TRAIN_H

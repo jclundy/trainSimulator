@@ -33,11 +33,11 @@ int Train::getPriority() {
 }
 
 TrainLocation Train::getFrontLocation() {
-    return frontLocation;
+    return m_frontLocation;
 }
 
 TrainLocation Train::getRearLocation() {
-    return rearLocation;
+    return m_rearLocation;
 }
 
 void Train::setPriority(int priority) {
@@ -46,7 +46,7 @@ void Train::setPriority(int priority) {
 
 void Train::setLength(float length) {
     // Don't allow length change if train has been placed on track or is driving
-    if(!m_isDriving && !frontLocation.onTrack()) {
+    if(!m_isDriving && !m_frontLocation.onTrack()) {
         m_length = length;
     }
 }
@@ -75,14 +75,14 @@ void Train::place(ITrackSegment *track, train_orientation orientation) {
         rearPosition = midpoint + m_length/2;
     }
 
-    frontLocation.resetPosition(track, headPosition);
-    rearLocation.resetPosition(track, rearPosition);
+    m_frontLocation.resetPosition(track, headPosition);
+    m_rearLocation.resetPosition(track, rearPosition);
 }
 
 void Train::slide(float distance) {
     if(!m_isDriving) {
-        frontLocation.increment(distance);
-        rearLocation.increment(distance);
+        m_frontLocation.increment(distance);
+        m_rearLocation.increment(distance);
     }
 }
 
@@ -119,14 +119,14 @@ bool Train::drive(float dt) {
     m_controlModel->computeNewStates(m_speed,m_acceleration, m_speedSetpoint, dt);
 
     float positionDelta = m_speed * dt;
-    train_motion_result result1 = frontLocation.increment(positionDelta);
-    train_motion_result result2 = rearLocation.increment(positionDelta);
-    if(result1 != SUCCESS || result2 != SUCCESS) {
+    train_motion_result result1 = m_frontLocation.increment(positionDelta);
+    train_motion_result result2 = m_rearLocation.increment(positionDelta);
+    if(result1 != ON_TRACK || result2 != ON_TRACK) {
         stop();
         qDebug() << "Train stopped.  Front and rear states: " << result1 << ", " << result2;
     }
 
-    return result1 == SUCCESS && result2 == SUCCESS;
+    return result1 == ON_TRACK && result2 == ON_TRACK;
 }
 
 void Train::stop() {
@@ -137,15 +137,15 @@ void Train::stop() {
 
 /* Train 2D location */
 QPointF Train::getLocationInWorld() {
-    QPointF frontPosition = frontLocation.getPositionInWorld();
-    QPointF rearPosition = rearLocation.getPositionInWorld();
+    QPointF frontPosition = m_frontLocation.getPositionInWorld();
+    QPointF rearPosition = m_rearLocation.getPositionInWorld();
     return (frontPosition + rearPosition) / 2;
 }
 
 QPointF Train::getFrontLocationInWorld() {
-    return frontLocation.getPositionInWorld();
+    return m_frontLocation.getPositionInWorld();
 }
 
 QPointF Train::getRearLocationInWorld() {
-    return rearLocation.getPositionInWorld();
+    return m_rearLocation.getPositionInWorld();
 }

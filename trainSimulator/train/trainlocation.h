@@ -4,7 +4,7 @@
 #include "track_components/lineartrack.h"
 
 typedef enum {
-    SUCCESS,
+    ON_TRACK,
     HIT_TERMINAL,
     DERAILED_AT_JUNCTION,
     DERAILED_OFF_TRACK

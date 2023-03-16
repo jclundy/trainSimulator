@@ -14,7 +14,7 @@ TrainLocation::TrainLocation()
 train_motion_result TrainLocation::resetPosition(ITrackSegment* track, float newPosition) {
     m_track = track;
     m_positionOnTrack = 0;
-    m_state = SUCCESS;
+    m_state = ON_TRACK;
 
     // this will handle case when placing a train that is longer then a track segment
     float delta = newPosition;
@@ -24,11 +24,11 @@ train_motion_result TrainLocation::resetPosition(ITrackSegment* track, float new
 
 train_motion_result TrainLocation::increment(float delta) {
     float newPosition = m_positionOnTrack + delta;
-    train_motion_result result = SUCCESS;
+    train_motion_result result = ON_TRACK;
     if(delta > 0) {
         if(newPosition < m_track->getLength()) {
             m_positionOnTrack = newPosition;
-            result = SUCCESS;
+            result = ON_TRACK;
         } else {
             float overshoot = newPosition - m_track->getLength();
             qDebug() << "moving to forward track with overshoot " << overshoot;
@@ -38,7 +38,7 @@ train_motion_result TrainLocation::increment(float delta) {
     } else { // delta < 0
         if(newPosition > 0) {
             m_positionOnTrack = newPosition;
-            result = SUCCESS;
+            result = ON_TRACK;
         } else {
             float overshoot = newPosition;
             result = moveToRearTrack(overshoot);
@@ -72,7 +72,7 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
          * so the recursion should terminate evenutally
          */
         increment(delta);
-        return SUCCESS;
+        return ON_TRACK;
     } else {
         qDebug() << "Derailed at junction" << frontSegment->getId();
         qDebug() << "next track's selected rear: " << frontSegment->getSelectedRearEnd()->getId();
