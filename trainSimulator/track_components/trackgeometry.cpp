@@ -74,3 +74,13 @@ void TrackGeometry::setForwardPosition(QPointF position) {
 void TrackGeometry::setRearPosition(QPointF position) {
     m_lineSegment.setP2(position);
 }
+
+void TrackGeometry::translateForwardPosition(QPointF position) {
+    QPointF delta = position - m_lineSegment.p1();
+    translate(delta);
+}
+
+void TrackGeometry::translateRearPosition(QPointF position) {
+    QPointF delta = position - m_lineSegment.p2();
+    translate(delta);
+}
