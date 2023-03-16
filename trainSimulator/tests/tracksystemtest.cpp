@@ -12,7 +12,7 @@ void TrackSystemTest::testSetup() {
     qDebug() << "added train " << train0->getId();
 
     LinearTrack* track0 = m_trackSystem->addLinearTrack();
-    track0->getTrackGeometry()->setRearPosition(QPointF(0,0));
+    track0->getTrackGeometry()->translateRearPosition(QPointF(0,0));
     qDebug() << "added track" << track0->getId();
 
     JunctionTrack* track1 = m_trackSystem->addJunctionTrack();
@@ -38,7 +38,7 @@ void TrackSystemTest::testSetup() {
     LinearTrack* track4 = m_trackSystem->addLinearTrack();
     qDebug() << "added track" << track4->getId();
 
-    track4->getTrackGeometry()->setRearPosition(QPointF(0, -10));
+    track4->getTrackGeometry()->translateRearPosition(QPointF(0, -10));
     result = track4->connectFrontToTrack(track1);
     qDebug() << "connected track4 front to junction 1" << result;
 
@@ -47,7 +47,7 @@ void TrackSystemTest::testSetup() {
 
     QPointF track1Front = track1->getTrackGeometry()->getFrontEndPosition();
     QPointF track5Front = track1Front + QPointF(15, -10);
-    track5->getTrackGeometry()->setForwardPosition(track5Front);
+    track5->getTrackGeometry()->translateForwardPosition(track5Front);
 
     result = track5->connectRearToTrack(track1);
     qDebug() << "connected track5 rear to junction 1" << result;
