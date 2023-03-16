@@ -46,14 +46,14 @@ signal_placement Signal::getPlacement() {
 }
 
 void Signal::placeOnTrackFront(ITrackSegment* track) {
-    if(m_trackSegment->placeFrontSignal(this)) {
+    if(track->placeFrontSignal(this)) {
         m_placement = SIGNAL_TRACK_FRONT;
         m_trackSegment = track;
     }
 }
 
 void Signal::placeOnTrackRear(ITrackSegment* track) {
-    if(m_trackSegment->placeRearSignal(this)) {
+    if(track->placeRearSignal(this)) {
         m_placement = SIGNAL_TRACK_REAR;
         m_trackSegment = track;
     }
