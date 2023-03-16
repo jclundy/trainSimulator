@@ -21,8 +21,8 @@ public:
     ITrackSegment* getTrackSegment();
     signal_position getPosition();
 
-    void placeOnTrackSegmentFront(ITrackSegment*);
-    void placeOnTrackSegmentRear(ITrackSegment*);
+    void placeOnTrackFront(ITrackSegment*);
+    void placeOnTrackRear(ITrackSegment*);
 
 private:
     bool m_state; // true - green; red - false

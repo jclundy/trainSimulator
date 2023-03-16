@@ -34,3 +34,13 @@ ITrackSegment* Signal::getTrackSegment() {
 signal_position Signal::getPosition() {
     return m_position;
 }
+
+void Signal::placeOnTrackFront(ITrackSegment* track) {
+    m_position = SIGNAL_TRACK_FRONT;
+    m_trackSegment = track;
+}
+
+void Signal::placeOnTrackRear(ITrackSegment* track) {
+    m_position = SIGNAL_TRACK_REAR;
+    m_trackSegment = track;
+}
