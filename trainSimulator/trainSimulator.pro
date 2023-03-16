@@ -56,4 +56,5 @@ HEADERS += \
     track_system/tracksystem.h \
     track_system/signal.h \
     track_system/isignal.h \
-    tests/tracksystemtest.h
+    tests/tracksystemtest.h \
+    tests/testutils.h
