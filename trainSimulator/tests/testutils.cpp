@@ -6,14 +6,12 @@ void printTrackInfo(ITrackSegment *track) {
 
     qDebug() << "ID " << track->getId();
     qDebug() << "length " << track->getTrackGeometry()->getLength();
-    qDebug() << "center " << track->getTrackGeometry()->getCenter();
     qDebug() << "heading " << track->getTrackGeometry()->getHeading();
 
-    qDebug() << "Front TrackEnd:";
-    printPosition(track->getTrackGeometry()->getFrontEndPosition());
+    qDebug() << "Rear: " << track->getTrackGeometry()->getRearEndPosition();
 
-    qDebug() << "Rear TrackEnd:";
-    printPosition(track->getTrackGeometry()->getRearEndPosition());
+    qDebug() << "Front:" << track->getTrackGeometry()->getFrontEndPosition();
+
 }
 
 void printPosition(QPointF point) {
