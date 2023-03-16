@@ -25,7 +25,7 @@ void TrainTest::runTests() {
 
 void TrainTest::testCreateTrain() {
     qDebug() << "=========== Test setup ==============";
-    m_train = new Train();
+    m_train = new Train(0);
 
     qDebug() << "Created train";
     qDebug() << "length: " << m_train->m_length;

@@ -2,9 +2,9 @@
 #include "physics/simplecontrolmodel.h"
 #include <QDebug>
 
-Train::Train(float length)
+Train::Train(unsigned int id, float length)
 {
-    direction = 1;
+    m_id = id;
     m_speed = 0;
     m_speedSetpoint = 0;
     m_acceleration = 0;
@@ -15,6 +15,29 @@ Train::Train(float length)
 
 }
 
+/* Basic getters and setters*/
+unsigned int Train::getId() {
+    return m_id;
+}
+
+float Train::getSpeed() {
+    return m_speed;
+}
+
+float Train::getAcceleration() {
+    return m_acceleration;
+}
+
+int Train::getPriority() {
+    return m_priority;
+}
+
+void Train::setPriority(int priority) {
+    m_priority = priority;
+}
+
+
+/* Initialization */
 void Train::place(ITrackSegment *track, train_orientation orientation) {
     if(m_isDriving) {
         qDebug() << "can't re-position train while driving";
@@ -92,8 +115,17 @@ void Train::stop() {
     m_isDriving = false;
 }
 
+/* Train 2D location */
 QPointF Train::getLocationInWorld() {
     QPointF frontPosition = frontLocation.getPositionInWorld();
     QPointF rearPosition = rearLocation.getPositionInWorld();
     return (frontPosition + rearPosition) / 2;
+}
+
+QPointF Train::getFrontLocationInWorld() {
+    return frontLocation.getPositionInWorld();
+}
+
+QPointF Train::getRearLocationInWorld() {
+    return rearLocation.getPositionInWorld();
 }
