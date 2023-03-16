@@ -121,13 +121,25 @@ ITrackSegment* TrackSystem::getTrackSegmentById(unsigned int id) {
 
 /* Adders */
 Train* TrackSystem::addTrain() {
-    return NULL;
+    Train* train = new Train(m_nextAvailableTrainId);
+    m_nextAvailableTrainId++;
+
+    m_trains.push_back(train);
+
+    return train;
 }
 
 LinearTrack* TrackSystem::addLinearTrack() {
-    return NULL;
+    LinearTrack* track = new LinearTrack(m_nextAvailableTrackId);
+    m_nextAvailableTrackId++;
+    m_trackSegments.push_back(track);
+    return track;
 }
 
 JunctionTrack* TrackSystem::addJunctionTrack() {
-    return NULL;
+    JunctionTrack* track = new JunctionTrack(m_nextAvailableTrackId);
+    m_nextAvailableTrackId++;
+    m_trackSegments.push_back(track);
+    m_junctions.push_back(track);
+    return track;
 }
