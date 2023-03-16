@@ -183,6 +183,23 @@ void LinearTrack::updateRearPosition(ITrackSegment* track) {
     }
 }
 
+Signal* LinearTrack::getFrontSignal() {
+    return NULL;
+}
+
+Signal* LinearTrack::getRearSignal() {
+    return NULL;
+}
+
+bool LinearTrack::placeFrontSignal(Signal* signal) {
+    return false;
+}
+
+bool LinearTrack::placeRearSignal(Signal* signal) {
+    return false;
+}
+
+
 #include <QDebug>
 
 void LinearTrack::updateFrontPosition(ITrackSegment* track) {

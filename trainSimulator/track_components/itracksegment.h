@@ -4,6 +4,7 @@
 #include <QList>
 #include "trackgeometry.h"
 
+class Signal;
 typedef enum {
     LINEAR_TRACK,
     JUNCTION_TRACK
@@ -39,6 +40,11 @@ virtual void disconnectFromTrackSegment(ITrackSegment *track) = 0;
 
 virtual void updateRearPosition(ITrackSegment* track) = 0;
 virtual void updateFrontPosition(ITrackSegment* track) = 0;
+
+virtual Signal* getFrontSignal() = 0;
+virtual Signal* getRearSignal() = 0;
+virtual bool placeFrontSignal(Signal* signal) = 0;
+virtual bool placeRearSignal(Signal* signal) = 0;
 
 };
 

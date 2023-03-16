@@ -41,6 +41,11 @@ public:
     void updateRearPosition(ITrackSegment* track) override;
     void updateFrontPosition(ITrackSegment* track) override;
 
+    Signal* getFrontSignal() override;
+    Signal* getRearSignal() override;
+    bool placeFrontSignal(Signal* signal) override;
+    bool placeRearSignal(Signal* signal) override;
+
     // connectors
     void disconnectBothEnds();
     void disconnectFront();

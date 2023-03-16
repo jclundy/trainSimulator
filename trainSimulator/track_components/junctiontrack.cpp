@@ -134,6 +134,23 @@ void JunctionTrack::updateFrontPosition(ITrackSegment* track) {
     }
 }
 
+Signal* JunctionTrack::getFrontSignal() {
+    return NULL;
+}
+
+Signal* JunctionTrack::getRearSignal() {
+    return NULL;
+}
+
+bool JunctionTrack::placeFrontSignal(Signal* signal) {
+    return false;
+}
+
+bool JunctionTrack::placeRearSignal(Signal* signal) {
+    return false;
+}
+
+
 void JunctionTrack::addFrontConnection(ITrackSegment* track) {
     Q_UNUSED(track);
 }
