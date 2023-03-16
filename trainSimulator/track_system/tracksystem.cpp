@@ -79,6 +79,14 @@ void TrackSystem::driveTrains(float dt) {
     }
 }
 
+bool TrackSystem::areAllTrainsStopped() {
+    bool stopped = true;
+    for(int i = 0; i < m_trains.size(); i++) {
+        stopped &= m_trains.at(i)->isStopped();
+    }
+    return stopped;
+}
+
 /* Getters */
 QList<Train*> TrackSystem::getTrains() {
     return m_trains;
