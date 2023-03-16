@@ -17,7 +17,19 @@ class Train
 friend class TrainTest;
 
 public:
-    Train(float length = 5);
+    Train(unsigned int id, float length = 5);
+    // getters and setters
+    unsigned int getId();
+    float getSpeed();
+    float getAcceleration();
+    int getPriority();
+    TrainLocation getFrontLocation();
+    TrainLocation getRearLocation();
+    void setPriority(int priority);
+    void setLength(float length);
+    bool isStopped();
+    train_motion_result getRailState();
+
     // initialization
     void place(ITrackSegment* track, train_orientation orientation=TRAIN_HEAD_TOWARDS_TRACK_FRONT);
     void slide(float distance);
@@ -27,11 +39,14 @@ public:
     void setDesiredSpeed(float setpoint);
     bool drive(float dt);
     void stop();
-
+    // train 2D location
     QPointF getLocationInWorld();
+    QPointF getFrontLocationInWorld();
+    QPointF getRearLocationInWorld();
 
 private:
-    int direction; // -1 reverse, 0 neutral, 1 forward
+    unsigned int m_id;
+    int m_priority;
     float m_speed; // relative to track
     float m_acceleration;
     float m_speedSetpoint;
@@ -40,9 +55,10 @@ private:
     bool m_isDriving;
 
     TrainControlModel *m_controlModel;
+    train_motion_result m_railState;
 
-    TrainLocation frontLocation;
-    TrainLocation rearLocation;
+    TrainLocation m_frontLocation;
+    TrainLocation m_rearLocation;
 };
 
 #endif // TRAIN_H

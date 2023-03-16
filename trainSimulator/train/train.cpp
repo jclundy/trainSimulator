@@ -2,24 +2,72 @@
 #include "physics/simplecontrolmodel.h"
 #include <QDebug>
 
-Train::Train(float length)
+Train::Train(unsigned int id, float length)
 {
-    direction = 1;
+    m_id = id;
     m_speed = 0;
     m_speedSetpoint = 0;
     m_acceleration = 0;
     m_length = length;
     m_isDriving = false;
     m_controlModel = NULL;
+    m_railState = DERAILED_OFF_TRACK;
     // front and rear location are initialized by the default TrainLocation constructor
 
 }
 
+/* Basic getters and setters*/
+unsigned int Train::getId() {
+    return m_id;
+}
+
+float Train::getSpeed() {
+    return m_speed;
+}
+
+float Train::getAcceleration() {
+    return m_acceleration;
+}
+
+int Train::getPriority() {
+    return m_priority;
+}
+
+TrainLocation Train::getFrontLocation() {
+    return m_frontLocation;
+}
+
+TrainLocation Train::getRearLocation() {
+    return m_rearLocation;
+}
+
+void Train::setPriority(int priority) {
+    m_priority = priority;
+}
+
+void Train::setLength(float length) {
+    // Don't allow length change if train has been placed on track or is driving
+    if(!m_isDriving && !m_frontLocation.onTrack()) {
+        m_length = length;
+    }
+}
+
+bool Train::isStopped() {
+    return m_isDriving == false;
+}
+
+train_motion_result Train::getRailState() {
+    return m_railState;
+}
+
+/* Initialization */
 void Train::place(ITrackSegment *track, train_orientation orientation) {
     if(m_isDriving) {
         qDebug() << "can't re-position train while driving";
         return;
     }
+
+    m_railState = ON_TRACK;
 
     float midpoint = track->getLength()/2;
     float headPosition = 0;
@@ -33,14 +81,14 @@ void Train::place(ITrackSegment *track, train_orientation orientation) {
         rearPosition = midpoint + m_length/2;
     }
 
-    frontLocation.resetPosition(track, headPosition);
-    rearLocation.resetPosition(track, rearPosition);
+    m_frontLocation.resetPosition(track, headPosition);
+    m_rearLocation.resetPosition(track, rearPosition);
 }
 
 void Train::slide(float distance) {
     if(!m_isDriving) {
-        frontLocation.increment(distance);
-        rearLocation.increment(distance);
+        m_frontLocation.increment(distance);
+        m_rearLocation.increment(distance);
     }
 }
 
@@ -77,23 +125,40 @@ bool Train::drive(float dt) {
     m_controlModel->computeNewStates(m_speed,m_acceleration, m_speedSetpoint, dt);
 
     float positionDelta = m_speed * dt;
-    train_motion_result result1 = frontLocation.increment(positionDelta);
-    train_motion_result result2 = rearLocation.increment(positionDelta);
-    if(result1 != SUCCESS || result2 != SUCCESS) {
-        m_speedSetpoint = 0;
-        m_speed = 0;
-        qDebug() << "Train stopped.  Front and rear states: " << result1 << ", " << result2;
+    train_motion_result frontResult = m_frontLocation.increment(positionDelta);
+    train_motion_result rearResult = m_rearLocation.increment(positionDelta);
+
+    if(frontResult != ON_TRACK) {
+        m_railState = frontResult;
+    } else if(rearResult != ON_TRACK) {
+        m_railState = rearResult;
     }
 
-    return result1 == SUCCESS && result2 == SUCCESS;
+    if(frontResult != ON_TRACK || rearResult != ON_TRACK) {
+        stop();
+        qDebug() << "Train stopped.  Front and rear states: " << frontResult << ", " << rearResult;
+    }
+
+    return frontResult == ON_TRACK && rearResult == ON_TRACK;
 }
 
 void Train::stop() {
     m_isDriving = false;
+    m_speedSetpoint = 0;
+    m_speed = 0;
 }
 
+/* Train 2D location */
 QPointF Train::getLocationInWorld() {
-    QPointF frontPosition = frontLocation.getPositionInWorld();
-    QPointF rearPosition = rearLocation.getPositionInWorld();
+    QPointF frontPosition = m_frontLocation.getPositionInWorld();
+    QPointF rearPosition = m_rearLocation.getPositionInWorld();
     return (frontPosition + rearPosition) / 2;
+}
+
+QPointF Train::getFrontLocationInWorld() {
+    return m_frontLocation.getPositionInWorld();
+}
+
+QPointF Train::getRearLocationInWorld() {
+    return m_rearLocation.getPositionInWorld();
 }

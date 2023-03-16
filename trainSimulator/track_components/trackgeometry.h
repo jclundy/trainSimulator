@@ -25,6 +25,8 @@ public:
     void setRotationAboutRear(float degrees);
     void setForwardPosition(QPointF position);
     void setRearPosition(QPointF position);
+    void translateForwardPosition(QPointF position);
+    void translateRearPosition(QPointF position);
 private:
     // public members
     QLineF m_lineSegment;

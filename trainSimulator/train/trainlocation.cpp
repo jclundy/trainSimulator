@@ -14,7 +14,7 @@ TrainLocation::TrainLocation()
 train_motion_result TrainLocation::resetPosition(ITrackSegment* track, float newPosition) {
     m_track = track;
     m_positionOnTrack = 0;
-    m_state = SUCCESS;
+    m_state = ON_TRACK;
 
     // this will handle case when placing a train that is longer then a track segment
     float delta = newPosition;
@@ -23,12 +23,18 @@ train_motion_result TrainLocation::resetPosition(ITrackSegment* track, float new
 }
 
 train_motion_result TrainLocation::increment(float delta) {
+
+    if(m_track == NULL) {
+        m_state = DERAILED_OFF_TRACK;
+        return m_state;
+    }
+
     float newPosition = m_positionOnTrack + delta;
-    train_motion_result result = SUCCESS;
+    train_motion_result result = ON_TRACK;
     if(delta > 0) {
         if(newPosition < m_track->getLength()) {
             m_positionOnTrack = newPosition;
-            result = SUCCESS;
+            result = ON_TRACK;
         } else {
             float overshoot = newPosition - m_track->getLength();
             qDebug() << "moving to forward track with overshoot " << overshoot;
@@ -38,7 +44,7 @@ train_motion_result TrainLocation::increment(float delta) {
     } else { // delta < 0
         if(newPosition > 0) {
             m_positionOnTrack = newPosition;
-            result = SUCCESS;
+            result = ON_TRACK;
         } else {
             float overshoot = newPosition;
             result = moveToRearTrack(overshoot);
@@ -48,6 +54,10 @@ train_motion_result TrainLocation::increment(float delta) {
 }
 
 train_motion_result TrainLocation::moveToForwardTrack(float delta) {
+    if(m_track == NULL) {
+        m_state = DERAILED_OFF_TRACK;
+        return m_state;
+    }
     // 1. check if hit terminal
     if(m_track->isFrontTerminal()) {
 
@@ -72,7 +82,7 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
          * so the recursion should terminate evenutally
          */
         increment(delta);
-        return SUCCESS;
+        return ON_TRACK;
     } else {
         qDebug() << "Derailed at junction" << frontSegment->getId();
         qDebug() << "next track's selected rear: " << frontSegment->getSelectedRearEnd()->getId();
@@ -82,6 +92,10 @@ train_motion_result TrainLocation::moveToForwardTrack(float delta) {
 }
 
 train_motion_result TrainLocation::moveToRearTrack(float delta) {
+    if(m_track == NULL) {
+        m_state = DERAILED_OFF_TRACK;
+        return m_state;
+    }
     // 1. check if hit terminal
     if(m_track->isRearTerminal()) {
         m_positionOnTrack = 0;
@@ -117,6 +131,9 @@ float TrainLocation::getPositionOnTrack() {
 }
 
 QPointF TrainLocation::getPositionInWorld() {
+    if(m_track == NULL) {
+        return QPointF(0,0);
+    }
     float R = m_positionOnTrack; // measured from track 'rear-end'
     TrackGeometry* trackPosition = m_track->getTrackGeometry();
     float heading_rads = (180 - trackPosition->getHeading()) * M_PI / 180.0;
@@ -127,6 +144,13 @@ QPointF TrainLocation::getPositionInWorld() {
     return QPointF(x,y);
 }
 
-unsigned int TrainLocation::getTrackId() {
-    return m_track->getId();
+int TrainLocation::getTrackId() {
+    if(m_track != NULL) {
+        return m_track->getId();
+    }
+    return -1;
+}
+
+bool TrainLocation::onTrack() {
+    return m_track != NULL;
 }

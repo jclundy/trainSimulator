@@ -4,7 +4,7 @@
 #include "track_components/lineartrack.h"
 
 typedef enum {
-    SUCCESS,
+    ON_TRACK,
     HIT_TERMINAL,
     DERAILED_AT_JUNCTION,
     DERAILED_OFF_TRACK
@@ -22,7 +22,8 @@ public:
     train_motion_result getState();
     float getPositionOnTrack();
     QPointF getPositionInWorld();
-    unsigned int getTrackId();
+    int getTrackId();
+    bool onTrack();
 
 private:
     train_motion_result moveToForwardTrack(float delta);

@@ -1,27 +1,25 @@
-#include "traintest.h"
+#include "testutils.h"
 #include <QDebug>
 #include <math.h>
 
-void TrainTest::printTrackInfo(ITrackSegment *track) {
+void printTrackInfo(ITrackSegment *track) {
 
     qDebug() << "ID " << track->getId();
     qDebug() << "length " << track->getTrackGeometry()->getLength();
-    qDebug() << "center " << track->getTrackGeometry()->getCenter();
     qDebug() << "heading " << track->getTrackGeometry()->getHeading();
 
-    qDebug() << "Front TrackEnd:";
-    printPosition(track->getTrackGeometry()->getFrontEndPosition());
+    qDebug() << "Rear: " << track->getTrackGeometry()->getRearEndPosition();
 
-    qDebug() << "Rear TrackEnd:";
-    printPosition(track->getTrackGeometry()->getRearEndPosition());
+    qDebug() << "Front:" << track->getTrackGeometry()->getFrontEndPosition();
+
 }
 
-void TrainTest::printPosition(QPointF point) {
+void printPosition(QPointF point) {
     qDebug() << "Position (x,y): (" << point.x() << "," << point.y() << ")";
 }
 
-void TrainTest::printTrainLocation(Train* train) {
+void printTrainLocation(Train* train) {
     qDebug() << "Train world location" << train->getLocationInWorld();
-    qDebug() << "Train track id: " << train->frontLocation.getTrackId() << ", " << train->frontLocation.getPositionOnTrack() << " meters from track rear";
+    qDebug() << "Train track id: " << train->getFrontLocation().getTrackId() << ", " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear";
 }
 
