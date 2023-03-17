@@ -45,16 +45,26 @@ signal_placement Signal::getPlacement() {
     return m_placement;
 }
 
-void Signal::placeOnTrackFront(ITrackSegment* track) {
+bool Signal::placeOnTrackFront(ITrackSegment* track) {
+    if(m_trackSegment != NULL) {
+        return false;
+    }
     if(track->placeFrontSignal(this)) {
         m_placement = SIGNAL_TRACK_FRONT;
         m_trackSegment = track;
+        return true;
     }
+    return false;
 }
 
-void Signal::placeOnTrackRear(ITrackSegment* track) {
+bool Signal::placeOnTrackRear(ITrackSegment* track) {
+    if(m_trackSegment != NULL) {
+        return false;
+    }
     if(track->placeRearSignal(this)) {
         m_placement = SIGNAL_TRACK_REAR;
         m_trackSegment = track;
+        return true;
     }
+    return false;
 }

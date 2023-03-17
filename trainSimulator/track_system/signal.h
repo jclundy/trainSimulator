@@ -25,8 +25,8 @@ public:
     ITrackSegment* getTrackSegment();
     signal_placement getPlacement();
     // placement
-    void placeOnTrackFront(ITrackSegment*);
-    void placeOnTrackRear(ITrackSegment*);
+    bool placeOnTrackFront(ITrackSegment*);
+    bool placeOnTrackRear(ITrackSegment*);
 
 private:
     unsigned int m_id;
