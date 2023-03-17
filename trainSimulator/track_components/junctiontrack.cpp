@@ -192,6 +192,14 @@ void JunctionTrack::updateSignals() {
     }
 }
 
+void JunctionTrack::triggerSensors(Train *train, TrainLocation *trackLocation) {
+
+}
+
+void JunctionTrack::unTriggerSensors(Train *train) {
+
+}
+
 void JunctionTrack::addFrontConnection(ITrackSegment* track) {
     Q_UNUSED(track);
 }

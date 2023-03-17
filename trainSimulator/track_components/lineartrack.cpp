@@ -199,6 +199,18 @@ void LinearTrack::updateRearPosition(ITrackSegment* track) {
     }
 }
 
+
+void LinearTrack::updateFrontPosition(ITrackSegment* track) {
+    // if rear end is not fixed
+    if(isRearTerminal()) {
+        QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry.getFrontEndPosition();
+        m_trackGeometry.translate(delta);
+    } else {
+        // leave rear end in place, modify track length
+        m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
+    }
+}
+
 ISignal* LinearTrack::getFrontSignal() {
     return m_frontSignal;
 }
@@ -232,13 +244,11 @@ void LinearTrack::updateSignals() {
     }
 }
 
-void LinearTrack::updateFrontPosition(ITrackSegment* track) {
-    // if rear end is not fixed
-    if(isRearTerminal()) {
-        QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry.getFrontEndPosition();
-        m_trackGeometry.translate(delta);
-    } else {
-        // leave rear end in place, modify track length
-        m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
-    }
+
+void LinearTrack::triggerSensors(Train *train, TrainLocation *trackLocation) {
+
+}
+
+void LinearTrack::unTriggerSensors(Train *train) {
+
 }
