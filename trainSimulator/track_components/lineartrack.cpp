@@ -8,6 +8,8 @@ LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
     m_id = id;
     m_rearTrack = NULL;
     m_forwardTrack = NULL;
+    m_rearSignal = NULL;
+    m_frontSignal = NULL;
 }
 
 LinearTrack::~LinearTrack() {
@@ -68,6 +70,20 @@ QList<ITrackSegment*> LinearTrack::getRearNeighbours() {
         list.append(m_rearTrack);
     }
     return list;
+}
+
+bool LinearTrack::isConnectedForward() {
+    if(isFrontTerminal()) {
+        return false;
+    }
+    return m_forwardTrack->getSelectedRearEnd() == this;
+}
+
+bool LinearTrack::isConnectedReverse() {
+    if(isRearTerminal()) {
+        return false;
+    }
+    return m_rearTrack->getSelectedForwardEnd() == this;
 }
 
 bool LinearTrack::connectRearToTrack(ITrackSegment *track) {
@@ -207,18 +223,22 @@ bool LinearTrack::placeRearSignal(ISignal* signal) {
     return false;
 }
 
-
-#include <QDebug>
+void LinearTrack::updateSignals() {
+    if(m_frontSignal != NULL) {
+        m_frontSignal->update();
+    }
+    if(m_rearSignal != NULL) {
+        m_rearSignal->update();
+    }
+}
 
 void LinearTrack::updateFrontPosition(ITrackSegment* track) {
     // if rear end is not fixed
     if(isRearTerminal()) {
-        qDebug() << "updating front position " << getId() << " rear is terminal";
         QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry.getFrontEndPosition();
         m_trackGeometry.translate(delta);
     } else {
         // leave rear end in place, modify track length
-        qDebug() << "leaving rear in place " << getId() << " updating front position";
         m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
     }
 }

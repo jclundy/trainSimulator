@@ -39,32 +39,10 @@ void TrackSystem::driveJunctions() {
 }
 
 void TrackSystem::driveSignals() {
-    // Todo - implement me
 
-    /* Should follow the following simple rules:
-     *
-     * For signals on track ends:
-     * Always signal RED if on a terminal
-     *
-     * For signal on end of track:
-     * if there is a train going forward, and in forward track there is a train
-     * moving slower, stopped or reverse, signal RED
-     *
-     * if three is a train going reverse, and in previous track there is a a train
-     * moving slower, stopped or forward, signal RED
-     *
-     * For signals on junctions:
-     * Follow rules above
-     * If junction branch is disconnected, signal RED
-     *
-     *
-     * otherwise signal GREEN
-     */
-
-    /* Signals are only one-directional
-     * Signal on rear of a segment faces trains reversing though the segment
-     * Signal on the front of a segment faces trains going forward through the segment
-     */
+    for(int i = 0; i < m_signals.size(); i++) {
+        m_signals.at(i)->update();
+    }
 }
 
 void TrackSystem::driveTrains(float dt) {
@@ -99,6 +77,11 @@ QList<JunctionTrack*> TrackSystem::getJunctions() {
 QList<ITrackSegment*> TrackSystem::getTrackSegments() {
     return m_trackSegments;
 }
+
+QList<Signal*> TrackSystem::getSignals() {
+    return m_signals;
+}
+
 
 Train* TrackSystem::getTrainById(unsigned int id) {
     for(int i = 0; i < m_trains.size(); i++) {
@@ -150,4 +133,11 @@ JunctionTrack* TrackSystem::addJunctionTrack() {
     m_trackSegments.push_back(track);
     m_junctions.push_back(track);
     return track;
+}
+
+Signal* TrackSystem::addSignal() {
+    Signal* signal = new Signal(m_nextAvailableSignalId);
+    m_nextAvailableSignalId++;
+    m_signals.push_back(signal);
+    return signal;
 }

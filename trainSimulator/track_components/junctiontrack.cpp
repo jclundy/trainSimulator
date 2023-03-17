@@ -6,7 +6,8 @@ JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &posit
     m_trackGeometry(length, position)
 {
     m_id = id;
-
+    m_rearSignal = NULL;
+    m_frontSignal = NULL;
 }
 
 JunctionTrack::~JunctionTrack() {
@@ -56,6 +57,21 @@ QList<ITrackSegment*> JunctionTrack::getForwardNeighbours() {
 }
 QList<ITrackSegment*> JunctionTrack::getRearNeighbours() {
    return m_rearJunction.getBranches();
+}
+
+bool JunctionTrack::isConnectedForward() {
+    if(isFrontTerminal()) {
+        return false;
+    }
+
+    return getSelectedForwardEnd()->getSelectedRearEnd() == this;
+}
+
+bool JunctionTrack::isConnectedReverse() {
+    if(isRearTerminal()) {
+        return false;
+    }
+    return getSelectedRearEnd()->getSelectedForwardEnd() == this;
 }
 
 bool JunctionTrack::connectRearToTrack(ITrackSegment *track) {
@@ -158,6 +174,23 @@ bool JunctionTrack::placeRearSignal(ISignal* signal) {
     return false;
 }
 
+void JunctionTrack::updateSignals() {
+    if(m_frontSignal != NULL) {
+        m_frontSignal->update();
+    }
+    if(m_rearSignal != NULL) {
+        m_rearSignal->update();
+    }
+
+    for(int i = 0; i < m_forwardJunction.getNumBranches(); i++) {
+        ITrackSegment* track = m_forwardJunction.getBranches().at(i);
+        track->updateSignals();
+    }
+    for(int i = 0; i < m_rearJunction.getNumBranches(); i++) {
+        ITrackSegment* track = m_rearJunction.getBranches().at(i);
+        track->updateSignals();
+    }
+}
 
 void JunctionTrack::addFrontConnection(ITrackSegment* track) {
     Q_UNUSED(track);
@@ -183,18 +216,25 @@ void JunctionTrack::disconnectRear() {
 
 // branching
 bool JunctionTrack::selectForwardBranch(ITrackSegment* track) {
-    return m_forwardJunction.selectBranch(track);
+    bool result = m_forwardJunction.selectBranch(track);
+    updateSignals();
+    return result;
 }
 
 bool JunctionTrack::selectForwardBranchById(unsigned int id) {
-    return m_forwardJunction.selectBranchById(id);
+    bool result = m_forwardJunction.selectBranchById(id);
+    updateSignals();
+    return result;
 }
 
 bool JunctionTrack::selectRearBranch(ITrackSegment* track) {
-    return m_rearJunction.selectBranch(track);
+    bool result = m_rearJunction.selectBranch(track);
+    updateSignals();
+    return result;
 }
 
 bool JunctionTrack::selectRearBranchById(unsigned int id) {
-    return m_rearJunction.selectBranchById(id);
-
+    bool result = m_rearJunction.selectBranchById(id);
+    updateSignals();
+    return result;
 }

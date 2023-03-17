@@ -9,7 +9,8 @@ TrackSystemTest::TrackSystemTest()
 
 void TrackSystemTest::runTests() {
     testSetup();
-    testDrive1();
+//    testDrive1();
+    testSignals();
 }
 
 void TrackSystemTest::testSetup() {
@@ -47,8 +48,10 @@ void TrackSystemTest::testSetup() {
     track4->getTrackGeometry()->setRotationAboutFront(120);
     qDebug() << "connected track4 front to junction 1" << result;
 
+
     LinearTrack* track5 = m_trackSystem->addLinearTrack();
     qDebug() << "added track" << track5->getId();
+
 
     result = track5->connectRearToTrack(track1);
     qDebug() << "connected track5 rear to junction 1" << result;
@@ -56,6 +59,30 @@ void TrackSystemTest::testSetup() {
 
     qDebug() << "--------------------------------";
     printTrackSystemInfo();
+
+    qDebug() << "--------------------------------";
+    qDebug() << "Adding Signals";
+
+    Signal* signal_0_rear = m_trackSystem->addSignal();
+    signal_0_rear->placeOnTrackRear(track0);
+
+    Signal* signal_0_front = m_trackSystem->addSignal();
+    signal_0_front->placeOnTrackFront(track0);
+
+    Signal* signal_2_rear = m_trackSystem->addSignal();
+    signal_2_rear->placeOnTrackRear(track2);
+
+    Signal* signal_4_front = m_trackSystem->addSignal();
+    signal_4_front->placeOnTrackFront(track4);
+
+    Signal* signal_4_rear = m_trackSystem->addSignal();
+    signal_4_rear->placeOnTrackRear(track4);
+
+    Signal* signal_5_rear = m_trackSystem->addSignal();
+    signal_5_rear->placeOnTrackRear(track5);
+
+    Signal* signal_5_front = m_trackSystem->addSignal();
+    signal_5_front->placeOnTrackFront(track5);
 
 }
 
@@ -109,7 +136,50 @@ void TrackSystemTest::testDriving(int iterations, float dt) {
 }
 
 void TrackSystemTest::testSignals() {
+    qDebug() << "===============================";
+    qDebug() << "Testing signals";
 
+    qDebug() << "Signals before initialization";
+    printAllSignalInfo();
+
+    m_trackSystem->driveSignals();
+    qDebug() << "--------------------------------";
+    qDebug() << "Signals after initialization";
+    printAllSignalInfo();
+    qDebug() << "--------------------------------";
+    qDebug() << "Testing Junction switching";
+
+    Signal* sig0 = (Signal *) m_trackSystem->getTrackSegmentById(0)->getFrontSignal();
+    Signal* sig2 = (Signal *) m_trackSystem->getTrackSegmentById(2)->getRearSignal();
+    Signal* sig4 = (Signal *) m_trackSystem->getTrackSegmentById(4)->getFrontSignal();
+    Signal* sig5 = (Signal *) m_trackSystem->getTrackSegmentById(5)->getRearSignal();
+
+    qDebug() << "Selecting rear branch track0 and forward branch track 2";
+    JunctionTrack* track1 = m_trackSystem->getJunctionById(1);
+    track1->selectRearBranchById(0);
+    track1->selectForwardBranchById(2);
+
+    printSignalInfo(sig0);
+    printSignalInfo(sig2);
+    printSignalInfo(sig4);
+    printSignalInfo(sig5);
+    qDebug() << "--------------------------------";
+
+    qDebug() << "Selecting rear branch track4 and forward branch track 5";
+    track1->selectRearBranchById(4);
+    track1->selectForwardBranchById(5);
+
+    printSignalInfo(sig0);
+    printSignalInfo(sig2);
+    printSignalInfo(sig4);
+    printSignalInfo(sig5);
+
+}
+
+void TrackSystemTest::printAllSignalInfo() {
+    for(int i = 0; i < m_trackSystem->getSignals().size(); i++) {
+        printSignalInfo(m_trackSystem->getSignals().at(i));
+    }
 }
 
 void TrackSystemTest::printTrackSystemInfo() {

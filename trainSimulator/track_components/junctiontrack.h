@@ -28,6 +28,10 @@ public:
     ITrackSegment* getSelectedRearEnd() override;
     QList<ITrackSegment*> getForwardNeighbours() override;
     QList<ITrackSegment*> getRearNeighbours() override;
+
+    bool isConnectedForward() override;
+    bool isConnectedReverse() override;
+
     bool connectRearToTrack(ITrackSegment *track) override;
     bool connectFrontToTrack(ITrackSegment *track) override;
     void disconnectFromTrackSegment(ITrackSegment *track) override;
@@ -42,6 +46,7 @@ public:
     ISignal* getRearSignal() override;
     bool placeFrontSignal(ISignal* signal) override;
     bool placeRearSignal(ISignal* signal) override;
+    void updateSignals() override;
 
     // connectors
     void disconnectFromNeighbours();

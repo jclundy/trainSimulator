@@ -31,6 +31,9 @@ virtual ITrackSegment* getSelectedRearEnd() = 0;
 virtual QList<ITrackSegment*> getForwardNeighbours() = 0;
 virtual QList<ITrackSegment*> getRearNeighbours() = 0;
 
+virtual bool isConnectedForward() = 0;
+virtual bool isConnectedReverse() = 0;
+
 virtual void addFrontConnection(ITrackSegment* track) = 0;
 virtual void addRearConnection(ITrackSegment* track) = 0;
 
@@ -45,7 +48,7 @@ virtual ISignal* getFrontSignal() = 0;
 virtual ISignal* getRearSignal() = 0;
 virtual bool placeFrontSignal(ISignal* signal) = 0;
 virtual bool placeRearSignal(ISignal* signal) = 0;
-
+virtual void updateSignals() = 0;
 };
 
 #endif // ITRACKSEGMENT_H

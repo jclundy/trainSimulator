@@ -12,22 +12,29 @@ typedef enum {
 class Signal : public ISignal
 {
 public:
-    Signal();
+    Signal(unsigned int id);
     ~Signal();
     // ISignal Interface
     bool isRed() override;
     bool isGreen() override;
+    void update() override;
+
     // setters and getters
+    unsigned int getId();
     void setRed();
     void setGreen();
     void setState(bool state);
     ITrackSegment* getTrackSegment();
     signal_placement getPlacement();
     // placement
-    void placeOnTrackFront(ITrackSegment*);
-    void placeOnTrackRear(ITrackSegment*);
+    bool placeOnTrackFront(ITrackSegment*);
+    bool placeOnTrackRear(ITrackSegment*);
 
 private:
+    // private methods
+    bool checkTrackConnectedness();
+    // private members
+    unsigned int m_id;
     bool m_state; // true - green; red - false
     signal_placement m_placement;
     ITrackSegment* m_trackSegment;
