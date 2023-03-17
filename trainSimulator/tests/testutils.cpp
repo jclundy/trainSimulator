@@ -23,3 +23,17 @@ void printTrainLocation(Train* train) {
     qDebug() << "Train track id: " << train->getFrontLocation().getTrackId() << ", " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear";
 }
 
+void printSignalInfo(Signal* signal) {
+    ITrackSegment *track = signal->getTrackSegment();
+    if(track != NULL) {
+        qDebug() << "Signal ID" << signal->getId() << " on Track " << track->getId();
+    } else {
+        qDebug() << "Signal ID" << signal->getId() << " not placed";
+    }
+    if(signal->isRed()) {
+        qDebug() << "Signal is RED";
+    } else {
+        qDebug() << "Signal is GREEN";
+    }
+}
+
