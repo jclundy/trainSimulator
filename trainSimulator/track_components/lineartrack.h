@@ -15,10 +15,6 @@ public:
     ~LinearTrack();
 
     // ITrackSegment Interface
-    unsigned int getId() override;
-    TrackGeometry* getTrackGeometry() override;
-    float getLength() override;
-
     track_segment_type getType() override;
     bool isJunction() override;
     bool isLinear() override;
@@ -55,10 +51,9 @@ public:
     bool connectFrontToTrack(JunctionTrack *track);
 
 private:
-    unsigned int m_id;
+
     ITrackSegment* m_forwardTrack;
     ITrackSegment* m_rearTrack;
-    TrackGeometry m_trackGeometry;
 
 };
 

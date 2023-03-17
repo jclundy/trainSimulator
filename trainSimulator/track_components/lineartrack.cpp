@@ -16,18 +16,6 @@ LinearTrack::~LinearTrack() {
     disconnectBothEnds();
 }
 
-unsigned int LinearTrack::getId() {
-    return m_id;
-}
-
-TrackGeometry* LinearTrack::getTrackGeometry() {
-    return &m_trackGeometry;
-}
-
-float LinearTrack::getLength() {
-    return m_trackGeometry.getLength();
-}
-
 track_segment_type LinearTrack::getType() {
     return LINEAR_TRACK;
 }

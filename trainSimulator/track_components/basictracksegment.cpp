@@ -1,5 +1,16 @@
 #include "basictracksegment.h"
 
+unsigned int BasicTrackSegment::getId() {
+    return m_id;
+}
+
+float BasicTrackSegment::getLength() {
+    return m_trackGeometry.getLength();
+}
+
+TrackGeometry* BasicTrackSegment::getTrackGeometry() {
+    return &m_trackGeometry;
+}
 
 ISignal* BasicTrackSegment::getFrontSignal() {
     return m_frontSignal;

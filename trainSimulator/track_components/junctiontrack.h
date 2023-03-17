@@ -13,11 +13,6 @@ public:
     ~JunctionTrack();
 
     // ITrackSegment Interface
-
-    unsigned int getId() override;
-    TrackGeometry* getTrackGeometry() override;
-    float getLength() override;
-
     track_segment_type getType() override;
     bool isJunction() override;
     bool isLinear() override;   
@@ -56,11 +51,8 @@ public:
 
 private:
     // private members
-    unsigned int m_id;
     Junction m_forwardJunction;
     Junction m_rearJunction;
-
-    TrackGeometry m_trackGeometry;
 };
 
 #endif // JUNCTIONTRACK_H
