@@ -31,6 +31,9 @@ public:
     QList<ITrackSegment*> getForwardNeighbours() override;
     QList<ITrackSegment*> getRearNeighbours() override;
 
+    bool isConnectedForward() override;
+    bool isConnectedReverse() override;
+
     bool connectRearToTrack(ITrackSegment *track) override;
     bool connectFrontToTrack(ITrackSegment *track) override;
     void disconnectFromTrackSegment(ITrackSegment *track) override;

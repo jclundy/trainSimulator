@@ -59,6 +59,21 @@ QList<ITrackSegment*> JunctionTrack::getRearNeighbours() {
    return m_rearJunction.getBranches();
 }
 
+bool JunctionTrack::isConnectedForward() {
+    if(isFrontTerminal()) {
+        return false;
+    }
+
+    return getSelectedForwardEnd()->getSelectedRearEnd() == this;
+}
+
+bool JunctionTrack::isConnectedReverse() {
+    if(isRearTerminal()) {
+        return false;
+    }
+    return getSelectedRearEnd()->getSelectedForwardEnd() == this;
+}
+
 bool JunctionTrack::connectRearToTrack(ITrackSegment *track) {
     // do not allow a junction to be connected to a junction
     if(track->isJunction()) {

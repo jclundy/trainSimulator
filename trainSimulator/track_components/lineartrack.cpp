@@ -72,6 +72,20 @@ QList<ITrackSegment*> LinearTrack::getRearNeighbours() {
     return list;
 }
 
+bool LinearTrack::isConnectedForward() {
+    if(isFrontTerminal()) {
+        return false;
+    }
+    return m_forwardTrack->getSelectedRearEnd() == this;
+}
+
+bool LinearTrack::isConnectedReverse() {
+    if(isRearTerminal()) {
+        return false;
+    }
+    return m_rearTrack->getSelectedForwardEnd() == this;
+}
+
 bool LinearTrack::connectRearToTrack(ITrackSegment *track) {
     if(track->isLinear()) {
         return connectRearToTrack((LinearTrack *) track);
