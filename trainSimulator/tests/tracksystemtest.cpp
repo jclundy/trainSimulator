@@ -9,7 +9,8 @@ TrackSystemTest::TrackSystemTest()
 
 void TrackSystemTest::runTests() {
     testSetup();
-    testDrive1();
+//    testDrive1();
+    testSignals();
 }
 
 void TrackSystemTest::testSetup() {
