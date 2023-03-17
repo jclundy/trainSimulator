@@ -174,6 +174,19 @@ bool JunctionTrack::placeRearSignal(ISignal* signal) {
     return false;
 }
 
+void JunctionTrack::updateSignals() {
+    if(m_frontSignal != NULL) {
+        m_frontSignal->update();
+    }
+    if(m_rearSignal != NULL) {
+        m_rearSignal->update();
+    }
+
+    for(int i = 0; i < m_forwardJunction.getNumBranches(); i++) {
+        ITrackSegment* track = m_forwardJunction.getBranches().at(i);
+        track->updateSignals();
+    }
+}
 
 void JunctionTrack::addFrontConnection(ITrackSegment* track) {
     Q_UNUSED(track);
@@ -199,18 +212,21 @@ void JunctionTrack::disconnectRear() {
 
 // branching
 bool JunctionTrack::selectForwardBranch(ITrackSegment* track) {
+    updateSignals();
     return m_forwardJunction.selectBranch(track);
 }
 
 bool JunctionTrack::selectForwardBranchById(unsigned int id) {
+    updateSignals();
     return m_forwardJunction.selectBranchById(id);
 }
 
 bool JunctionTrack::selectRearBranch(ITrackSegment* track) {
+    updateSignals();
     return m_rearJunction.selectBranch(track);
 }
 
 bool JunctionTrack::selectRearBranchById(unsigned int id) {
+    updateSignals();
     return m_rearJunction.selectBranchById(id);
-
 }

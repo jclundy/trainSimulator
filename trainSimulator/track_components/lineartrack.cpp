@@ -223,6 +223,15 @@ bool LinearTrack::placeRearSignal(ISignal* signal) {
     return false;
 }
 
+void LinearTrack::updateSignals() {
+    if(m_frontSignal != NULL) {
+        m_frontSignal->update();
+    }
+    if(m_rearSignal != NULL) {
+        m_rearSignal->update();
+    }
+}
+
 
 #include <QDebug>
 

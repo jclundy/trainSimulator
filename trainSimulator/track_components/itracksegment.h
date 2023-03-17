@@ -48,7 +48,7 @@ virtual ISignal* getFrontSignal() = 0;
 virtual ISignal* getRearSignal() = 0;
 virtual bool placeFrontSignal(ISignal* signal) = 0;
 virtual bool placeRearSignal(ISignal* signal) = 0;
-
+virtual void updateSignals() = 0;
 };
 
 #endif // ITRACKSEGMENT_H
