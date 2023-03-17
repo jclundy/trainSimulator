@@ -17,6 +17,8 @@ public:
     // ISignal Interface
     bool isRed() override;
     bool isGreen() override;
+    void update() override;
+
     // setters and getters
     unsigned int getId();
     void setRed();

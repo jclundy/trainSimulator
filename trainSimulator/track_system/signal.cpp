@@ -21,6 +21,35 @@ bool Signal::isGreen() {
     return m_state;
 }
 
+void Signal::update() {
+    // Todo - implement me
+
+    /* Should follow the following simple rules:
+     *
+     * For signals on track ends:
+     * Always signal RED if on a terminal
+     *
+     * For signal on end of track:
+     * if there is a train going forward, and in forward track there is a train
+     * moving slower, stopped or reverse, signal RED
+     *
+     * if three is a train going reverse, and in previous track there is a a train
+     * moving slower, stopped or forward, signal RED
+     *
+     * For signals on junctions:
+     * Follow rules above
+     * If junction branch is disconnected, signal RED
+     *
+     *
+     * otherwise signal GREEN
+     */
+
+    /* Signals are only one-directional
+     * Signal on rear of a segment faces trains reversing though the segment
+     * Signal on the front of a segment faces trains going forward through the segment
+     */
+}
+
 unsigned int Signal::getId() {
     return m_id;
 }
