@@ -8,6 +8,8 @@ LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
     m_id = id;
     m_rearTrack = NULL;
     m_forwardTrack = NULL;
+    m_rearSignal = NULL;
+    m_frontSignal = NULL;
 }
 
 LinearTrack::~LinearTrack() {

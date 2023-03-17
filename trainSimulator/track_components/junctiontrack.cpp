@@ -6,7 +6,8 @@ JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &posit
     m_trackGeometry(length, position)
 {
     m_id = id;
-
+    m_rearSignal = NULL;
+    m_frontSignal = NULL;
 }
 
 JunctionTrack::~JunctionTrack() {
