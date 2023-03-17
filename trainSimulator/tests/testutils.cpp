@@ -24,16 +24,21 @@ void printTrainLocation(Train* train) {
 }
 
 void printSignalInfo(Signal* signal) {
+    QString color = (signal->isRed())? "RED" : "GREEN";
+
     ITrackSegment *track = signal->getTrackSegment();
     if(track != NULL) {
-        qDebug() << "Signal ID" << signal->getId() << " on Track " << track->getId();
+        QString placementStr = "";
+        auto placement = signal->getPlacement();
+        if(placement == SIGNAL_TRACK_FRONT) {
+            placementStr = "Front";
+        } else if (placement == SIGNAL_TRACK_REAR) {
+            placementStr = "Rear";
+        }
+
+        qDebug() << "Signal ID" << signal->getId() << "on Track " << track->getId() << placementStr << "; state=" << color;
     } else {
-        qDebug() << "Signal ID" << signal->getId() << " not placed";
-    }
-    if(signal->isRed()) {
-        qDebug() << "Signal is RED";
-    } else {
-        qDebug() << "Signal is GREEN";
+        qDebug() << "Signal ID" << signal->getId() << "not placed" << "; state=" << color;
     }
 }
 
