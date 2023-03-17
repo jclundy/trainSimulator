@@ -5,31 +5,37 @@
 TrackSensor::TrackSensor(float positionOnTrack, float timeout)
 {
     m_positionOnTrack = positionOnTrack;
-    m_timeoutSetting = timeout; //seconds
+    m_timeoutSetting = timeout; // seconds
     reset();
 }
 
-bool TrackSensor::isTrainPresent() {
+bool TrackSensor::isTrainPresent()
+{
     return m_trainPresent;
 }
 
-int TrackSensor::getTrainId() {
+int TrackSensor::getTrainId()
+{
     return m_trainId;
 }
 
-int TrackSensor::getTrainPriority() {
+int TrackSensor::getTrainPriority()
+{
     return m_trainPriority;
 }
 
-float TrackSensor::getTrainSpeed() {
+float TrackSensor::getTrainSpeed()
+{
     return m_trainSpeed;
 }
 
-float TrackSensor::getTrainPositionOnTrack() {
+float TrackSensor::getTrainPositionOnTrack()
+{
     return m_trainPositionOnTrack;
 }
 
-void TrackSensor::reset() {
+void TrackSensor::reset()
+{
     m_trainId = -1;
     m_trainPresent = false;
     m_trainPriority = 0;
@@ -37,28 +43,44 @@ void TrackSensor::reset() {
     m_countDown = 0;
 }
 
-void TrackSensor::trigger(Train* train, TrainLocation * trackLocation) {
+void TrackSensor::trigger(Train *train, TrainLocation *trackLocation)
+{
     // reset countdown
     m_countDown = m_timeoutSetting;
     m_trainPresent = true;
 
-    if(isTrainPresent() == false ) {
+    if (isTrainPresent() == false)
+    {
         // if no train previously present, just trigger the sensor
         updateTrainInfo(train, trackLocation);
-    } else if (m_trainId == (int)train->getId()) {
+    }
+    else if (m_trainId == (int)train->getId())
+    {
         // if it is the same train as before keep triggering the sensor
         updateTrainInfo(train, trackLocation);
-    } else {
+    }
+    else
+    {
         float currentDistanceToSensor = m_trainPositionOnTrack - m_positionOnTrack;
         float otherTrainsDistanceToSensor = trackLocation->getPositionOnTrack() - m_positionOnTrack;
 
-        if(fabs(currentDistanceToSensor) > fabs(otherTrainsDistanceToSensor)) {
+        if (fabs(currentDistanceToSensor) > fabs(otherTrainsDistanceToSensor))
+        {
             updateTrainInfo(train, trackLocation);
         }
     }
 }
 
-void TrackSensor::updateTrainInfo(Train* train, TrainLocation * trackLocation) {
+void TrackSensor::unTrigger(Train *train)
+{
+    if (m_trainId == (int) train->getId())
+    {
+        reset();
+    }
+}
+
+void TrackSensor::updateTrainInfo(Train *train, TrainLocation *trackLocation)
+{
     m_trainId = train->getId();
     m_trainPriority = train->getPriority();
     m_trainSpeed = train->getSpeed();
