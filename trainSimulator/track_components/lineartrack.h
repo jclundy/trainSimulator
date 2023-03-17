@@ -3,6 +3,7 @@
 
 #include "itracksegment.h"
 #include "junctiontrack.h"
+#include "train/ivehicle.h"
 #include <QLineF>
 
 class TrainTest;
@@ -50,8 +51,8 @@ public:
     bool placeRearSignal(ISignal* signal) override;
     void updateSignals() override;
 
-    void triggerSensors(Train *train, TrainLocation *trackLocation) override;
-    void unTriggerSensors(Train *train) override;
+    void triggerSensors(IVehicle *train, float positionOnTrack) override;
+    void unTriggerSensors(IVehicle *train) override;
 
     // connectors
     void disconnectBothEnds();

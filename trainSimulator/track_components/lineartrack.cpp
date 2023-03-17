@@ -245,10 +245,10 @@ void LinearTrack::updateSignals() {
 }
 
 
-void LinearTrack::triggerSensors(Train *train, TrainLocation *trackLocation) {
+void LinearTrack::triggerSensors(IVehicle *train, float positionOnTrack) {
 
 }
 
-void LinearTrack::unTriggerSensors(Train *train) {
+void LinearTrack::unTriggerSensors(IVehicle *train) {
 
 }

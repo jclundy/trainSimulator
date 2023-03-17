@@ -48,6 +48,10 @@ public:
     bool placeRearSignal(ISignal* signal) override;
     void updateSignals() override;
 
+    void triggerSensors(IVehicle *train, float positionOnTrack) override;
+    void unTriggerSensors(IVehicle *train) override;
+
+
     // connectors
     void disconnectFromNeighbours();
     void disconnectFront();

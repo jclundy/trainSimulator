@@ -192,11 +192,11 @@ void JunctionTrack::updateSignals() {
     }
 }
 
-void JunctionTrack::triggerSensors(Train *train, TrainLocation *trackLocation) {
+void JunctionTrack::triggerSensors(IVehicle *train, float positionOnTrack) {
 
 }
 
-void JunctionTrack::unTriggerSensors(Train *train) {
+void JunctionTrack::unTriggerSensors(IVehicle *train) {
 
 }
 
