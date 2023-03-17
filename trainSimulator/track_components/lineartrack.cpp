@@ -199,7 +199,6 @@ void LinearTrack::updateRearPosition(ITrackSegment* track) {
     }
 }
 
-
 void LinearTrack::updateFrontPosition(ITrackSegment* track) {
     // if rear end is not fixed
     if(isRearTerminal()) {
@@ -209,46 +208,4 @@ void LinearTrack::updateFrontPosition(ITrackSegment* track) {
         // leave rear end in place, modify track length
         m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
     }
-}
-
-ISignal* LinearTrack::getFrontSignal() {
-    return m_frontSignal;
-}
-
-ISignal* LinearTrack::getRearSignal() {
-    return m_rearSignal;
-}
-
-bool LinearTrack::placeFrontSignal(ISignal* signal) {
-    if(m_frontSignal== NULL) {
-        m_frontSignal = signal;
-        return true;
-    }
-    return false;
-}
-
-bool LinearTrack::placeRearSignal(ISignal* signal) {
-    if(m_rearSignal == NULL) {
-        m_rearSignal = signal;
-        return true;
-    }
-    return false;
-}
-
-void LinearTrack::updateSignals() {
-    if(m_frontSignal != NULL) {
-        m_frontSignal->update();
-    }
-    if(m_rearSignal != NULL) {
-        m_rearSignal->update();
-    }
-}
-
-
-void LinearTrack::triggerSensors(IVehicle *train, float positionOnTrack) {
-
-}
-
-void LinearTrack::unTriggerSensors(IVehicle *train) {
-
 }
