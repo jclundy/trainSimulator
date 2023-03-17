@@ -12,6 +12,8 @@ public:
     void testDrive1();
     void testSignals();
     void printTrackSystemInfo();
+    void printAllSignalInfo();
+
 private:
     TrackSystem* m_trackSystem;
     void testDriving(int iterations = 100, float dt=0.5);
