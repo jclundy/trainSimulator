@@ -186,6 +186,10 @@ void JunctionTrack::updateSignals() {
         ITrackSegment* track = m_forwardJunction.getBranches().at(i);
         track->updateSignals();
     }
+    for(int i = 0; i < m_rearJunction.getNumBranches(); i++) {
+        ITrackSegment* track = m_rearJunction.getBranches().at(i);
+        track->updateSignals();
+    }
 }
 
 void JunctionTrack::addFrontConnection(ITrackSegment* track) {
@@ -212,21 +216,25 @@ void JunctionTrack::disconnectRear() {
 
 // branching
 bool JunctionTrack::selectForwardBranch(ITrackSegment* track) {
+    bool result = m_forwardJunction.selectBranch(track);
     updateSignals();
-    return m_forwardJunction.selectBranch(track);
+    return result;
 }
 
 bool JunctionTrack::selectForwardBranchById(unsigned int id) {
+    bool result = m_forwardJunction.selectBranchById(id);
     updateSignals();
-    return m_forwardJunction.selectBranchById(id);
+    return result;
 }
 
 bool JunctionTrack::selectRearBranch(ITrackSegment* track) {
+    bool result = m_rearJunction.selectBranch(track);
     updateSignals();
-    return m_rearJunction.selectBranch(track);
+    return result;
 }
 
 bool JunctionTrack::selectRearBranchById(unsigned int id) {
+    bool result = m_rearJunction.selectBranchById(id);
     updateSignals();
-    return m_rearJunction.selectBranchById(id);
+    return result;
 }
