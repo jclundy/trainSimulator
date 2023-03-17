@@ -48,6 +48,10 @@ void Signal::update() {
      * Signal on rear of a segment faces trains reversing though the segment
      * Signal on the front of a segment faces trains going forward through the segment
      */
+
+    // 1. check connectedness of forward and rear track segments
+    bool newState = checkTrackConnectedness();
+    setState(newState);
 }
 
 unsigned int Signal::getId() {
@@ -96,4 +100,16 @@ bool Signal::placeOnTrackRear(ITrackSegment* track) {
         return true;
     }
     return false;
+}
+
+bool Signal::checkTrackConnectedness() {
+    if(m_trackSegment == NULL) {
+        return false;
+    }
+    if(m_placement == SIGNAL_TRACK_FRONT) {
+        return m_trackSegment->isConnectedForward();
+    } else if(m_placement == SIGNAL_TRACK_REAR) {
+       return m_trackSegment->isConnectedReverse();
+    }
+    return true;
 }

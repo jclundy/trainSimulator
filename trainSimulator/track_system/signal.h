@@ -31,6 +31,9 @@ public:
     bool placeOnTrackRear(ITrackSegment*);
 
 private:
+    // private methods
+    bool checkTrackConnectedness();
+    // private members
     unsigned int m_id;
     bool m_state; // true - green; red - false
     signal_placement m_placement;
