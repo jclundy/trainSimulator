@@ -158,7 +158,6 @@ void TrackSystemTest::testSignals() {
     JunctionTrack* track1 = m_trackSystem->getJunctionById(1);
     track1->selectRearBranchById(0);
     track1->selectForwardBranchById(2);
-    m_trackSystem->driveSignals();
 
     printSignalInfo(sig0);
     printSignalInfo(sig2);
@@ -169,7 +168,6 @@ void TrackSystemTest::testSignals() {
     qDebug() << "Selecting rear branch track4 and forward branch track 5";
     track1->selectRearBranchById(4);
     track1->selectForwardBranchById(5);
-    m_trackSystem->driveSignals();
 
     printSignalInfo(sig0);
     printSignalInfo(sig2);
