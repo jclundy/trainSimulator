@@ -232,18 +232,13 @@ void LinearTrack::updateSignals() {
     }
 }
 
-
-#include <QDebug>
-
 void LinearTrack::updateFrontPosition(ITrackSegment* track) {
     // if rear end is not fixed
     if(isRearTerminal()) {
-        qDebug() << "updating front position " << getId() << " rear is terminal";
         QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry.getFrontEndPosition();
         m_trackGeometry.translate(delta);
     } else {
         // leave rear end in place, modify track length
-        qDebug() << "leaving rear in place " << getId() << " updating front position";
         m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
     }
 }
