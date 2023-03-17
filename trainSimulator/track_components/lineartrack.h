@@ -1,10 +1,8 @@
 #ifndef TRACKSEGMENT_H
 #define TRACKSEGMENT_H
 
-#include "itracksegment.h"
 #include "junctiontrack.h"
 #include "basictracksegment.h"
-#include "train/ivehicle.h"
 #include <QLineF>
 
 class TrainTest;

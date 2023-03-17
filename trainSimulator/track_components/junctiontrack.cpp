@@ -150,56 +150,6 @@ void JunctionTrack::updateFrontPosition(ITrackSegment* track) {
     }
 }
 
-ISignal* JunctionTrack::getFrontSignal() {
-    return m_frontSignal;
-}
-
-ISignal* JunctionTrack::getRearSignal() {
-    return m_rearSignal;
-}
-
-bool JunctionTrack::placeFrontSignal(ISignal* signal) {
-    if(m_frontSignal== NULL) {
-        m_frontSignal = signal;
-        return true;
-    }
-    return false;
-}
-
-bool JunctionTrack::placeRearSignal(ISignal* signal) {
-    if(m_rearSignal == NULL) {
-        m_rearSignal = signal;
-        return true;
-    }
-    return false;
-}
-
-void JunctionTrack::updateSignals() {
-    if(m_frontSignal != NULL) {
-        m_frontSignal->update();
-    }
-    if(m_rearSignal != NULL) {
-        m_rearSignal->update();
-    }
-
-    for(int i = 0; i < m_forwardJunction.getNumBranches(); i++) {
-        ITrackSegment* track = m_forwardJunction.getBranches().at(i);
-        track->updateSignals();
-    }
-    for(int i = 0; i < m_rearJunction.getNumBranches(); i++) {
-        ITrackSegment* track = m_rearJunction.getBranches().at(i);
-        track->updateSignals();
-    }
-}
-
-void JunctionTrack::triggerSensors(IVehicle *train, float positionOnTrack) {
-
-}
-
-void JunctionTrack::unTriggerSensors(IVehicle *train) {
-
-}
-
 void JunctionTrack::addFrontConnection(ITrackSegment* track) {
     Q_UNUSED(track);
 }
