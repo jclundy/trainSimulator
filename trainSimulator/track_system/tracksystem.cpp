@@ -78,6 +78,11 @@ QList<ITrackSegment*> TrackSystem::getTrackSegments() {
     return m_trackSegments;
 }
 
+QList<Signal*> TrackSystem::getSignals() {
+    return m_signals;
+}
+
+
 Train* TrackSystem::getTrainById(unsigned int id) {
     for(int i = 0; i < m_trains.size(); i++) {
         if(m_trains.at(i)->getId() == id) {
