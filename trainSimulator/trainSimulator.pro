@@ -59,4 +59,5 @@ HEADERS += \
     track_system/isignal.h \
     tests/tracksystemtest.h \
     tests/testutils.h \
-    track_components/tracksensor.h
+    track_components/tracksensor.h \
+    train/ivehicle.h
