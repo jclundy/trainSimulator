@@ -5,6 +5,8 @@
 #include "trackgeometry.h"
 #include "track_system/isignal.h"
 #include "train/ivehicle.h"
+#include "track_components/tracksensor.h"
+
 typedef enum {
     LINEAR_TRACK,
     JUNCTION_TRACK
@@ -52,6 +54,8 @@ virtual void updateSignals() = 0;
 
 virtual void triggerSensors(IVehicle *train, float positionOnTrack) = 0;
 virtual void unTriggerSensors(IVehicle *train) = 0;
+virtual TrackSensor* getFrontSensor() = 0;
+virtual TrackSensor* getRearSensor() = 0;
 };
 
 #endif // ITRACKSEGMENT_H
