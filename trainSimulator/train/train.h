@@ -12,6 +12,10 @@ typedef enum {
     TRAIN_HEAD_TOWARDS_TRACK_REAR
 } train_orientation;
 
+typedef struct {
+    train_motion_result front, rear;
+} train_full_motion_result;
+
 class Train : public IVehicle
 {
 friend class TrainTest;
@@ -49,6 +53,7 @@ private:
     // private methods
     void triggerSensors();
     void unTriggerSensors();
+    train_full_motion_result move(float positionDelta);
 
     // private members
     unsigned int m_id;
