@@ -34,6 +34,16 @@ float TrackSensor::getTrainPositionOnTrack()
     return m_trainPositionOnTrack;
 }
 
+track_sensor_data TrackSensor::getSensorData() {
+    track_sensor_data sensorData = default_track_sensor_data;
+    sensorData.trainPresent = m_trainPresent;
+    sensorData.trainId = m_trainId;
+    sensorData.trainSpeed = m_trainSpeed;
+    sensorData.positionOnTrack = m_positionOnTrack;
+    return sensorData;
+}
+
+
 void TrackSensor::reset()
 {
     m_trainId = -1;

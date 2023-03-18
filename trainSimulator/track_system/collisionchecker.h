@@ -3,18 +3,8 @@
 
 #include "track_components/itracksegment.h"
 #include "train/ivehicle.h"
+#include "track_components/tracksensor.h"
 
-typedef struct {
-    bool trainPresent;
-    float trainSpeed;
-    int trainId;
-} train_speed_data;
-
-static const train_speed_data default_train_speed_data = {
-    .trainPresent = false,
-    .trainSpeed = 0,
-    .trainId = -1
-};
 
 class CollisionChecker
 {
@@ -27,8 +17,8 @@ public:
     static bool trainBlockingRear(ITrackSegment* currentTrack);
     static bool collisionOccured(IVehicle* train1, IVehicle* train2);
 
-    static train_speed_data getSpeedOfTrainClosestToFront(ITrackSegment* track);
-    static train_speed_data getSpeedOfTrainClosestToRear(ITrackSegment* track);
+    static track_sensor_data getSensorDataOfTrainClosestToFront(ITrackSegment* track);
+    static track_sensor_data getSensorDataOfTrainClosestToRear(ITrackSegment* track);
 };
 
 #endif // COLLISIONCHECKER_H

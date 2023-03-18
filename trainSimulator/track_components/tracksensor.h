@@ -3,6 +3,20 @@
 
 #include "train/ivehicle.h"
 
+typedef struct {
+    bool trainPresent;
+    float trainSpeed;
+    int trainId;
+    float positionOnTrack; // from track rear
+} track_sensor_data;
+
+static const track_sensor_data default_track_sensor_data = {
+    .trainPresent = false,
+    .trainSpeed = 0,
+    .trainId = -1,
+    .positionOnTrack = 0
+};
+
 class TrackSensor
 {
 public:
@@ -14,6 +28,7 @@ public:
     int getTrainPriority();
     float getTrainSpeed();
     float getTrainPositionOnTrack();
+    track_sensor_data getSensorData();
 
     // setters
     void reset();
@@ -22,10 +37,11 @@ public:
     void countDown(float dt);
     void reposition(float position);
 
+
 private:
     void updateTrainInfo(IVehicle *train, float positionOnTrack);
 
-    int m_positionOnTrack;
+    float m_positionOnTrack;
     bool m_trainPresent;
     int m_trainId;
     int m_trainPriority;
