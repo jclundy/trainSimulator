@@ -22,36 +22,44 @@ void TrackPathTable::initialize(TrackSystem *trackSystem, unsigned int targetId)
 
 void TrackPathTable::computeTable() {
     // run
-    PathTableEntry rootEntry = m_table[m_targetId];
-    rootEntry.setVisited();
-    m_unvisited.remove(rootEntry.getTrackId());
-
-    m_table[m_targetId] = rootEntry;
-
     int currentId = m_targetId;
-    float currentDistance = m_table[currentId].getDistanceToTarget();
 
-    // 1. Update neighbours of current
-    ITrackSegment* currentTrack = m_unvisited[currentId];
-    if(currentTrack != NULL) {
-        QList<ITrackSegment*> forwardNeighbours = currentTrack->getForwardNeighbours();
-        for(int i = 0; i < forwardNeighbours.size(); i++) {
-            ITrackSegment* neighbour = forwardNeighbours.at(i);
-            PathTableEntry neighbourEntry = m_table[neighbour->getId()];
-            // 'reverse' direction, as we would reverse neighbour to get to current
-            neighbourEntry.update(currentId, currentDistance, PATH_REVERSE_DIRECTION);
+    while(m_unvisited.size() > 0) {
+        // 1. Set current entry as visited from set of unvisited
+        PathTableEntry currentEntry = m_table[m_targetId];
+        currentEntry.setVisited();
+
+        // 2. Update neighbours of current
+        ITrackSegment* currentTrack = m_unvisited[currentId];
+        float currentDistance = m_table[currentId].getDistanceToTarget();
+
+        if(currentTrack != NULL) {
+            QList<ITrackSegment*> forwardNeighbours = currentTrack->getForwardNeighbours();
+            for(int i = 0; i < forwardNeighbours.size(); i++) {
+                ITrackSegment* neighbour = forwardNeighbours.at(i);
+                PathTableEntry neighbourEntry = m_table[neighbour->getId()];
+                // 'reverse' direction, as we would reverse neighbour to get to current
+                neighbourEntry.update(currentId, currentDistance, PATH_REVERSE_DIRECTION);
+            }
+
+            QList<ITrackSegment*> rearNeighbours = currentTrack->getRearNeighbours();
+            for(int i = 0; i < rearNeighbours.size(); i++) {
+                ITrackSegment* neighbour = rearNeighbours.at(i);
+                PathTableEntry neighbourEntry = m_table[neighbour->getId()];
+                // 'forward' direction, as we would go forward from neighbour to get to current
+                neighbourEntry.update(currentId, currentDistance, PATH_FORWARD_DIRECTION);
+            }
         }
 
-        QList<ITrackSegment*> rearNeighbours = currentTrack->getRearNeighbours();
-        for(int i = 0; i < rearNeighbours.size(); i++) {
-            ITrackSegment* neighbour = rearNeighbours.at(i);
-            PathTableEntry neighbourEntry = m_table[neighbour->getId()];
-            // 'forward' direction, as we would go forward from neighbour to get to current
-            neighbourEntry.update(currentId, currentDistance, PATH_FORWARD_DIRECTION);
+        //3. Remove current from list of unvisited
+        m_unvisited.remove(currentEntry.getTrackId());
+
+        //4. Find next closest node and re[eat
+        currentId = findIdOfClosest();
+        if(currentId == -1) {
+            return;
         }
     }
-
-    //2. Find next closest node
 
 
 }
