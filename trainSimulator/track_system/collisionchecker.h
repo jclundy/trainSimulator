@@ -5,6 +5,12 @@
 #include "train/ivehicle.h"
 #include "track_components/tracksensor.h"
 
+typedef struct {
+    bool collisionWillOccur;
+    float timeTillCollision;
+    float displacementOfRearTrain;
+    float displacementOfForwardTrain;
+} collision_info_t;
 
 class CollisionChecker
 {
@@ -19,6 +25,8 @@ public:
 
     static track_sensor_data getSensorDataOfTrainClosestToFront(ITrackSegment* track);
     static track_sensor_data getSensorDataOfTrainClosestToRear(ITrackSegment* track);
+
+    static collision_info_t computeCollision(ITrackSegment* rearTrack, ITrackSegment* frontTrack);
 };
 
 #endif // COLLISIONCHECKER_H

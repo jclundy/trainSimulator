@@ -75,3 +75,42 @@ track_sensor_data CollisionChecker::getSensorDataOfTrainClosestToRear(ITrackSegm
     }
     return sensorData;
 }
+
+collision_info_t CollisionChecker::computeCollision(ITrackSegment* rearTrack, ITrackSegment* frontTrack) {
+    track_sensor_data rearTrain = getSensorDataOfTrainClosestToFront(rearTrack);
+    track_sensor_data frontTrain = getSensorDataOfTrainClosestToRear(frontTrack);
+
+    collision_info_t collisionData;
+    collisionData.collisionWillOccur = false;
+    collisionData.displacementOfForwardTrain = 0;
+    collisionData.displacementOfRearTrain = 0;
+    collisionData.timeTillCollision = -1;
+
+    float rearLength = rearTrack->getLength();
+
+    if(rearTrain.trainPresent && frontTrain.trainPresent && rearTrain.trainId != frontTrain.trainId) {
+
+        if(rearTrain.trainSpeed> frontTrain.trainSpeed) {
+            collisionData.collisionWillOccur = true;
+
+            float p1 = rearTrain.positionOnTrack;
+            float v1 = rearTrain.trainSpeed;
+
+            float p2 = rearLength + frontTrain.positionOnTrack;
+            float v2 = frontTrain.trainSpeed;
+
+            float dt = -1;
+            float epsilon = 0.001;
+            // p1 + v1*dt = p2 + v2*dt
+            // (p1 - p2)/(v2 - v1) = dt
+            if(fabs(v2 - v1) > epsilon) {
+                dt = (p1 - p2) / (v2 - v1);
+            }
+            collisionData.timeTillCollision = dt;
+            collisionData.displacementOfForwardTrain = v2*dt;
+            collisionData.displacementOfRearTrain = v1*dt;
+
+        }
+    }
+    return collisionData;
+}
