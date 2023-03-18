@@ -83,6 +83,8 @@ void Train::place(ITrackSegment *track, train_orientation orientation) {
 
     m_frontLocation.resetPosition(track, headPosition);
     m_rearLocation.resetPosition(track, rearPosition);
+
+    triggerSensors();
 }
 
 void Train::slide(float distance) {
@@ -128,6 +130,8 @@ bool Train::drive(float dt) {
     train_motion_result frontResult = m_frontLocation.increment(positionDelta);
     train_motion_result rearResult = m_rearLocation.increment(positionDelta);
 
+    triggerSensors();
+
     if(frontResult != ON_TRACK) {
         m_railState = frontResult;
     } else if(rearResult != ON_TRACK) {
@@ -161,4 +165,17 @@ QPointF Train::getFrontLocationInWorld() {
 
 QPointF Train::getRearLocationInWorld() {
     return m_rearLocation.getPositionInWorld();
+}
+
+void Train::triggerSensors() {
+    ITrackSegment *frontTrack = m_frontLocation.getTrack();
+    if(frontTrack != NULL) {
+        frontTrack->triggerSensors(this, m_frontLocation.getPositionOnTrack());
+    }
+
+    ITrackSegment *rearTrack = m_rearLocation.getTrack();
+    if(rearTrack != NULL) {
+        rearTrack->triggerSensors(this, m_rearLocation.getPositionOnTrack());
+    }
+
 }

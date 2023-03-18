@@ -24,6 +24,7 @@ public:
     QPointF getPositionInWorld();
     int getTrackId();
     bool onTrack();
+    ITrackSegment* getTrack();
 
 private:
     train_motion_result moveToForwardTrack(float delta);

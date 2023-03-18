@@ -154,3 +154,7 @@ int TrainLocation::getTrackId() {
 bool TrainLocation::onTrack() {
     return m_track != NULL;
 }
+
+ITrackSegment* TrainLocation::getTrack() {
+    return m_track;
+}
