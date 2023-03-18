@@ -2,7 +2,8 @@
 // library includes
 #include <math.h>
 
-LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
+LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position) :
+    BasicTrackSegment(id, length)
 {
     m_id = id;
     m_rearTrack = NULL;

@@ -1,6 +1,7 @@
 #include "junctiontrack.h"
 
 JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position, unsigned int maxBranches):
+    BasicTrackSegment(id, length),
     m_forwardJunction(this, maxBranches),
     m_rearJunction(this, maxBranches)
 {

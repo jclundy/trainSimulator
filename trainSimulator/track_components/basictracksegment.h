@@ -3,11 +3,12 @@
 
 #include "itracksegment.h"
 #include "trackgeometry.h"
-//#include "tracksensor.h"
+#include "tracksensor.h"
 
 class BasicTrackSegment : public ITrackSegment
 {
 public:
+    BasicTrackSegment(unsigned int id, float length);
     ~BasicTrackSegment() {}
     unsigned int getId() override;
     float getLength() override;
@@ -29,8 +30,8 @@ protected:
     ISignal * m_frontSignal;
     ISignal * m_rearSignal;
 
-//    TrackSensor m_frontSensor;
-//    TrackSensor m_rearSensor;
+    TrackSensor m_frontSensor;
+    TrackSensor m_rearSensor;
 };
 
 #endif // BASICTRACKSEGMENT_H
