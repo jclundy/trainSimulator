@@ -9,7 +9,7 @@ public:
     void update(unsigned int neighbourId, float neighbourDistance);
 
     bool getVisited();
-    bool setVisited();
+    void setVisited();
 
     unsigned int getTrackId();
     float getTrackLength();

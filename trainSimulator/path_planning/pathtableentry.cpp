@@ -22,7 +22,7 @@ bool PathTableEntry::getVisited() {
     return m_visited;
 }
 
-bool PathTableEntry::setVisited() {
+void PathTableEntry::setVisited() {
     m_visited = true;
 }
 
