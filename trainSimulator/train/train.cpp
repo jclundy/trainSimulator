@@ -98,8 +98,12 @@ void Train::place(ITrackSegment *track, train_orientation orientation) {
 
 void Train::slide(float distance) {
     if(!m_isDriving) {
+        unTriggerSensors();
+
         m_frontLocation.increment(distance);
         m_rearLocation.increment(distance);
+
+        triggerSensors();
     }
 }
 
@@ -136,10 +140,11 @@ bool Train::drive(float dt) {
     m_controlModel->computeNewStates(m_speed,m_acceleration, m_speedSetpoint, dt);
 
     float positionDelta = m_speed * dt;
+    unTriggerSensors();
+
     train_motion_result frontResult = m_frontLocation.increment(positionDelta);
     train_motion_result rearResult = m_rearLocation.increment(positionDelta);
 
-    unTriggerSensors();
     triggerSensors();
 
     if(frontResult != ON_TRACK) {
