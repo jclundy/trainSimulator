@@ -48,6 +48,7 @@ public:
 private:
     // private methods
     void triggerSensors();
+    void unTriggerSensors();
 
     // private members
     unsigned int m_id;

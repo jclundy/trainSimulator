@@ -68,6 +68,9 @@ train_motion_result Train::getRailState() {
 
 /* Initialization */
 void Train::place(ITrackSegment *track, train_orientation orientation) {
+
+    unTriggerSensors();
+
     if(m_isDriving) {
         qDebug() << "can't re-position train while driving";
         return;
@@ -136,6 +139,7 @@ bool Train::drive(float dt) {
     train_motion_result frontResult = m_frontLocation.increment(positionDelta);
     train_motion_result rearResult = m_rearLocation.increment(positionDelta);
 
+    unTriggerSensors();
     triggerSensors();
 
     if(frontResult != ON_TRACK) {
@@ -185,3 +189,16 @@ void Train::triggerSensors() {
     }
 
 }
+
+void Train::unTriggerSensors() {
+    ITrackSegment *frontTrack = m_frontLocation.getTrack();
+    if(frontTrack != NULL) {
+        frontTrack->unTriggerSensors(this);
+    }
+
+    ITrackSegment *rearTrack = m_rearLocation.getTrack();
+    if(rearTrack != NULL) {
+        rearTrack->unTriggerSensors(this);
+    }
+}
+
