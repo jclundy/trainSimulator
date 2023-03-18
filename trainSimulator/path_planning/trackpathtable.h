@@ -8,6 +8,7 @@
 typedef struct {
     unsigned int trackId;
     int trackLength;
+    int distanceToTarget;
     unsigned int nextId;
     int directionToNext; //-1=reverse, 1=forward, 0=stop
 } path_table_entry;
@@ -28,6 +29,7 @@ public:
 
 private:
     QMap<unsigned int, path_table_entry> m_table;
+    unsigned int m_targetId;
 };
 
 #endif // TRACKPATHTABLE_H
