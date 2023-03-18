@@ -1,6 +1,7 @@
 #include "signal.h"
 
 #include "track_components/tracksensor.h"
+#include "collisionchecker.h"
 
 Signal::Signal(unsigned int id)
 {
@@ -123,52 +124,13 @@ bool Signal::checkCollisionFree() {
     }
 
     if(m_placement == SIGNAL_TRACK_FRONT) {
-        return checkCollisionFree(m_trackSegment, m_trackSegment->getSelectedForwardEnd());
+        bool forwardCollision = CollisionChecker::collisionWillOccurInForwardDirection(m_trackSegment, m_trackSegment->getSelectedForwardEnd());
+        bool forwardBlocked = CollisionChecker::trainBlockingForward(m_trackSegment);
+        return !forwardCollision && !forwardBlocked;
     } else if (m_placement == SIGNAL_TRACK_REAR) {
-        return checkCollisionFree(m_trackSegment->getSelectedRearEnd(), m_trackSegment);
-    }
-    return true;
-}
-
-bool Signal::checkCollisionFree(ITrackSegment* rearTrack, ITrackSegment* frontTrack) {
-    bool rearTrainPresent = false;
-    int rearTrainId = -1;
-    float rearTrainSpeed = 0;
-
-    // check rear track for presence of train
-    if(rearTrack != NULL) {
-        TrackSensor* closestRearSensor = rearTrack->getFrontSensor();
-        if(closestRearSensor != NULL) {
-            rearTrainPresent = closestRearSensor->isTrainPresent();
-            rearTrainId = closestRearSensor->getTrainId();
-            rearTrainSpeed = closestRearSensor->getTrainSpeed();
-        }
-    }
-
-    // check track in front for presence of train
-    bool frontTrainPresent = false;
-    int frontTrainId = -1;
-    float frontTrainSpeed = 0;
-
-    if(frontTrack != NULL) {
-        TrackSensor* closestForwardSensor = frontTrack->getRearSensor();
-        if(closestForwardSensor != NULL) {
-            frontTrainPresent = closestForwardSensor->isTrainPresent();
-            frontTrainId = closestForwardSensor->getTrainId();
-            frontTrainSpeed = closestForwardSensor->getTrainSpeed();
-        }
-    }
-
-    if(rearTrainPresent && frontTrainPresent && rearTrainId != frontTrainId) {
-        // right now just checking based on speed - could also add a safe distance requirement in the future
-//        if(rearTrainSpeed > frontTrainSpeed) {
-//            return false;
-//        } else if(m_placement== SIGNAL_TRACK_FRONT && frontTrainSpeed <= 0) {
-//            return false;
-//        } else if(m_placement== SIGNAL_TRACK_REAR && rearTrainSpeed >= 0) {
-//            return false;
-//        }
-        return false;
+        bool rearCollision = CollisionChecker::collisionWillOccurInReverseDirection(m_trackSegment, m_trackSegment->getSelectedForwardEnd());
+        bool rearBlocked = CollisionChecker::trainBlockingRear(m_trackSegment);
+        return !rearCollision && !rearBlocked;
     }
     return true;
 }
