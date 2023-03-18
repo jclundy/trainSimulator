@@ -1,12 +1,17 @@
 #ifndef PATHTABLEENTRY_H
 #define PATHTABLEENTRY_H
 
+typedef enum {
+    PATH_REVERSE_DIRECTION = -1,
+    PATH_STAY_PUT = 0,
+    PATH_FORWARD_DIRECTION = 1,
+} path_direction;
 
 class PathTableEntry
 {
 public:
     PathTableEntry(unsigned int id, float trackLength);
-    void update(unsigned int neighbourId, float neighbourDistance);
+    void update(unsigned int neighbourId, float neighbourDistance, path_direction direction);
 
     bool getVisited();
     void setVisited();

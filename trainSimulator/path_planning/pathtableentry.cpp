@@ -14,8 +14,13 @@ PathTableEntry::PathTableEntry(unsigned int id, float trackLength)
 }
 
 
-void PathTableEntry::update(unsigned int neighbourId, float neighbourDistance) {
-
+void PathTableEntry::update(unsigned int neighbourId, float neighbourDistance, path_direction direction) {
+    // if uninitialized or neighbour is closer to the target, update our closest neighbour
+    if(m_distanceToTarget == -1 || neighbourDistance + m_trackLength < m_distanceToTarget) {
+        m_nextId = neighbourId;
+        m_distanceToTarget = neighbourDistance + m_trackLength;
+        m_directionToNext = direction;
+    }
 }
 
 bool PathTableEntry::getVisited() {
