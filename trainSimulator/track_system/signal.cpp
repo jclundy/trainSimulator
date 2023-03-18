@@ -1,5 +1,7 @@
 #include "signal.h"
 
+#include "track_components/tracksensor.h"
+
 Signal::Signal(unsigned int id)
 {
     m_state = true;
@@ -51,6 +53,7 @@ void Signal::update() {
 
     // 1. check connectedness of forward and rear track segments
     bool newState = checkTrackConnectedness();
+    newState &= checkCollisionFree();
     setState(newState);
 }
 
@@ -110,6 +113,62 @@ bool Signal::checkTrackConnectedness() {
         return m_trackSegment->isConnectedForward();
     } else if(m_placement == SIGNAL_TRACK_REAR) {
        return m_trackSegment->isConnectedReverse();
+    }
+    return true;
+}
+
+bool Signal::checkCollisionFree() {
+    if(m_trackSegment == NULL) {
+        return true;
+    }
+
+    if(m_placement == SIGNAL_TRACK_FRONT) {
+        return checkCollisionFree(m_trackSegment, m_trackSegment->getSelectedForwardEnd());
+    } else if (m_placement == SIGNAL_TRACK_REAR) {
+        return checkCollisionFree(m_trackSegment->getSelectedRearEnd(), m_trackSegment);
+    }
+    return true;
+}
+
+bool Signal::checkCollisionFree(ITrackSegment* rearTrack, ITrackSegment* frontTrack) {
+    bool rearTrainPresent = false;
+    int rearTrainId = -1;
+    float rearTrainSpeed = 0;
+
+    // check rear track for presence of train
+    if(rearTrack != NULL) {
+        TrackSensor* closestRearSensor = rearTrack->getFrontSensor();
+        if(closestRearSensor != NULL) {
+            rearTrainPresent = closestRearSensor->isTrainPresent();
+            rearTrainId = closestRearSensor->getTrainId();
+            rearTrainSpeed = closestRearSensor->getTrainSpeed();
+        }
+    }
+
+    // check track in front for presence of train
+    bool frontTrainPresent = false;
+    int frontTrainId = -1;
+    float frontTrainSpeed = 0;
+
+    if(frontTrack != NULL) {
+        TrackSensor* closestForwardSensor = frontTrack->getRearSensor();
+        if(closestForwardSensor != NULL) {
+            frontTrainPresent = closestForwardSensor->isTrainPresent();
+            frontTrainId = closestForwardSensor->getTrainId();
+            frontTrainSpeed = closestForwardSensor->getTrainSpeed();
+        }
+    }
+
+    if(rearTrainPresent && frontTrainPresent && rearTrainId != frontTrainId) {
+        // right now just checking based on speed - could also add a safe distance requirement in the future
+//        if(rearTrainSpeed > frontTrainSpeed) {
+//            return false;
+//        } else if(m_placement== SIGNAL_TRACK_FRONT && frontTrainSpeed <= 0) {
+//            return false;
+//        } else if(m_placement== SIGNAL_TRACK_REAR && rearTrainSpeed >= 0) {
+//            return false;
+//        }
+        return false;
     }
     return true;
 }

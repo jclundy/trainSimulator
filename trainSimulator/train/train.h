@@ -12,17 +12,18 @@ typedef enum {
     TRAIN_HEAD_TOWARDS_TRACK_REAR
 } train_orientation;
 
-class Train
+class Train : public IVehicle
 {
 friend class TrainTest;
 
 public:
     Train(unsigned int id, float length = 5);
+    ~Train();
     // getters and setters
-    unsigned int getId();
-    float getSpeed();
+    unsigned int getId() override;
+    float getSpeed() override;
     float getAcceleration();
-    int getPriority();
+    int getPriority() override;
     TrainLocation getFrontLocation();
     TrainLocation getRearLocation();
     void setPriority(int priority);
@@ -45,6 +46,11 @@ public:
     QPointF getRearLocationInWorld();
 
 private:
+    // private methods
+    void triggerSensors();
+    void unTriggerSensors();
+
+    // private members
     unsigned int m_id;
     int m_priority;
     float m_speed; // relative to track

@@ -1,13 +1,13 @@
 #ifndef TRACKSEGMENT_H
 #define TRACKSEGMENT_H
 
-#include "itracksegment.h"
 #include "junctiontrack.h"
+#include "basictracksegment.h"
 #include <QLineF>
 
 class TrainTest;
 
-class LinearTrack : public ITrackSegment
+class LinearTrack : public BasicTrackSegment
 {
 friend class TrainTest;
 public:
@@ -15,10 +15,6 @@ public:
     ~LinearTrack();
 
     // ITrackSegment Interface
-    unsigned int getId() override;
-    TrackGeometry* getTrackGeometry() override;
-    float getLength() override;
-
     track_segment_type getType() override;
     bool isJunction() override;
     bool isLinear() override;
@@ -44,12 +40,6 @@ public:
     void updateRearPosition(ITrackSegment* track) override;
     void updateFrontPosition(ITrackSegment* track) override;
 
-    ISignal* getFrontSignal() override;
-    ISignal* getRearSignal() override;
-    bool placeFrontSignal(ISignal* signal) override;
-    bool placeRearSignal(ISignal* signal) override;
-    void updateSignals() override;
-
     // connectors
     void disconnectBothEnds();
     void disconnectFront();
@@ -61,12 +51,10 @@ public:
     bool connectFrontToTrack(JunctionTrack *track);
 
 private:
-    unsigned int m_id;
+
     ITrackSegment* m_forwardTrack;
     ITrackSegment* m_rearTrack;
-    TrackGeometry m_trackGeometry;
-    ISignal * m_frontSignal;
-    ISignal * m_rearSignal;
+
 };
 
 #endif // TRACKSEGMENT_H

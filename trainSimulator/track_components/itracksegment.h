@@ -4,6 +4,8 @@
 #include <QList>
 #include "trackgeometry.h"
 #include "track_system/isignal.h"
+#include "train/ivehicle.h"
+#include "track_components/tracksensor.h"
 
 typedef enum {
     LINEAR_TRACK,
@@ -49,6 +51,11 @@ virtual ISignal* getRearSignal() = 0;
 virtual bool placeFrontSignal(ISignal* signal) = 0;
 virtual bool placeRearSignal(ISignal* signal) = 0;
 virtual void updateSignals() = 0;
+
+virtual void triggerSensors(IVehicle *train, float positionOnTrack) = 0;
+virtual void unTriggerSensors(IVehicle *train) = 0;
+virtual TrackSensor* getFrontSensor() = 0;
+virtual TrackSensor* getRearSensor() = 0;
 };
 
 #endif // ITRACKSEGMENT_H

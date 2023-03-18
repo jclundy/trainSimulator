@@ -39,7 +39,8 @@ SOURCES += \
     track_system/tracksystem.cpp \
     track_system/signal.cpp \
     tests/tracksystemtest.cpp \
-    track_components/tracksensor.cpp
+    track_components/tracksensor.cpp \
+    track_components/basictracksegment.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -59,4 +60,6 @@ HEADERS += \
     track_system/isignal.h \
     tests/tracksystemtest.h \
     tests/testutils.h \
-    track_components/tracksensor.h
+    track_components/tracksensor.h \
+    train/ivehicle.h \
+    track_components/basictracksegment.h
