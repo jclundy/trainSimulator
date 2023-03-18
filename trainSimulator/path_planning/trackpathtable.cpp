@@ -5,12 +5,13 @@ TrackPathTable::TrackPathTable()
 
 }
 
-void TrackPathTable::initialize(QList<ITrackSegment*> trackList, unsigned int targetId) {
+void TrackPathTable::initialize(TrackSystem *trackSystem, unsigned int targetId) {
     m_table.clear();
     m_targetId = targetId;
+    m_trackSystem = trackSystem;
 
-    for(int i = 0; i < trackList.size(); i++) {
-        ITrackSegment* track = trackList.at(i);
+    for(int i = 0; i < trackSystem->getTrackSegments().size(); i++) {
+        ITrackSegment* track = trackSystem->getTrackSegments().at(i);
         path_table_entry entry;
         entry.trackId = track->getId();
         entry.trackLength = track->getLength();

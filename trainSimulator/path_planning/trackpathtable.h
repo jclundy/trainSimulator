@@ -1,7 +1,7 @@
 #ifndef TRACKPATHTABLE_H
 #define TRACKPATHTABLE_H
 
-#include "track_components/itracksegment.h"
+#include "track_system/tracksystem.h"
 #include <QList>
 #include <QMap>
 
@@ -22,12 +22,13 @@ class TrackPathTable
 {
 public:
     TrackPathTable();
-    void initialize(QList<ITrackSegment*> trackList, unsigned int targetId);
+    void initialize(TrackSystem *trackSystem, unsigned int targetId);
     void computeTable();
     int getDirectionToNext(unsigned int trackId);
     QList<path_step> getPathListFrom(unsigned int trackId);
 
 private:
+    TrackSystem* m_trackSystem;
     QMap<unsigned int, path_table_entry> m_table;
     unsigned int m_targetId;
 };
