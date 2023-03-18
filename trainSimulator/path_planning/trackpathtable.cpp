@@ -18,11 +18,39 @@ void TrackPathTable::initialize(TrackSystem *trackSystem, unsigned int targetId)
         entry.directionToNext = 0;
         entry.distanceToTarget = -1;
         entry.nextId = track->getId();
+        entry.visited = false;
         m_table.insert(entry.trackId, entry);
+        m_unvisited.insert(entry.trackId, track);
     }
+
 }
 
 void TrackPathTable::computeTable() {
+    // run
+    path_table_entry rootEntry = m_table[m_targetId];
+    rootEntry.distanceToTarget = 0;
+    rootEntry.directionToNext = 0;
+    rootEntry.nextId = m_targetId;
+    rootEntry.visited = true;
+    m_table[m_targetId] = rootEntry;
+
+    int currentId = m_targetId;
+    ITrackSegment* currentTrack = m_unvisited[currentId];
+    if(currentTrack != NULL) {
+        QList<ITrackSegment*> forwardNeighbours = currentTrack->getForwardNeighbours();
+        for(int i = 0; i < forwardNeighbours.size(); i++) {
+            ITrackSegment* neighbour = forwardNeighbours.at(i);
+            auto neighbour_id = neighbour->getId();
+
+            float newDistanceToTarget = m_table[currentId].distanceToTarget + neighbour->getLength();
+            if(m_table[neighbour_id].distanceToTarget == -1) {
+                m_table[neighbour_id].distanceToTarget = newDistanceToTarget;
+                m_tab
+            }
+        }
+
+    }
+    m_table.remove(currentId);
 
 }
 

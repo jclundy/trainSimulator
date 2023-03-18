@@ -11,6 +11,7 @@ typedef struct {
     int distanceToTarget;
     unsigned int nextId;
     int directionToNext; //-1=reverse, 1=forward, 0=stop
+    bool visited;
 } path_table_entry;
 
 typedef struct {
@@ -29,6 +30,7 @@ public:
 
 private:
     TrackSystem* m_trackSystem;
+    QMap<unsigned int, ITrackSegment*> m_unvisited;
     QMap<unsigned int, path_table_entry> m_table;
     unsigned int m_targetId;
 };
