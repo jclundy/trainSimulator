@@ -9,8 +9,9 @@ TrackSystemTest::TrackSystemTest()
 
 void TrackSystemTest::runTests() {
     testSetup();
-//    testDrive1();
     testSignals();
+    testDrive1();
+
 }
 
 void TrackSystemTest::testSetup() {
@@ -192,6 +193,9 @@ void TrackSystemTest::testSignals() {
     qDebug() << "===============================";
     qDebug() << "testing signals by placing trains";
     qDebug() << "--------------------------------";
+    track1->selectRearBranchById(0);
+    track1->selectForwardBranchById(2);
+
     Train* train0 = m_trackSystem->getTrainById(0);
     train0->stop();
 
@@ -200,26 +204,45 @@ void TrackSystemTest::testSignals() {
 
     Train* train1 = m_trackSystem->addTrain();
     train1->place(track1);
-    track1->selectRearBranchById(0);
     qDebug() << "placed trains on tracks 0 and 1";
+    m_trackSystem->driveSignals();
+
+    printTrainLocation(train0);
+    printTrainLocation(train1);
+
     printAllSignalInfo();
 
+
     qDebug() << "--------------------------------";
-    qDebug() << "placed trains on tracks 2 and 1";
-    train0->place(track1);
-    train1->place(m_trackSystem->getTrackSegmentById(2));
+    qDebug() << "sliding trains to tracks 1 and 2";
+    track1->selectRearBranchById(0);
     track1->selectForwardBranchById(2);
+
+    train1->slide(track1->getLength());
+    train0->slide(track0->getLength());
+
+    printTrainLocation(train0);
+    printTrainLocation(train1);
+
+    m_trackSystem->driveSignals();
+
     printAllSignalInfo();
 
     qDebug() << "--------------------------------";
-    qDebug() << "placed trains on tracks 2 and 3";
-    train0->place(m_trackSystem->getTrackSegmentById(2));
-    train1->place(m_trackSystem->getTrackSegmentById(3));
+    qDebug() << "sliding trains on tracks 2 and 3";
 
-    train0->setDesiredSpeed(0);
-    train1->setDesiredSpeed(0);
+    auto track2 = m_trackSystem->getTrackSegmentById(2);
+    train1->slide(track2->getLength());
+    train0->slide(track1->getLength());
 
-    m_trackSystem->driveTrains(0.5);
+    printTrainLocation(train0);
+    printTrainLocation(train1);
+
+//    train0->setDesiredSpeed(0);
+//    train1->setDesiredSpeed(0);
+
+//    m_trackSystem->driveTrains(0.5);
+    m_trackSystem->driveSignals();
 
     printAllSignalInfo();
 

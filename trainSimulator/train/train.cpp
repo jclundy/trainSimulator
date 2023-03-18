@@ -98,11 +98,9 @@ void Train::place(ITrackSegment *track, train_orientation orientation) {
 
 void Train::slide(float distance) {
     if(!m_isDriving) {
-        m_frontLocation.increment(distance);
-        m_rearLocation.increment(distance);
+        move(distance);
     }
 }
-
 
 void Train::setStartingSpeed(float speed) {
     if(m_isDriving) {
@@ -136,24 +134,21 @@ bool Train::drive(float dt) {
     m_controlModel->computeNewStates(m_speed,m_acceleration, m_speedSetpoint, dt);
 
     float positionDelta = m_speed * dt;
-    train_motion_result frontResult = m_frontLocation.increment(positionDelta);
-    train_motion_result rearResult = m_rearLocation.increment(positionDelta);
 
-    unTriggerSensors();
-    triggerSensors();
+    train_full_motion_result motionResult = move(positionDelta);
 
-    if(frontResult != ON_TRACK) {
-        m_railState = frontResult;
-    } else if(rearResult != ON_TRACK) {
-        m_railState = rearResult;
+    if(motionResult.front != ON_TRACK) {
+        m_railState = motionResult.front;
+    } else if(motionResult.rear != ON_TRACK) {
+        m_railState = motionResult.rear;
     }
 
-    if(frontResult != ON_TRACK || rearResult != ON_TRACK) {
+    if(motionResult.front != ON_TRACK || motionResult.rear != ON_TRACK) {
         stop();
-        qDebug() << "Train stopped.  Front and rear states: " << frontResult << ", " << rearResult;
+        qDebug() << "Train stopped.  Front and rear states: " << motionResult.front << ", " << motionResult.rear;
     }
 
-    return frontResult == ON_TRACK && rearResult == ON_TRACK;
+    return motionResult.front == ON_TRACK && motionResult.rear == ON_TRACK;
 }
 
 void Train::stop() {
@@ -201,4 +196,13 @@ void Train::unTriggerSensors() {
         rearTrack->unTriggerSensors(this);
     }
 }
+train_full_motion_result Train::move(float positionDelta) {
+    train_full_motion_result result;
 
+    unTriggerSensors();
+    result.front = m_frontLocation.increment(positionDelta);
+    result.rear = m_rearLocation.increment(positionDelta);
+    triggerSensors();
+
+    return result;
+}

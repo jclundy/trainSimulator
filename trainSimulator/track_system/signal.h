@@ -34,7 +34,6 @@ private:
     // private methods
     bool checkTrackConnectedness();
     bool checkCollisionFree();
-    bool checkCollisionFree(ITrackSegment* rearTrack, ITrackSegment* frontTrack);
     // private members
     unsigned int m_id;
     bool m_state; // true - green; red - false
