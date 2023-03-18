@@ -2,17 +2,10 @@
 #define TRACKPATHTABLE_H
 
 #include "track_system/tracksystem.h"
+#include "pathtableentry.h"
+
 #include <QList>
 #include <QMap>
-
-typedef struct {
-    unsigned int trackId;
-    int trackLength;
-    int distanceToTarget;
-    unsigned int nextId;
-    int directionToNext; //-1=reverse, 1=forward, 0=stop
-    bool visited;
-} path_table_entry;
 
 typedef struct {
     unsigned int trackId;
@@ -31,7 +24,7 @@ public:
 private:
     TrackSystem* m_trackSystem;
     QMap<unsigned int, ITrackSegment*> m_unvisited;
-    QMap<unsigned int, path_table_entry> m_table;
+    QMap<unsigned int, PathTableEntry> m_table;
     unsigned int m_targetId;
 };
 
