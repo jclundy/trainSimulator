@@ -18,6 +18,7 @@ friend class TrainTest;
 
 public:
     Train(unsigned int id, float length = 5);
+    ~Train();
     // getters and setters
     unsigned int getId() override;
     float getSpeed() override;

@@ -16,6 +16,12 @@ Train::Train(unsigned int id, float length)
 
 }
 
+Train::~Train() {
+    if(m_controlModel != NULL) {
+        delete m_controlModel;
+    }
+}
+
 /* Basic getters and setters*/
 unsigned int Train::getId() {
     return m_id;

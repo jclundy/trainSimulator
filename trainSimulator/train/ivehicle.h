@@ -3,7 +3,7 @@
 
 class IVehicle {
 public:
-    ~IVehicle() {}
+    virtual ~IVehicle() {}
     virtual unsigned int getId() = 0;
     virtual int getPriority() = 0;
     virtual float getSpeed() = 0;
