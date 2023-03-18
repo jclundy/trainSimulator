@@ -12,10 +12,22 @@ bool CollisionChecker::collisionWillOccur(ITrackSegment* rearTrack, ITrackSegmen
 }
 
 bool CollisionChecker::collisionWillOccurInForwardDirection(ITrackSegment* rearTrack, ITrackSegment* frontTrack) {
+    train_speed_data rearTrain = getSpeedOfTrainClosestToFront(rearTrack);
+    train_speed_data frontTrain = getSpeedOfTrainClosestToRear(frontTrack);
+
+    if(rearTrain.trainPresent && frontTrain.trainPresent && rearTrain.trainId != frontTrain.trainId) {
+        return rearTrain.trainSpeed> frontTrain.trainSpeed && rearTrain.trainSpeed > 0;
+    }
     return false;
 }
 
 bool CollisionChecker::collisionWillOccurInReverseDirection(ITrackSegment* rearTrack, ITrackSegment* frontTrack) {
+    train_speed_data rearTrain = getSpeedOfTrainClosestToFront(rearTrack);
+    train_speed_data frontTrain = getSpeedOfTrainClosestToRear(frontTrack);
+
+    if(rearTrain.trainPresent && frontTrain.trainPresent && rearTrain.trainId != frontTrain.trainId) {
+        return rearTrain.trainSpeed> frontTrain.trainSpeed && frontTrain.trainSpeed < 0;
+    }
     return false;
 }
 
