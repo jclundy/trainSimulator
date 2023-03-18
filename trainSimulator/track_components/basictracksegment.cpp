@@ -59,6 +59,7 @@ void BasicTrackSegment::triggerSensors(IVehicle *train, float positionOnTrack) {
     if(m_rearSensor != NULL) {
         m_rearSensor->trigger(train, positionOnTrack);
     }
+    updateSignals();
 
 }
 
@@ -69,6 +70,7 @@ void BasicTrackSegment::unTriggerSensors(IVehicle *train) {
     if(m_rearSensor != NULL) {
         m_rearSensor->unTrigger(train);
     }
+    updateSignals();
 }
 
 TrackSensor* BasicTrackSegment::getFrontSensor() {
