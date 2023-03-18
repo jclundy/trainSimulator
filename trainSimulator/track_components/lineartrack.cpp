@@ -14,6 +14,7 @@ LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
 
 LinearTrack::~LinearTrack() {
     disconnectBothEnds();
+    delete m_trackGeometry;
 }
 
 track_segment_type LinearTrack::getType() {

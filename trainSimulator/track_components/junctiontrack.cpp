@@ -12,6 +12,7 @@ JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &posit
 
 JunctionTrack::~JunctionTrack() {
     disconnectFromNeighbours();
+    delete m_trackGeometry;
 }
 
 // ITrackSegment Interface
