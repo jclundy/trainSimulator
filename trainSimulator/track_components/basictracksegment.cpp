@@ -1,13 +1,5 @@
 #include "basictracksegment.h"
 
-BasicTrackSegment::BasicTrackSegment(unsigned int id, float length) :
-    m_id(id),
-    m_frontSensor(0),
-    m_rearSensor(length)
-{
-
-}
-
 unsigned int BasicTrackSegment::getId() {
     return m_id;
 }

@@ -2,8 +2,7 @@
 // library includes
 #include <math.h>
 
-LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position) :
-    BasicTrackSegment(id, length)
+LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
 {
     m_id = id;
     m_rearTrack = NULL;
@@ -11,11 +10,16 @@ LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
     m_rearSignal = NULL;
     m_frontSignal = NULL;
     m_trackGeometry = new TrackGeometry(length, position);
+
+    m_frontSensor = new TrackSensor(length);
+    m_rearSensor = new TrackSensor(0);
 }
 
 LinearTrack::~LinearTrack() {
     disconnectBothEnds();
     delete m_trackGeometry;
+    delete m_frontSensor;
+    delete m_rearSensor;
 }
 
 track_segment_type LinearTrack::getType() {

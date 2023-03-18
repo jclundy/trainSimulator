@@ -1,7 +1,6 @@
 #include "junctiontrack.h"
 
 JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position, unsigned int maxBranches):
-    BasicTrackSegment(id, length),
     m_forwardJunction(this, maxBranches),
     m_rearJunction(this, maxBranches)
 {
@@ -9,11 +8,15 @@ JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &posit
     m_rearSignal = NULL;
     m_frontSignal = NULL;
     m_trackGeometry = new TrackGeometry(length, position);
+    m_frontSensor = new TrackSensor(0);
+    m_rearSensor = new TrackSensor(length);
 }
 
 JunctionTrack::~JunctionTrack() {
     disconnectFromNeighbours();
     delete m_trackGeometry;
+    delete m_frontSensor;
+    delete m_rearSensor;
 }
 
 // ITrackSegment Interface

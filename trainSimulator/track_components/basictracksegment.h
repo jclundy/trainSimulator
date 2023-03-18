@@ -8,7 +8,6 @@
 class BasicTrackSegment : public ITrackSegment
 {
 public:
-    BasicTrackSegment(unsigned int id, float length);
     ~BasicTrackSegment() {}
     unsigned int getId() override;
     float getLength() override;
@@ -27,11 +26,11 @@ protected:
     unsigned int m_id;
     TrackGeometry* m_trackGeometry;
 
-    ISignal * m_frontSignal;
-    ISignal * m_rearSignal;
+    ISignal* m_frontSignal;
+    ISignal* m_rearSignal;
 
-    TrackSensor m_frontSensor;
-    TrackSensor m_rearSensor;
+    TrackSensor* m_frontSensor;
+    TrackSensor* m_rearSensor;
 };
 
 #endif // BASICTRACKSEGMENT_H
