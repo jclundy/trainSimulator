@@ -45,7 +45,7 @@ void TrackPathTable::computeTable() {
             float newDistanceToTarget = m_table[currentId].distanceToTarget + neighbour->getLength();
             if(m_table[neighbour_id].distanceToTarget == -1) {
                 m_table[neighbour_id].distanceToTarget = newDistanceToTarget;
-                m_tab
+//                m_tab
             }
         }
 
