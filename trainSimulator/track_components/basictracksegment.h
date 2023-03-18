@@ -22,6 +22,9 @@ public:
     void triggerSensors(IVehicle *train, float positionOnTrack) override;
     void unTriggerSensors(IVehicle *train) override;
 
+    TrackSensor* getFrontSensor();
+    TrackSensor* getRearSensor();
+
 protected:
     unsigned int m_id;
     TrackGeometry* m_trackGeometry;

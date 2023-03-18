@@ -70,3 +70,11 @@ void BasicTrackSegment::unTriggerSensors(IVehicle *train) {
         m_rearSensor->unTrigger(train);
     }
 }
+
+TrackSensor* BasicTrackSegment::getFrontSensor() {
+    return m_frontSensor;
+}
+
+TrackSensor* BasicTrackSegment::getRearSensor() {
+    return m_rearSensor;
+}
