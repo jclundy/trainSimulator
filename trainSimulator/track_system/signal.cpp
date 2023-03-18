@@ -161,13 +161,14 @@ bool Signal::checkCollisionFree(ITrackSegment* rearTrack, ITrackSegment* frontTr
 
     if(rearTrainPresent && frontTrainPresent && rearTrainId != frontTrainId) {
         // right now just checking based on speed - could also add a safe distance requirement in the future
-        if(rearTrainSpeed > frontTrainSpeed) {
-            return false;
-        } else if(m_placement== SIGNAL_TRACK_FRONT && frontTrainSpeed <= 0) {
-            return false;
-        } else if(m_placement== SIGNAL_TRACK_REAR && rearTrainSpeed >= 0) {
-            return false;
-        }
+//        if(rearTrainSpeed > frontTrainSpeed) {
+//            return false;
+//        } else if(m_placement== SIGNAL_TRACK_FRONT && frontTrainSpeed <= 0) {
+//            return false;
+//        } else if(m_placement== SIGNAL_TRACK_REAR && rearTrainSpeed >= 0) {
+//            return false;
+//        }
+        return false;
     }
     return true;
 }
