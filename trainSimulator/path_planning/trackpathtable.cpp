@@ -31,6 +31,7 @@ void TrackPathTable::computeTable() {
     int currentId = m_targetId;
     float currentDistance = m_table[currentId].getDistanceToTarget();
 
+    // 1. Update neighbours of current
     ITrackSegment* currentTrack = m_unvisited[currentId];
     if(currentTrack != NULL) {
         QList<ITrackSegment*> forwardNeighbours = currentTrack->getForwardNeighbours();
@@ -50,7 +51,41 @@ void TrackPathTable::computeTable() {
         }
     }
 
+    //2. Find next closest node
+
+
 }
+
+int TrackPathTable::findIdOfClosest() {
+
+    int closestId = -1;
+    float closestDistance = -1;
+
+    QMapIterator<unsigned int, PathTableEntry> i(m_table);
+    while (i.hasNext()) {
+        i.next();
+        float newId = i.key();
+        PathTableEntry entry = m_table[newId];
+        float newDistance = entry.getDistanceToTarget();
+
+
+        if(closestId == -1) {
+            closestId = newId;
+            closestDistance = newDistance;
+        } else {
+            if(closestDistance == -1 && newDistance >= 0) {
+                closestId = newId;
+                closestDistance = newDistance;
+            } else if (newDistance < closestDistance) {
+                closestId = newId;
+                closestDistance = newDistance;
+            }
+        }
+    }
+
+    return closestId;
+}
+
 
 int TrackPathTable::getDirectionToNext(unsigned int trackId) {
     return 0;

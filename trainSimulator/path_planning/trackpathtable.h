@@ -22,6 +22,8 @@ public:
     QList<path_step> getPathListFrom(unsigned int trackId);
 
 private:
+    int findIdOfClosest();
+
     TrackSystem* m_trackSystem;
     QMap<unsigned int, ITrackSegment*> m_unvisited;
     QMap<unsigned int, PathTableEntry> m_table;
