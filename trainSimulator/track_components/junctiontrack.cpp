@@ -232,39 +232,61 @@ void JunctionTrack::checkCollisions() {
 // most viable - track doesn't have a train
 // 2nd most viable - track has train, but will result in longest time before collision
 int JunctionTrack::mostViableForwardBranchNumber() {
-    int winningBranch = 0;
-    float winningTimeTillCollision = 0;
-    float winningBranchLength = getLength();
-    bool winningBranchHasCollision = true;
+
+    branch_selection_criteria winningBranch;
+    winningBranch.branchNum = -1;
+    winningBranch.hasCollision = true;
+    winningBranch.length = -1;
+    winningBranch.timeTillCollision = 0;
 
     for (int i = 0; i < m_forwardJunction.getBranches().size(); i++) {
         ITrackSegment* frontBranch = m_forwardJunction.getBranches().at(i);
         collision_info_t collisionInfo = CollisionChecker::computeCollision(this, frontBranch);
 
-        if(!collisionInfo.collisionWillOccur && winningBranchHasCollision) {
-            winningBranch = i;
-            winningBranchHasCollision = false;
-            winningTimeTillCollision = -1;
-            winningBranchLength = frontBranch->getLength();
-        } else if (!collisionInfo.collisionWillOccur && !winningBranchHasCollision) {
-            if(frontBranch->getLength() > winningBranchLength) {
-                winningBranch = i;
-                winningBranchHasCollision = false;
-                winningTimeTillCollision = -1;
-                winningBranchLength = frontBranch->getLength();
-            }
-        } else if(collisionInfo.collisionWillOccur && winningBranchHasCollision) {
-            if(collisionInfo.timeTillCollision > winningTimeTillCollision) {
-                winningBranch = i;
-                winningBranchHasCollision = true;
-                winningTimeTillCollision = collisionInfo.timeTillCollision;
-                winningBranchLength = frontBranch->getLength();
-            }
-        }
+        branch_selection_criteria candidateBranch;
+        candidateBranch.branchNum = 0;
+        candidateBranch.hasCollision = collisionInfo.collisionWillOccur;
+        candidateBranch.length = frontBranch->getLength();
+        candidateBranch.timeTillCollision = collisionInfo.timeTillCollision;
+
+        winningBranch = selectMostViableBranch(winningBranch, candidateBranch);
     }
-    return winningBranch;
+    return winningBranch.branchNum;
 }
 
 int JunctionTrack::mostViableRearBranchNumber() {
-    return 0;
+    branch_selection_criteria winningBranch;
+    winningBranch.branchNum = -1;
+    winningBranch.hasCollision = true;
+    winningBranch.length = -1;
+    winningBranch.timeTillCollision = 0;
+
+    for (int i = 0; i < m_forwardJunction.getBranches().size(); i++) {
+        ITrackSegment* rearBranch = m_rearJunction.getBranches().at(i);
+        collision_info_t collisionInfo = CollisionChecker::computeCollision(rearBranch, this);
+
+        branch_selection_criteria candidateBranch;
+        candidateBranch.branchNum = 0;
+        candidateBranch.hasCollision = collisionInfo.collisionWillOccur;
+        candidateBranch.length = rearBranch->getLength();
+        candidateBranch.timeTillCollision = collisionInfo.timeTillCollision;
+
+        winningBranch = selectMostViableBranch(winningBranch, candidateBranch);
+    }
+    return winningBranch.branchNum;
+}
+
+branch_selection_criteria JunctionTrack::selectMostViableBranch(branch_selection_criteria previousWinner, branch_selection_criteria candidate) {
+    if(!candidate.hasCollision && previousWinner.hasCollision) {
+        return candidate;
+    } else if (!candidate.hasCollision && !previousWinner.hasCollision) {
+        if(candidate.length > previousWinner.length) {
+            return candidate;
+        }
+    } else if(candidate.hasCollision && previousWinner.hasCollision) {
+        if(candidate.timeTillCollision > previousWinner.timeTillCollision) {
+            return candidate;
+        }
+    }
+    return previousWinner;
 }

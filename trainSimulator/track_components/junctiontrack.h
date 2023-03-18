@@ -4,6 +4,13 @@
 #include "basictracksegment.h"
 #include "junction.h"
 
+typedef struct {
+    int branchNum;
+    float timeTillCollision = 0;
+    float length;
+    bool hasCollision;
+} branch_selection_criteria;
+
 class JunctionTrack : public BasicTrackSegment
 {
 friend class TrainTest;
@@ -52,8 +59,10 @@ public:
 
     int mostViableForwardBranchNumber();
     int mostViableRearBranchNumber();
+    branch_selection_criteria selectMostViableBranch(branch_selection_criteria winningBranch, branch_selection_criteria candidateBranch);
 
 private:
+
     // private members
     Junction m_forwardJunction;
     Junction m_rearJunction;
