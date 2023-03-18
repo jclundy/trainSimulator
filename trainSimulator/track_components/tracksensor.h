@@ -20,6 +20,7 @@ public:
     void trigger(IVehicle *train, float positionOnTrack);
     void unTrigger(IVehicle *train);
     void countDown(float dt);
+    void reposition(float position);
 
 private:
     void updateTrainInfo(IVehicle *train, float positionOnTrack);

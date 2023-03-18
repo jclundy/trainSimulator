@@ -48,8 +48,25 @@ void BasicTrackSegment::updateSignals() {
 
 void BasicTrackSegment::triggerSensors(IVehicle *train, float positionOnTrack) {
 
+    if(m_frontSensor != NULL) {
+
+        // the track length can change after initialization.
+        // this call ensures the front sensor is at the front of the track
+        m_frontSensor->reposition(getTrackGeometry()->getLength());
+
+        m_frontSensor->trigger(train, positionOnTrack);
+    }
+    if(m_rearSensor != NULL) {
+        m_rearSensor->trigger(train, positionOnTrack);
+    }
+
 }
 
 void BasicTrackSegment::unTriggerSensors(IVehicle *train) {
-
+    if(m_frontSensor != NULL) {
+        m_frontSensor->unTrigger(train);
+    }
+    if(m_rearSensor != NULL) {
+        m_rearSensor->unTrigger(train);
+    }
 }

@@ -79,6 +79,11 @@ void TrackSensor::unTrigger(IVehicle *train)
     }
 }
 
+void TrackSensor::reposition(float position) {
+    m_positionOnTrack = position;
+}
+
+
 void TrackSensor::updateTrainInfo(IVehicle *train, float positionOnTrack)
 {
     m_trainId = train->getId();
