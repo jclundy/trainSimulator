@@ -69,6 +69,12 @@ void TrackSystemTest::testSetup() {
     Signal* signal_0_front = m_trackSystem->addSignal();
     signal_0_front->placeOnTrackFront(track0);
 
+    Signal* signal_1_rear = m_trackSystem->addSignal();
+    signal_1_rear->placeOnTrackRear(track1);
+
+    Signal* signal_1_front = m_trackSystem->addSignal();
+    signal_1_front->placeOnTrackFront(track1);
+
     Signal* signal_2_rear = m_trackSystem->addSignal();
     signal_2_rear->placeOnTrackRear(track2);
 
@@ -194,6 +200,7 @@ void TrackSystemTest::testSignals() {
 
     Train* train1 = m_trackSystem->addTrain();
     train1->place(track1);
+    track1->selectRearBranchById(0);
     qDebug() << "placed trains on tracks 0 and 1";
     printAllSignalInfo();
 
@@ -201,12 +208,19 @@ void TrackSystemTest::testSignals() {
     qDebug() << "placed trains on tracks 2 and 1";
     train0->place(track1);
     train1->place(m_trackSystem->getTrackSegmentById(2));
+    track1->selectForwardBranchById(2);
     printAllSignalInfo();
 
     qDebug() << "--------------------------------";
     qDebug() << "placed trains on tracks 2 and 3";
     train0->place(m_trackSystem->getTrackSegmentById(2));
     train1->place(m_trackSystem->getTrackSegmentById(3));
+
+    train0->setDesiredSpeed(0);
+    train1->setDesiredSpeed(0);
+
+    m_trackSystem->driveTrains(0.5);
+
     printAllSignalInfo();
 
 
