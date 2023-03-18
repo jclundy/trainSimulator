@@ -2,8 +2,8 @@
 
 bool CollisionChecker::collisionWillOccur(ITrackSegment* rearTrack, ITrackSegment* frontTrack) {
 
-    train_speed_data rearTrain = getRearTrackTrainSpeed(rearTrack);
-    train_speed_data frontTrain = getFrontTrackTrainSpeed(frontTrack);
+    train_speed_data rearTrain = getSpeedOfTrainClosestToFront(rearTrack);
+    train_speed_data frontTrain = getSpeedOfTrainClosestToRear(frontTrack);
 
     if(rearTrain.trainPresent && frontTrain.trainPresent && rearTrain.trainId != frontTrain.trainId) {
         return rearTrain.trainSpeed> frontTrain.trainSpeed;
@@ -21,7 +21,7 @@ bool CollisionChecker::collisionWillOccurInReverseDirection(ITrackSegment* rearT
 
 bool CollisionChecker::trainBlockingForward(ITrackSegment* currentTrack) {
     ITrackSegment* frontTrack = currentTrack->getSelectedForwardEnd();
-    train_speed_data frontTrain = getFrontTrackTrainSpeed(frontTrack);
+    train_speed_data frontTrain = getSpeedOfTrainClosestToRear(frontTrack);
 
     if(frontTrain.trainPresent && frontTrain.trainSpeed <= 0) {
         return true;
@@ -31,7 +31,7 @@ bool CollisionChecker::trainBlockingForward(ITrackSegment* currentTrack) {
 
 bool CollisionChecker::trainBlockingRear(ITrackSegment* currentTrack) {
     ITrackSegment* rearTrack = currentTrack->getSelectedRearEnd();
-    train_speed_data rearTrain = getRearTrackTrainSpeed(rearTrack);
+    train_speed_data rearTrain = getSpeedOfTrainClosestToFront(rearTrack);
 
     if(rearTrain.trainPresent && rearTrain.trainSpeed >= 0) {
         return true;
@@ -40,12 +40,11 @@ bool CollisionChecker::trainBlockingRear(ITrackSegment* currentTrack) {
 }
 
 
-// should be named get train speed of train closest to rear
-train_speed_data CollisionChecker::getRearTrackTrainSpeed(ITrackSegment* rearTrack) {
+train_speed_data CollisionChecker::getSpeedOfTrainClosestToFront(ITrackSegment* track) {
     train_speed_data trainSpeed = default_train_speed_data;
 
-    if(rearTrack != NULL) {
-        TrackSensor* closestRearSensor = rearTrack->getFrontSensor();
+    if(track != NULL) {
+        TrackSensor* closestRearSensor = track->getFrontSensor();
         if(closestRearSensor != NULL) {
             trainSpeed.trainPresent = closestRearSensor->isTrainPresent();
             trainSpeed.trainId = closestRearSensor->getTrainId();
@@ -56,11 +55,10 @@ train_speed_data CollisionChecker::getRearTrackTrainSpeed(ITrackSegment* rearTra
     return trainSpeed;
 }
 
-// should be named get train speed of train closest to front
-train_speed_data CollisionChecker::getFrontTrackTrainSpeed(ITrackSegment* frontTrack) {
+train_speed_data CollisionChecker::getSpeedOfTrainClosestToRear(ITrackSegment* track) {
     train_speed_data trainSpeed = default_train_speed_data;
-    if(frontTrack != NULL) {
-        TrackSensor* closestForwardSensor = frontTrack->getRearSensor();
+    if(track != NULL) {
+        TrackSensor* closestForwardSensor = track->getRearSensor();
         if(closestForwardSensor != NULL) {
             trainSpeed.trainPresent = closestForwardSensor->isTrainPresent();
             trainSpeed.trainId = closestForwardSensor->getTrainId();

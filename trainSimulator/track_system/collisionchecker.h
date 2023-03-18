@@ -27,8 +27,8 @@ public:
     static bool trainBlockingRear(ITrackSegment* currentTrack);
     static bool collisionOccured(IVehicle* train1, IVehicle* train2);
 
-    static train_speed_data getRearTrackTrainSpeed(ITrackSegment* rearTrack);
-    static train_speed_data getFrontTrackTrainSpeed(ITrackSegment* frontTrack);
+    static train_speed_data getSpeedOfTrainClosestToFront(ITrackSegment* track);
+    static train_speed_data getSpeedOfTrainClosestToRear(ITrackSegment* track);
 };
 
 #endif // COLLISIONCHECKER_H
