@@ -1,7 +1,7 @@
 #ifndef TRACKSENSOR_H
 #define TRACKSENSOR_H
 
-#include "train/train.h"
+#include "train/ivehicle.h"
 
 class TrackSensor
 {
@@ -17,12 +17,12 @@ public:
 
     // setters
     void reset();
-    void trigger(Train *train, float positionOnTrack);
-    void unTrigger(Train *train);
+    void trigger(IVehicle *train, float positionOnTrack);
+    void unTrigger(IVehicle *train);
     void countDown(float dt);
 
 private:
-    void updateTrainInfo(Train *train, float positionOnTrack);
+    void updateTrainInfo(IVehicle *train, float positionOnTrack);
 
     int m_positionOnTrack;
     bool m_trainPresent;

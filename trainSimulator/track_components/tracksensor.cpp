@@ -43,7 +43,7 @@ void TrackSensor::reset()
     m_countDown = 0;
 }
 
-void TrackSensor::trigger(Train *train, float positionOnTrack)
+void TrackSensor::trigger(IVehicle *train, float positionOnTrack)
 {
     // reset countdown
     m_countDown = m_timeoutSetting;
@@ -71,7 +71,7 @@ void TrackSensor::trigger(Train *train, float positionOnTrack)
     }
 }
 
-void TrackSensor::unTrigger(Train *train)
+void TrackSensor::unTrigger(IVehicle *train)
 {
     if (m_trainId == (int) train->getId())
     {
@@ -79,7 +79,7 @@ void TrackSensor::unTrigger(Train *train)
     }
 }
 
-void TrackSensor::updateTrainInfo(Train *train, float positionOnTrack)
+void TrackSensor::updateTrainInfo(IVehicle *train, float positionOnTrack)
 {
     m_trainId = train->getId();
     m_trainPriority = train->getPriority();

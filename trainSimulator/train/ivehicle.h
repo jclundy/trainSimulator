@@ -2,6 +2,7 @@
 #define IVEHICLE_H
 
 class IVehicle {
+public:
     ~IVehicle() {}
     virtual unsigned int getId() = 0;
     virtual int getPriority() = 0;
