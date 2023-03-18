@@ -5,11 +5,11 @@ unsigned int BasicTrackSegment::getId() {
 }
 
 float BasicTrackSegment::getLength() {
-    return m_trackGeometry.getLength();
+    return m_trackGeometry->getLength();
 }
 
 TrackGeometry* BasicTrackSegment::getTrackGeometry() {
-    return &m_trackGeometry;
+    return m_trackGeometry;
 }
 
 ISignal* BasicTrackSegment::getFrontSignal() {

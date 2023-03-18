@@ -24,7 +24,7 @@ public:
 
 protected:
     unsigned int m_id;
-    TrackGeometry m_trackGeometry;
+    TrackGeometry* m_trackGeometry;
 
     ISignal * m_frontSignal;
     ISignal * m_rearSignal;

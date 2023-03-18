@@ -2,14 +2,14 @@
 // library includes
 #include <math.h>
 
-LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position) :
-    m_trackGeometry(length, position)
+LinearTrack::LinearTrack(unsigned int id, float length, const QPointF &position)
 {
     m_id = id;
     m_rearTrack = NULL;
     m_forwardTrack = NULL;
     m_rearSignal = NULL;
     m_frontSignal = NULL;
+    m_trackGeometry = new TrackGeometry(length, position);
 }
 
 LinearTrack::~LinearTrack() {
@@ -179,21 +179,21 @@ bool LinearTrack::connectFrontToTrack(LinearTrack *track) {
 void LinearTrack::updateRearPosition(ITrackSegment* track) {
     // if front end is not fixed
     if(isFrontTerminal()) {
-        QPointF delta = track->getTrackGeometry()->getFrontEndPosition() - m_trackGeometry.getRearEndPosition();
-        m_trackGeometry.translate(delta);
+        QPointF delta = track->getTrackGeometry()->getFrontEndPosition() - m_trackGeometry->getRearEndPosition();
+        m_trackGeometry->translate(delta);
     } else {
         // leave front end in place, modify track length
-        m_trackGeometry.setRearPosition(track->getTrackGeometry()->getFrontEndPosition());
+        m_trackGeometry->setRearPosition(track->getTrackGeometry()->getFrontEndPosition());
     }
 }
 
 void LinearTrack::updateFrontPosition(ITrackSegment* track) {
     // if rear end is not fixed
     if(isRearTerminal()) {
-        QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry.getFrontEndPosition();
-        m_trackGeometry.translate(delta);
+        QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry->getFrontEndPosition();
+        m_trackGeometry->translate(delta);
     } else {
         // leave rear end in place, modify track length
-        m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
+        m_trackGeometry->setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
     }
 }

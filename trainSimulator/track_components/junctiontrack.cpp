@@ -2,12 +2,12 @@
 
 JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position, unsigned int maxBranches):
     m_forwardJunction(this, maxBranches),
-    m_rearJunction(this, maxBranches),
-    m_trackGeometry(length, position)
+    m_rearJunction(this, maxBranches)
 {
     m_id = id;
     m_rearSignal = NULL;
     m_frontSignal = NULL;
+    m_trackGeometry = new TrackGeometry(length, position);
 }
 
 JunctionTrack::~JunctionTrack() {
@@ -107,8 +107,8 @@ void JunctionTrack::updateRearPosition(ITrackSegment* track) {
     bool rearWasInitiallyTerminal = m_rearJunction.getNumBranches() == 1;
     if(rearWasInitiallyTerminal && isFrontTerminal()) {
         // if both junctions were terminals, move both junctions
-        QPointF delta = track->getTrackGeometry()->getFrontEndPosition() - m_trackGeometry.getRearEndPosition();
-        m_trackGeometry.translate(delta);
+        QPointF delta = track->getTrackGeometry()->getFrontEndPosition() - m_trackGeometry->getRearEndPosition();
+        m_trackGeometry->translate(delta);
 
     } else if (track->isLinear()){
         // this check is required to avoid infinite recursion if track is a junction
@@ -117,7 +117,7 @@ void JunctionTrack::updateRearPosition(ITrackSegment* track) {
         // update the track's front end position
         track->updateFrontPosition(this);
     } else {
-        m_trackGeometry.setRearPosition(track->getTrackGeometry()->getFrontEndPosition());
+        m_trackGeometry->setRearPosition(track->getTrackGeometry()->getFrontEndPosition());
     }
 }
 
@@ -125,8 +125,8 @@ void JunctionTrack::updateFrontPosition(ITrackSegment* track) {
     bool frontWasInitiallyTerminal = m_forwardJunction.getNumBranches() == 1;
 
     if(frontWasInitiallyTerminal && isRearTerminal()) {
-        QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry.getFrontEndPosition();
-        m_trackGeometry.translate(delta);
+        QPointF delta = track->getTrackGeometry()->getRearEndPosition() - m_trackGeometry->getFrontEndPosition();
+        m_trackGeometry->translate(delta);
     } else if (track->isLinear()){
         // this check is required to avoid infinite recursion if track is a junction
 
@@ -134,7 +134,7 @@ void JunctionTrack::updateFrontPosition(ITrackSegment* track) {
         // update the track's rear end position
         track->updateRearPosition(this);
     } else {
-        m_trackGeometry.setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
+        m_trackGeometry->setForwardPosition(track->getTrackGeometry()->getRearEndPosition());
     }
 }
 
