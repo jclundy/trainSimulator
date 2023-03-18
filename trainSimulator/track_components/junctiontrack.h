@@ -48,6 +48,10 @@ public:
     bool selectRearBranch(ITrackSegment* track);
     bool selectRearBranchById(unsigned int id);
 
+    void checkCollisions();
+
+    int mostViableForwardBranchNumber();
+    int mostViableRearBranchNumber();
 
 private:
     // private members

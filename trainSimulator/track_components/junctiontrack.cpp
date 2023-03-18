@@ -1,4 +1,7 @@
 #include "junctiontrack.h"
+#include "track_system/collisionchecker.h"
+
+#include <math.h>
 
 JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position, unsigned int maxBranches):
     m_forwardJunction(this, maxBranches),
@@ -188,4 +191,80 @@ bool JunctionTrack::selectRearBranchById(unsigned int id) {
     bool result = m_rearJunction.selectBranchById(id);
     updateSignals();
     return result;
+}
+
+void JunctionTrack::checkCollisions() {
+    ITrackSegment* rearBranch = getSelectedRearEnd();
+    ITrackSegment* forwardBranch = getSelectedForwardEnd();
+    if(CollisionChecker::collisionWillOccur(rearBranch, forwardBranch)) {
+        track_sensor_data rearData = rearBranch->getFrontSensor()->getSensorData();
+        track_sensor_data frontData = forwardBranch->getRearSensor()->getSensorData();
+
+        bool needToRedirectRearTrain = false;
+        bool needToRedirectFrontTrain = false;
+        float rearTime = 0;
+        float frontTime = 0;
+
+        if(rearData.trainSpeed > 0) {
+            float rearDistance = rearData.positionOnTrack - rearBranch->getLength();
+            rearTime = fabs(rearDistance / rearData.trainSpeed);
+            needToRedirectRearTrain = true;
+        }
+        if(frontData.trainSpeed < 0) {
+            needToRedirectFrontTrain = true;
+            float frontDistance = frontData.positionOnTrack;
+            frontTime = fabs(frontDistance / frontData.trainSpeed);
+        }
+
+        if(needToRedirectFrontTrain && needToRedirectRearTrain) {
+            if(frontTime < rearTime) {
+
+            }
+        } else if (needToRedirectFrontTrain) {
+
+        } else if (needToRedirectRearTrain) {
+
+        }
+    }
+}
+
+
+// most viable - track doesn't have a train
+// 2nd most viable - track has train, but will result in longest time before collision
+int JunctionTrack::mostViableForwardBranchNumber() {
+    int winningBranch = 0;
+    float winningTimeTillCollision = 0;
+    float winningBranchLength = getLength();
+    bool winningBranchHasCollision = true;
+
+    for (int i = 0; i < m_forwardJunction.getBranches().size(); i++) {
+        ITrackSegment* frontBranch = m_forwardJunction.getBranches().at(i);
+        collision_info_t collisionInfo = CollisionChecker::computeCollision(this, frontBranch);
+
+        if(!collisionInfo.collisionWillOccur && winningBranchHasCollision) {
+            winningBranch = i;
+            winningBranchHasCollision = false;
+            winningTimeTillCollision = -1;
+            winningBranchLength = frontBranch->getLength();
+        } else if (!collisionInfo.collisionWillOccur && !winningBranchHasCollision) {
+            if(frontBranch->getLength() > winningBranchLength) {
+                winningBranch = i;
+                winningBranchHasCollision = false;
+                winningTimeTillCollision = -1;
+                winningBranchLength = frontBranch->getLength();
+            }
+        } else if(collisionInfo.collisionWillOccur && winningBranchHasCollision) {
+            if(collisionInfo.timeTillCollision > winningTimeTillCollision) {
+                winningBranch = i;
+                winningBranchHasCollision = true;
+                winningTimeTillCollision = collisionInfo.timeTillCollision;
+                winningBranchLength = frontBranch->getLength();
+            }
+        }
+    }
+    return winningBranch;
+}
+
+int JunctionTrack::mostViableRearBranchNumber() {
+    return 0;
 }
