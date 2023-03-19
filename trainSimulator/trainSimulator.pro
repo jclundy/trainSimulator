@@ -44,7 +44,8 @@ SOURCES += \
     track_system/collisionchecker.cpp \
     path_planning/trackpathtable.cpp \
     path_planning/pathtableentry.cpp \
-    track_system/systemcontroller.cpp
+    track_system/systemcontroller.cpp \
+    simulation/simulation.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -70,4 +71,5 @@ HEADERS += \
     track_system/collisionchecker.h \
     path_planning/trackpathtable.h \
     path_planning/pathtableentry.h \
-    track_system/systemcontroller.h
+    track_system/systemcontroller.h \
+    simulation/simulation.h
