@@ -33,6 +33,14 @@ void SimulationLogger::logAllJunctions() {
 
 }
 
+void SimulationLogger::logTimeStep() {
+    logAllTrains();
+    logAllSignals();
+    logAllJunctions();
+
+    // todo - change to log signal changes and junction changes
+}
+
 // logging changed track elements
 void SimulationLogger::logChangedSignals() {
 

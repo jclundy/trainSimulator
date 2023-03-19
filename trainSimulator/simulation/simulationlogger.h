@@ -18,6 +18,8 @@ public:
     void logAllSignals();
     void logAllJunctions();
 
+    void logTimeStep();
+
     // logging changed track elements
     void logChangedSignals();
     void logChangedJunctions();
