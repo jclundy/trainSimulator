@@ -1,4 +1,5 @@
 #include "trackpathtable.h"
+#include <QDebug>
 
 TrackPathTable::TrackPathTable()
 {
