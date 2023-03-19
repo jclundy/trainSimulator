@@ -41,3 +41,36 @@ void SystemController::setTrainDestination(int trainId, int destinationId) {
         m_trainPaths.insert(trainId, table);
     }
 }
+
+void SystemController::controlTrains() {
+    QList<Train*> trainList = m_trackSystem->getTrains();
+    for(int i = 0; i < trainList.size(); i++) {
+        Train* train = trainList.at(i);
+        float speed = train->getSpeed();
+        TrainLocation location;
+        if(speed < 0) {
+            location = train->getRearLocation();
+        } else {
+            location = train->getFrontLocation();
+        }
+        int trackId = location.getTrackId();
+
+        TrackPathTable* table = m_trainPaths[train->getId()];
+
+        // if we've reached our destination track, stop
+        if(table->getTargetId() == trackId) {
+            train->stop();
+        } else {
+            int directionToNext = table->getDirectionToNext(trackId);
+
+            // todo - get this from train class
+            float maxSpeed = 5;
+            train->setDesiredSpeed(maxSpeed * directionToNext);
+        }
+
+
+
+        // if track has red signal, stop
+        // otherwise, set speed towards next destination
+    }
+}
