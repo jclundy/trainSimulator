@@ -1,5 +1,4 @@
 #include "trackpathtable.h"
-#include <QDebug>
 
 TrackPathTable::TrackPathTable()
 {
@@ -12,8 +11,6 @@ void TrackPathTable::initialize(TrackSystem *trackSystem, unsigned int targetId)
     m_trackSystem = trackSystem;
     m_maxIterations = trackSystem->getTrackSegments().size();
 
-    qDebug() << "debug-track-path-table: initializing; num tracks=" << m_maxIterations;
-
     for(int i = 0; i < trackSystem->getTrackSegments().size(); i++) {
         ITrackSegment* track = trackSystem->getTrackSegments().at(i);
 
@@ -22,8 +19,6 @@ void TrackPathTable::initialize(TrackSystem *trackSystem, unsigned int targetId)
         m_unvisited.insert(entry->getTrackId(), entry);
     }
 
-    qDebug() << "debug-track-path-table: created table, num entries=" << m_table.size();
-    qDebug() << "debug-track-path-table: created unvisited, num entries=" << m_unvisited.size();
 }
 
 void TrackPathTable::computeTable() {
@@ -45,18 +40,23 @@ void TrackPathTable::computeTable() {
         float currentDistance = m_table[currentId]->getDistanceToTarget();
 
         if(currentTrack != NULL) {
+
             QList<ITrackSegment*> forwardNeighbours = currentTrack->getForwardNeighbours();
             for(int i = 0; i < forwardNeighbours.size(); i++) {
+
                 ITrackSegment* neighbour = forwardNeighbours.at(i);
                 PathTableEntry* neighbourEntry = m_table[neighbour->getId()];
+
                 // 'reverse' direction, as we would reverse neighbour to get to current
                 neighbourEntry->update(currentId, currentDistance, PATH_REVERSE_DIRECTION);
             }
 
             QList<ITrackSegment*> rearNeighbours = currentTrack->getRearNeighbours();
+
             for(int i = 0; i < rearNeighbours.size(); i++) {
                 ITrackSegment* neighbour = rearNeighbours.at(i);
                 PathTableEntry* neighbourEntry = m_table[neighbour->getId()];
+
                 // 'forward' direction, as we would go forward from neighbour to get to current
                 neighbourEntry->update(currentId, currentDistance, PATH_FORWARD_DIRECTION);
             }
@@ -65,8 +65,9 @@ void TrackPathTable::computeTable() {
         //3. Remove current from list of unvisited
         m_unvisited.remove(currentId);
 
-        //4. Find next closest node and re[eat
+        //4. Find next closest node and repeat
         currentId = findIdOfClosest();
+
         if(currentId == -1) {
             return;
         }
