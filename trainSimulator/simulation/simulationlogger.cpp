@@ -78,8 +78,10 @@ void SimulationLogger::logTrainPaths() {
 
 
 void SimulationLogger::logTimeStep() {
-    logAllTrains();
-    logAllSignals();
+    m_out << "+++++++++++++++++++++++++++ \n";
+    m_out << "Iteration: " << m_simulation->getIterations() << ", Time: " << m_simulation->getElapsedSeconds() << " s \n";
+    logTrainMovements();
+//    logAllSignals();
     logAllJunctions();
 
     // todo - change to log signal changes and junction changes
@@ -87,7 +89,6 @@ void SimulationLogger::logTimeStep() {
 
 // logging changed track elements
 void SimulationLogger::logTrainMovements() {
-    m_out << "+++++++++++++++++++++++++++ \n";
     m_out << "Train Movements: \n";
     // logTrainMovements
     QList<Train*> trainList = m_simulation->getTrackSystem()->getTrains();
