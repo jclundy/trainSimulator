@@ -13,10 +13,12 @@ class SimulationLogger
 public:
     // high-level logging
     void logTrackSystemInfo();
-    void logTrainPaths();
-    void logAllTrains();
+    void logAllTracks();
     void logAllSignals();
     void logAllJunctions();
+    void logAllTrains();
+
+    void logTrainPaths();
 
     void logTimeStep();
 

@@ -15,24 +15,55 @@ SimulationLogger::SimulationLogger(QString fileName, Simulation* simulation)
 
 // high-level logging
 void SimulationLogger::logTrackSystemInfo() {
+    m_out << "=========================== \n";
+    m_out << "TRACK SYSTEM INFO  \n";
+    m_out << "+++++++++++++++++++++++++++ \n";
+    m_out << "List of Trains: \n";
+    logAllTrains();
+    m_out << "+++++++++++++++++++++++++++ \n";
+    m_out << "List of Tracks: \n";
+    logAllTracks();
+    m_out << "+++++++++++++++++++++++++++ \n";
+    m_out << "List of Junctions: \n";
+    logAllJunctions();
+    m_out << "+++++++++++++++++++++++++++ \n";
+    m_out << "List of Signals: \n";
+    logAllSignals();
+}
 
+void SimulationLogger::logAllTracks() {
+    QList<ITrackSegment*> trackList = m_simulation->getTrackSystem()->getTrackSegments();
+    for(int i = 0; i < trackList.size(); i++) {
+        logTrackInfo(trackList.at(i));
+    }
+}
+
+void SimulationLogger::logAllSignals() {
+    QList<Signal*> signalList = m_simulation->getTrackSystem()->getSignals();
+    for(int i =0; i < signalList.size(); i++) {
+        logSignalInfo(signalList.at(i));
+    }
+}
+
+void SimulationLogger::logAllJunctions() {
+    QList<JunctionTrack*> junctionList = m_simulation->getTrackSystem()->getJunctions();
+    for(int i = 0; i < junctionList.size(); i++) {
+        logJunctionInfo(junctionList.at(i));
+    }
+}
+
+void SimulationLogger::logAllTrains() {
+    QList<Train*> trainList = m_simulation->getTrackSystem()->getTrains();
+    for(int i = 0; i < trainList.size(); i++) {
+        logTrainInfo(trainList.at(0));
+    }
 }
 
 void SimulationLogger::logTrainPaths() {
 
 }
 
-void SimulationLogger::logAllTrains() {
 
-}
-
-void SimulationLogger::logAllSignals() {
-
-}
-
-void SimulationLogger::logAllJunctions() {
-
-}
 
 void SimulationLogger::logTimeStep() {
     logAllTrains();
@@ -60,6 +91,7 @@ void SimulationLogger::logTrackInfo(ITrackSegment *track) {
     m_out << "ID " << track->getId() << "\n";
     m_out << "length " << track->getTrackGeometry()->getLength() << "\n";
     m_out << "heading " << track->getTrackGeometry()->getHeading() << "\n";
+    m_out << "is junction? " << track->isJunction() << "\n";
     m_out << "Rear Position: ";
     logPoint(track->getTrackGeometry()->getRearEndPosition());
     m_out << "\n";
