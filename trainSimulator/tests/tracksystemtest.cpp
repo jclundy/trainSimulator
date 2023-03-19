@@ -13,7 +13,7 @@ TrackSystemTest::TrackSystemTest()
 void TrackSystemTest::runTests() {
     testSetup();
 //    testSignals();
-//    testDrive1();
+    testDrive1();
     testPathPlanning();
 
 }
