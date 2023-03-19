@@ -59,7 +59,7 @@ void Train::setLength(float length) {
 }
 
 bool Train::isStopped() {
-    return m_isDriving == false;
+    return (m_isDriving == false) || (m_speed == 0);
 }
 
 train_motion_result Train::getRailState() {
