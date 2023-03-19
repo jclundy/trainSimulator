@@ -34,6 +34,8 @@ public:
     void setPriority(int priority);
     void setLength(float length);
     bool isStopped();
+    bool isHalted();
+    void unHalt();
     train_motion_result getRailState();
 
     // initialization
@@ -66,6 +68,7 @@ private:
 
     float m_length;
     bool m_isDriving;
+    bool m_isHalted;
 
     TrainControlModel *m_controlModel;
     train_motion_result m_railState;

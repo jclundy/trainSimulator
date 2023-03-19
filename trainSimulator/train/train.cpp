@@ -12,6 +12,7 @@ Train::Train(unsigned int id, float length)
     m_isDriving = false;
     m_controlModel = NULL;
     m_railState = DERAILED_OFF_TRACK;
+    m_isHalted = false;
     // front and rear location are initialized by the default TrainLocation constructor
 
 }
@@ -63,7 +64,14 @@ void Train::setLength(float length) {
 }
 
 bool Train::isStopped() {
-    return (m_isDriving == false) || (m_speed == 0);
+    return (m_speed == 0);
+}
+bool Train::isHalted() {
+    return m_isHalted;
+}
+
+void Train::unHalt() {
+    m_isHalted = false;
 }
 
 train_motion_result Train::getRailState() {
@@ -74,6 +82,7 @@ train_motion_result Train::getRailState() {
 void Train::place(ITrackSegment *track, train_orientation orientation) {
 
     unTriggerSensors();
+    m_isHalted = false;
 
     if(m_isDriving) {
         qDebug() << "can't re-position train while driving";
@@ -130,6 +139,9 @@ void Train::setDesiredSpeed(float setpoint) {
 
 bool Train::drive(float dt) {
     m_isDriving = true;
+    if(m_isHalted) {
+        return false;
+    }
 
     if(m_controlModel == NULL) {
         m_controlModel = new SimpleControlModel();
@@ -149,6 +161,7 @@ bool Train::drive(float dt) {
 
     if(motionResult.front != ON_TRACK || motionResult.rear != ON_TRACK) {
         stop();
+        m_isHalted = true;
         qDebug() << "Train stopped.  Front and rear states: " << motionResult.front << ", " << motionResult.rear;
     }
 

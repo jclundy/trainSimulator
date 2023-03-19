@@ -94,7 +94,7 @@ void Simulation::slot_timerEvent() {
         m_timeSinceLastMovement = 0;
     }
 
-    if(m_timeSinceLastMovement > m_timeout) {
+    if(m_timeSinceLastMovement > m_timeout || m_trackSystem->areAllTrainsHalted()) {
         stopSimulation();
     }
 

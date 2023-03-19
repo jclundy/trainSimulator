@@ -17,6 +17,7 @@ public:
     void driveSignals();
     void driveTrains(float dt);
     bool areAllTrainsStopped();
+    bool areAllTrainsHalted();
 
     // getters
     QList<Train*> getTrains();
