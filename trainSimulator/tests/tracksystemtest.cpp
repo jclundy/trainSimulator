@@ -1,5 +1,8 @@
 #include "tracksystemtest.h"
 #include "testutils.h"
+
+#include "path_planning/trackpathtable.h"
+
 #include <QDebug>
 
 TrackSystemTest::TrackSystemTest()
@@ -9,8 +12,9 @@ TrackSystemTest::TrackSystemTest()
 
 void TrackSystemTest::runTests() {
     testSetup();
-    testSignals();
-    testDrive1();
+//    testSignals();
+//    testDrive1();
+    testPathPlanning();
 
 }
 
@@ -250,6 +254,36 @@ void TrackSystemTest::testSignals() {
 
 }
 
+
+void TrackSystemTest::testPathPlanning() {
+    qDebug() << "========================================";
+    qDebug() << "Path Planning Test";
+
+    qDebug() << "Creating new path table";
+    TrackPathTable *table = new TrackPathTable();
+
+    qDebug() << "Initializing table";
+    table->initialize(m_trackSystem, 3);
+
+    qDebug() << "Computing table";
+    table->computeTable();
+
+    qDebug() << "---------------------------------------";
+    qDebug() << "Path from 0";
+    QList<path_step> pathFromTrack0 = table->getPathListFrom(0);
+    printTrackPath(pathFromTrack0);
+
+    qDebug() << "---------------------------------------";
+    qDebug() << "Path from 4";
+    QList<path_step> pathFromTrack3 = table->getPathListFrom(4);
+    printTrackPath(pathFromTrack3);
+
+    qDebug() << "---------------------------------------";
+    qDebug() << "Path from 5";
+    QList<path_step> pathFromTrack5 = table->getPathListFrom(5);
+    printTrackPath(pathFromTrack5);
+}
+
 void TrackSystemTest::printAllSignalInfo() {
     for(int i = 0; i < m_trackSystem->getSignals().size(); i++) {
         printSignalInfo(m_trackSystem->getSignals().at(i));
@@ -260,5 +294,12 @@ void TrackSystemTest::printTrackSystemInfo() {
     QList<ITrackSegment *> trackList = m_trackSystem->getTrackSegments();
     for (int i = 0; i < trackList.size(); i++) {
         printTrackInfo(trackList.at(i));
+    }
+}
+
+void TrackSystemTest::printTrackPath(QList<path_step> pathList) {
+    for (int i = 0; i < pathList.size(); i++) {
+        path_step step = pathList.at(i);
+        qDebug() << "Track: " << step.trackId << "; Next " << step.nextTrackId << " direction " << step.directionToNext;
     }
 }
