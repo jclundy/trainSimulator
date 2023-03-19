@@ -22,6 +22,7 @@ public:
     void initialize(TrackSystem *trackSystem, unsigned int targetId);
     void computeTable();
     int getDirectionToNext(unsigned int trackId);
+    int getNextTrackId(unsigned int currenTrackId);
     QList<path_step> getPathListFrom(unsigned int trackId);
     int getTargetId();
 

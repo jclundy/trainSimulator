@@ -161,6 +161,12 @@ int TrackPathTable::getDirectionToNext(unsigned int trackId) {
     }
     return 0;
 }
+int TrackPathTable::getNextTrackId(unsigned int currentTrackId) {
+    if(m_table.contains(currentTrackId)) {
+        return m_table[currentTrackId]->getNextId();
+    }
+    return 0;
+}
 
 QList<path_step> TrackPathTable::getPathListFrom(unsigned int trackId) {
     QList<path_step> pathList;
