@@ -19,6 +19,8 @@ public:
     void controlTrains();
     void controlJunctions();
 
+    void stopAllTrains();
+
 private:
     TrackSystem* m_trackSystem;
     QMap<unsigned int, TrackPathTable*> m_trainPaths;

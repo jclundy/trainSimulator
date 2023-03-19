@@ -48,7 +48,7 @@ void Simulation::startSimulation() {
 void Simulation::stopSimulation() {
     m_timeSinceLastMovement = 0;
     m_timer.stop();
-    // train controller - should stop all trains
+    m_controller->stopAllTrains();
 
     qDebug() << "stopped simulation";
 }

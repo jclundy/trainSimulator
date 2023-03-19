@@ -89,3 +89,11 @@ void SystemController::controlTrains() {
         train->setDesiredSpeed(0);
     }
 }
+
+void SystemController::stopAllTrains() {
+    QList<Train*> trainList = m_trackSystem->getTrains();
+    for(int i = 0; i < trainList.size(); i++) {
+        Train* train = trainList.at(i);
+        train->stop();
+    }
+}
