@@ -87,7 +87,13 @@ void SimulationLogger::logTimeStep() {
 
 // logging changed track elements
 void SimulationLogger::logTrainMovements() {
+    m_out << "+++++++++++++++++++++++++++ \n";
+    m_out << "Train Movements: \n";
     // logTrainMovements
+    QList<Train*> trainList = m_simulation->getTrackSystem()->getTrains();
+    for(int i = 0; i < trainList.size(); i++) {
+        logTrainMovementInfo(trainList.at(i));
+    }
 }
 
 void SimulationLogger::logChangedSignals() {
@@ -168,13 +174,13 @@ void SimulationLogger::logTrainInfo(Train* train) {
 }
 
 void SimulationLogger::logTrainMovementInfo(Train* train) {
+    m_out << "-------------------------------------";
     m_out << "Train ID: " << train->getId() << "\n";
     m_out << "Train speed: " << train->getSpeed();
     m_out << "Train front world location";
     logPoint(train->getFrontLocationInWorld());
     m_out << "\n";
     m_out << "Train track id: " << train->getFrontLocation().getTrackId() << ", " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear"  << "\n";
-
 }
 
 void SimulationLogger::logTrackPath(QList<path_step> pathList) {
