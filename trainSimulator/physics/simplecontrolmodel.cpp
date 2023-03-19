@@ -29,4 +29,8 @@ void SimpleControlModel::computeNewStates(float &speed, float &acceleration, flo
     speed = speed + dt*acceleration;
 }
 
+float SimpleControlModel::getMaxSpeed() {
+    return m_maxSpeed;
+}
+
 

@@ -59,7 +59,7 @@ void Train::setLength(float length) {
 }
 
 bool Train::isStopped() {
-    return m_isDriving == false;
+    return (m_isDriving == false) || (m_speed == 0);
 }
 
 train_motion_result Train::getRailState() {
@@ -155,6 +155,14 @@ void Train::stop() {
     m_isDriving = false;
     m_speedSetpoint = 0;
     m_speed = 0;
+}
+
+float Train::getMaxSpeed() {
+    if(m_controlModel == NULL) {
+        m_controlModel = new SimpleControlModel();
+        qDebug() << "didn't set control model - creating new simple control model";
+    }
+    return m_controlModel->getMaxSpeed();
 }
 
 /* Train 2D location */

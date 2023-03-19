@@ -44,6 +44,7 @@ public:
     void setDesiredSpeed(float setpoint);
     bool drive(float dt);
     void stop();
+    float getMaxSpeed();
     // train 2D location
     QPointF getLocationInWorld();
     QPointF getFrontLocationInWorld();
