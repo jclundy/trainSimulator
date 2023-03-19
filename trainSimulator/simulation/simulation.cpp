@@ -9,6 +9,8 @@ Simulation::Simulation(QObject *parent) : QObject(parent),
     m_timeSinceLastMovement = 0;
     m_dt = 0.25;
     m_interval = 250;
+    m_elapsedSeconds = 0;
+    m_iterations = 0;
 
     connectSlots();
 }
@@ -23,6 +25,14 @@ TrackSystem* Simulation::getTrackSystem() {
 
 SystemController* Simulation::getController() {
     return m_controller;
+}
+
+float Simulation::getElapsedSeconds() {
+    return m_elapsedSeconds;
+}
+
+int Simulation::getIterations() {
+    return m_iterations;
 }
 
 void Simulation::loadTrackSystem() {
@@ -45,6 +55,8 @@ void Simulation::startSimulation() {
         return;
     }
     m_timeSinceLastMovement = 0;
+    m_elapsedSeconds = 0;
+    m_iterations = 0;
     m_timer.setInterval(m_interval);
     m_timer.start();
 }
@@ -60,6 +72,9 @@ void Simulation::stopSimulation() {
 void Simulation::slot_timerEvent() {
     m_controller->controlTrains();
     m_trackSystem->driveTrains(m_dt);
+
+    m_elapsedSeconds += m_dt;
+    m_iterations++;
 
     if(m_trackSystem->areAllTrainsStopped()) {
         m_timeSinceLastMovement+= m_timer.interval();

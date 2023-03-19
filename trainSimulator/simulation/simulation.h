@@ -17,6 +17,9 @@ public:
     // getters
     TrackSystem* getTrackSystem();
     SystemController* getController();
+
+    float getElapsedSeconds();
+    int getIterations();
     // initialization
     void loadTrackSystem();
     void loadTrainDestinations();
@@ -36,6 +39,9 @@ private:
     int m_timeSinceLastMovement; //ms
     float m_dt;
     int m_interval;
+
+    float m_elapsedSeconds;
+    int m_iterations;
 
     TrackSystem* m_trackSystem;
     SystemController* m_controller;
