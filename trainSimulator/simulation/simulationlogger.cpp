@@ -43,6 +43,10 @@ void SimulationLogger::logTimeStep() {
 }
 
 // logging changed track elements
+void SimulationLogger::logTrainMovements() {
+    // logTrainMovements
+}
+
 void SimulationLogger::logChangedSignals() {
 
 }
@@ -94,6 +98,19 @@ void SimulationLogger::logJunctionInfo(Junction* junction) {
 
 }
 
-void logTrainInfo(Train* train) {
+void SimulationLogger::logTrainInfo(Train* train) {
+    m_out << "Train ID: " << train->getId() << "\n";
+    m_out << "Train length " << train->getLength();
+    m_out << "Train max speed " << train->getMaxSpeed();
+    m_out << "Train track id: " << train->getFrontLocation().getTrackId() << ", " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear";
+}
+
+void SimulationLogger::logTrainMovementInfo(Train* train) {
+    m_out << "Train ID: " << train->getId() << "\n";
+    m_out << "Train speed: " << train->getSpeed();
+    m_out << "Train front world location";
+    logPoint(train->getFrontLocationInWorld());
+    m_out << "\n";
+    m_out << "Train track id: " << train->getFrontLocation().getTrackId() << ", " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear";
 
 }

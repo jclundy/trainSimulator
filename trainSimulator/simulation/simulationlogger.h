@@ -21,6 +21,7 @@ public:
     void logTimeStep();
 
     // logging changed track elements
+    void logTrainMovements();
     void logChangedSignals();
     void logChangedJunctions();
 
@@ -29,6 +30,7 @@ public:
     void logSignalInfo(Signal* signal);
     void logJunctionInfo(Junction* junction);
     void logTrainInfo(Train* train);
+    void logTrainMovementInfo(Train* train);
 
     // logging utils
     void logPoint(QPointF point);
