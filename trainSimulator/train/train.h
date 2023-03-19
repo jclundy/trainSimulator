@@ -39,7 +39,7 @@ public:
     train_motion_result getRailState();
 
     // initialization
-    void place(ITrackSegment* track, train_orientation orientation=TRAIN_HEAD_TOWARDS_TRACK_FRONT);
+    void place(ITrackSegment* track, float rearPositionOnTrack=0, train_orientation orientation=TRAIN_HEAD_TOWARDS_TRACK_FRONT);
     void slide(float distance);
     void setStartingSpeed(float speed);
     void setControlModel(TrainControlModel *controlModel);

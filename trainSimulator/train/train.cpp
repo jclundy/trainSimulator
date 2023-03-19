@@ -79,7 +79,7 @@ train_motion_result Train::getRailState() {
 }
 
 /* Initialization */
-void Train::place(ITrackSegment *track, train_orientation orientation) {
+void Train::place(ITrackSegment* track, float rearPosition, train_orientation orientation) {
 
     unTriggerSensors();
     m_isHalted = false;
@@ -90,17 +90,11 @@ void Train::place(ITrackSegment *track, train_orientation orientation) {
     }
 
     m_railState = ON_TRACK;
-
-    float midpoint = track->getLength()/2;
     float headPosition = 0;
-    float rearPosition = 0;
-
     if(orientation == TRAIN_HEAD_TOWARDS_TRACK_FRONT) {
-        headPosition = midpoint + m_length/2;
-        rearPosition = midpoint - m_length/2;
+        headPosition = rearPosition + m_length;
     } else {
-        headPosition = midpoint - m_length/2;
-        rearPosition = midpoint + m_length/2;
+        headPosition = rearPosition - m_length;
     }
 
     m_frontLocation.resetPosition(track, headPosition);
