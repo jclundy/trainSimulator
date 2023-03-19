@@ -28,6 +28,7 @@ public:
     int getTrainPriority();
     float getTrainSpeed();
     float getTrainPositionOnTrack();
+    float getDistanceTrainToSensor();
     track_sensor_data getSensorData();
 
     // setters

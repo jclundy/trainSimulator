@@ -34,6 +34,10 @@ float TrackSensor::getTrainPositionOnTrack()
     return m_trainPositionOnTrack;
 }
 
+float TrackSensor::getDistanceTrainToSensor() {
+    return fabs(m_positionOnTrack - m_trainPositionOnTrack);
+}
+
 track_sensor_data TrackSensor::getSensorData() {
     track_sensor_data sensorData = default_track_sensor_data;
     sensorData.trainPresent = m_trainPresent;
