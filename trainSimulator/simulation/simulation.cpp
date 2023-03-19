@@ -65,6 +65,8 @@ void Simulation::startSimulation() {
     m_logger->logTrackSystemInfo();
     m_logger->logTrainPaths();
 
+    m_trackSystem->unHaltAllTrains();
+
     m_timeSinceLastMovement = 0;
     m_elapsedSeconds = 0;
     m_iterations = 0;

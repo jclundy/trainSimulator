@@ -73,6 +73,12 @@ bool TrackSystem::areAllTrainsHalted() {
     return stopped;
 }
 
+void TrackSystem::unHaltAllTrains() {
+    for(int i = 0; i < m_trains.size(); i++) {
+        m_trains.at(i)->unHalt();
+    }
+}
+
 /* Getters */
 QList<Train*> TrackSystem::getTrains() {
     return m_trains;
