@@ -163,8 +163,13 @@ void SystemController::handleApproachingTrains(JunctionTrack* track) {
     if(closestTrainData.trackId == -1) {
         return;
     }
+    if(closestTrainData.trainId == -1) {
+        return;
+    }
+
     int junctionId = track->getId();
     int trainTargetTrackId = m_trainPaths[closestTrainData.trainId]->getDirectionToNext(junctionId);
+
     // if train will need to drive forward (ie approaching our rear)
     if(closestTrainData.trainDirection == 1) {
         track->selectRearBranchById(closestTrainData.trackId);
