@@ -111,7 +111,7 @@ int TrackPathTable::findIdOfClosest() {
 
     while (i.hasNext()) {
         i.next();
-        float newId = i.key();
+        int newId = i.key();
         PathTableEntry* entry = m_unvisited[newId];
 
         if(entry == NULL) {
