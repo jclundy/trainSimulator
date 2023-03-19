@@ -21,6 +21,8 @@ public:
 
     void stopAllTrains();
 
+    QMap<unsigned int, TrackPathTable*> getTrainPaths();
+
 private:
     TrackSystem* m_trackSystem;
     QMap<unsigned int, TrackPathTable*> m_trainPaths;

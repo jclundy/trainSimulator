@@ -21,6 +21,10 @@ TrackSystem* Simulation::getTrackSystem() {
     return m_trackSystem;
 }
 
+SystemController* Simulation::getController() {
+    return m_controller;
+}
+
 void Simulation::loadTrackSystem() {
     m_trackSystem = ExampleTrackSystem::generateExample1();
     m_controller = new SystemController(m_trackSystem);

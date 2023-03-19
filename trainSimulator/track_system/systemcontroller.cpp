@@ -97,3 +97,7 @@ void SystemController::stopAllTrains() {
         train->stop();
     }
 }
+
+QMap<unsigned int, TrackPathTable*> SystemController::getTrainPaths() {
+    return m_trainPaths;
+}

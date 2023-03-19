@@ -60,7 +60,19 @@ void SimulationLogger::logAllTrains() {
 }
 
 void SimulationLogger::logTrainPaths() {
+    QList<Train*> trainList = m_simulation->getTrackSystem()->getTrains();
+    for(int i = 0; i < trainList.size(); i++) {
+        Train* train = trainList.at(i);
+        int trainId = train->getId();
+        int trainTrackId = train->getFrontLocation().getTrackId();
 
+        m_out << "Path for Train " << trainId << "Starting from track " << trainTrackId << "\n";
+
+        QMap<unsigned int, TrackPathTable*> pathTable = m_simulation->getController()->getTrainPaths();
+        QList<path_step> pathList = pathTable[trainId]->getPathListFrom(trainTrackId);
+        logTrackPath(pathList);
+
+    }
 }
 
 
@@ -163,4 +175,12 @@ void SimulationLogger::logTrainMovementInfo(Train* train) {
     m_out << "\n";
     m_out << "Train track id: " << train->getFrontLocation().getTrackId() << ", " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear"  << "\n";
 
+}
+
+void SimulationLogger::logTrackPath(QList<path_step> pathList) {
+    m_out << "Track Path:" << "/n";
+    for (int i = 0; i < pathList.size(); i++) {
+        path_step step = pathList.at(i);
+        m_out << "Track: " << step.trackId << "; Next " << step.nextTrackId << " direction " << step.directionToNext << "\n";
+    }
 }

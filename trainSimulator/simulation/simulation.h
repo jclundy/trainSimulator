@@ -16,6 +16,7 @@ public:
 
     // getters
     TrackSystem* getTrackSystem();
+    SystemController* getController();
     // initialization
     void loadTrackSystem();
     void loadTrainDestinations();

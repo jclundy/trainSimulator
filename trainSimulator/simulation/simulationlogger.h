@@ -34,6 +34,8 @@ public:
     void logTrainInfo(Train* train);
     void logTrainMovementInfo(Train* train);
 
+    void logTrackPath(QList<path_step> pathList);
+
     // logging utils
     void logPoint(QPointF point);
     void logNeighbours(QList<ITrackSegment*> list);
