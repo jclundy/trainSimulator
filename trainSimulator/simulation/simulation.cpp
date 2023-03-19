@@ -81,6 +81,7 @@ void Simulation::stopSimulation() {
 }
 
 void Simulation::slot_timerEvent() {
+    m_controller->controlJunctions();
     m_controller->controlTrains();
     m_trackSystem->driveTrains(m_dt);
 

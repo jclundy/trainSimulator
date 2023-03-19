@@ -8,6 +8,15 @@
 
 #include <QMap>
 
+typedef struct {
+    float speed;
+    float dt;
+    float distance;
+    int trainId;
+    int trackId;
+    int trainDirection; // -1 if reversing, 1 if advancing
+} train_approach_data;
+
 class SystemController
 {
 public:
@@ -17,7 +26,7 @@ public:
     void setAllTrainDestinations(QMap<unsigned int, unsigned int> trainDestinations); // key - trainId, value - trackId
     void setTrainDestination(int trainId, int destinationId);
     void controlTrains();
-    void controlJunctions();
+    void controlJunctions(); // todo - rename to controlJunctionTracks
 
     void stopAllTrains();
 
@@ -26,6 +35,14 @@ public:
 private:
     TrackSystem* m_trackSystem;
     QMap<unsigned int, TrackPathTable*> m_trainPaths;
+
+    // Junction control methods
+    void controlSingleJunction(JunctionTrack* track);  // todo - rename to controlSingleJunctionTrack
+    void handleTrainOnJunctionTrack(JunctionTrack* track, int trainID);
+    void handleApproachingTrains(JunctionTrack* track);
+    train_approach_data getDataOfClosestApproachingTrain(JunctionTrack* track);
+    train_approach_data computeTrainApproachData(TrackSensor* sensor, int trackId, int approachDirection);
+    train_approach_data getCloserTrain(train_approach_data winner, train_approach_data candidate);
 };
 
 #endif // SYSTEMCONTROLLER_H

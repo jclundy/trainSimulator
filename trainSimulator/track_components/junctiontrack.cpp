@@ -1,4 +1,7 @@
 #include "junctiontrack.h"
+#include "track_system/collisionchecker.h"
+
+#include <math.h>
 
 JunctionTrack::JunctionTrack(unsigned int id, float length, const QPointF &position, unsigned int maxBranches):
     m_forwardJunction(this, maxBranches),
@@ -188,4 +191,102 @@ bool JunctionTrack::selectRearBranchById(unsigned int id) {
     bool result = m_rearJunction.selectBranchById(id);
     updateSignals();
     return result;
+}
+
+void JunctionTrack::checkCollisions() {
+    ITrackSegment* rearBranch = getSelectedRearEnd();
+    ITrackSegment* forwardBranch = getSelectedForwardEnd();
+    if(CollisionChecker::collisionWillOccur(rearBranch, forwardBranch)) {
+        track_sensor_data rearData = rearBranch->getFrontSensor()->getSensorData();
+        track_sensor_data frontData = forwardBranch->getRearSensor()->getSensorData();
+
+        bool needToRedirectRearTrain = false;
+        bool needToRedirectFrontTrain = false;
+        float rearTime = 0;
+        float frontTime = 0;
+
+        if(rearData.trainSpeed > 0) {
+            float rearDistance = rearData.positionOnTrack - rearBranch->getLength();
+            rearTime = fabs(rearDistance / rearData.trainSpeed);
+            needToRedirectRearTrain = true;
+        }
+        if(frontData.trainSpeed < 0) {
+            needToRedirectFrontTrain = true;
+            float frontDistance = frontData.positionOnTrack;
+            frontTime = fabs(frontDistance / frontData.trainSpeed);
+        }
+
+        if(needToRedirectFrontTrain && needToRedirectRearTrain) {
+            if(frontTime < rearTime) {
+
+            }
+        } else if (needToRedirectFrontTrain) {
+
+        } else if (needToRedirectRearTrain) {
+
+        }
+    }
+}
+
+
+// most viable - track doesn't have a train
+// 2nd most viable - track has train, but will result in longest time before collision
+int JunctionTrack::mostViableForwardBranchNumber() {
+
+    branch_selection_criteria winningBranch;
+    winningBranch.branchNum = -1;
+    winningBranch.hasCollision = true;
+    winningBranch.length = -1;
+    winningBranch.timeTillCollision = 0;
+
+    for (int i = 0; i < m_forwardJunction.getBranches().size(); i++) {
+        ITrackSegment* frontBranch = m_forwardJunction.getBranches().at(i);
+        collision_info_t collisionInfo = CollisionChecker::computeCollision(this, frontBranch);
+
+        branch_selection_criteria candidateBranch;
+        candidateBranch.branchNum = 0;
+        candidateBranch.hasCollision = collisionInfo.collisionWillOccur;
+        candidateBranch.length = frontBranch->getLength();
+        candidateBranch.timeTillCollision = collisionInfo.timeTillCollision;
+
+        winningBranch = selectMostViableBranch(winningBranch, candidateBranch);
+    }
+    return winningBranch.branchNum;
+}
+
+int JunctionTrack::mostViableRearBranchNumber() {
+    branch_selection_criteria winningBranch;
+    winningBranch.branchNum = -1;
+    winningBranch.hasCollision = true;
+    winningBranch.length = -1;
+    winningBranch.timeTillCollision = 0;
+
+    for (int i = 0; i < m_forwardJunction.getBranches().size(); i++) {
+        ITrackSegment* rearBranch = m_rearJunction.getBranches().at(i);
+        collision_info_t collisionInfo = CollisionChecker::computeCollision(rearBranch, this);
+
+        branch_selection_criteria candidateBranch;
+        candidateBranch.branchNum = 0;
+        candidateBranch.hasCollision = collisionInfo.collisionWillOccur;
+        candidateBranch.length = rearBranch->getLength();
+        candidateBranch.timeTillCollision = collisionInfo.timeTillCollision;
+
+        winningBranch = selectMostViableBranch(winningBranch, candidateBranch);
+    }
+    return winningBranch.branchNum;
+}
+
+branch_selection_criteria JunctionTrack::selectMostViableBranch(branch_selection_criteria previousWinner, branch_selection_criteria candidate) {
+    if(!candidate.hasCollision && previousWinner.hasCollision) {
+        return candidate;
+    } else if (!candidate.hasCollision && !previousWinner.hasCollision) {
+        if(candidate.length > previousWinner.length) {
+            return candidate;
+        }
+    } else if(candidate.hasCollision && previousWinner.hasCollision) {
+        if(candidate.timeTillCollision > previousWinner.timeTillCollision) {
+            return candidate;
+        }
+    }
+    return previousWinner;
 }
