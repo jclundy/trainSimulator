@@ -92,6 +92,22 @@ void SimulationLogger::logNeighbours(QList<ITrackSegment*> list) {
 }
 
 void SimulationLogger::logSignalInfo(Signal* signal) {
+    QString color = (signal->isRed())? "RED" : "GREEN";
+
+    ITrackSegment *track = signal->getTrackSegment();
+    if(track != NULL) {
+        QString placementStr = "";
+        auto placement = signal->getPlacement();
+        if(placement == SIGNAL_TRACK_FRONT) {
+            placementStr = "Front";
+        } else if (placement == SIGNAL_TRACK_REAR) {
+            placementStr = "Rear";
+        }
+
+        m_out << "Signal ID" << signal->getId() << "on Track " << track->getId() << placementStr << "; state=" << color;
+    } else {
+        m_out << "Signal ID" << signal->getId() << "not placed" << "; state=" << color;
+    }
 }
 
 void SimulationLogger::logJunctionInfo(Junction* junction) {
