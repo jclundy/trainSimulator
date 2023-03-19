@@ -6,6 +6,7 @@
 
 #include "track_system/tracksystem.h"
 #include "track_system/systemcontroller.h"
+#include "simulationlogger.h"
 
 class Simulation : public QObject
 {
@@ -46,6 +47,7 @@ private:
     TrackSystem* m_trackSystem;
     SystemController* m_controller;
     QTimer m_timer;
+    SimulationLogger* m_logger;
 };
 
 #endif // SIMULATION_H

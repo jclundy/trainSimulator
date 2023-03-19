@@ -13,6 +13,9 @@ Simulation::Simulation(QObject *parent) : QObject(parent),
     m_iterations = 0;
 
     connectSlots();
+
+    m_logger = new SimulationLogger("output.txt");
+
 }
 
 void Simulation::connectSlots() {
@@ -38,22 +41,28 @@ int Simulation::getIterations() {
 void Simulation::loadTrackSystem() {
     m_trackSystem = ExampleTrackSystem::generateExample1();
     m_controller = new SystemController(m_trackSystem);
+    m_logger->setTrackSystem(m_trackSystem);
 }
 
 void Simulation::loadTrainDestinations() {
     m_controller->setAllTrainDestinations(ExampleTrackSystem::generateExample1Destinations());
+    m_logger->setTrainPaths(m_controller->getTrainPaths());
 }
 
 void Simulation::setTimeout(unsigned long timeout) {
     m_timeout = timeout;
 }
 
-
-
 void Simulation::startSimulation() {
     if(m_trackSystem == NULL || m_controller == NULL) {
         return;
     }
+
+
+    m_logger->openFile();
+    m_logger->logTrackSystemInfo();
+    m_logger->logTrainPaths();
+
     m_timeSinceLastMovement = 0;
     m_elapsedSeconds = 0;
     m_iterations = 0;
@@ -65,6 +74,7 @@ void Simulation::stopSimulation() {
     m_timeSinceLastMovement = 0;
     m_timer.stop();
     m_controller->stopAllTrains();
+    m_logger->closeFile();
 
     qDebug() << "stopped simulation";
 }
@@ -88,4 +98,7 @@ void Simulation::slot_timerEvent() {
 
     qDebug() << "timer event";
     // m_trackSystem->driveSignals();
+
+    m_logger->logTimeStep(m_iterations, m_elapsedSeconds);
+
 }

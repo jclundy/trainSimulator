@@ -5,12 +5,18 @@
 #include <QFile>
 #include "track_system/tracksystem.h"
 #include "track_system/systemcontroller.h"
-#include "simulation.h"
 
 class SimulationLogger
 {
-    SimulationLogger(QString fileName, Simulation* simulation);
 public:
+
+    SimulationLogger(QString fileName);
+    void setTrackSystem(TrackSystem* trackSystem);
+    void setTrainPaths(QMap<unsigned int, TrackPathTable*> trainPaths);
+    void openFile();
+    void closeFile();
+
+
     // high-level logging
     void logTrackSystemInfo();
     void logAllTracks();
@@ -20,7 +26,7 @@ public:
 
     void logTrainPaths();
 
-    void logTimeStep();
+    void logTimeStep(int iterations, float elapsedSeconds);
 
     // logging changed track elements
     void logTrainMovements();
@@ -44,8 +50,11 @@ public:
 private:
     QFile *m_file;
     QString m_fileName;
+
     QTextStream m_out;
-    Simulation* m_simulation;
+    TrackSystem* m_trackSystem;
+    QMap<unsigned int, TrackPathTable*> m_trainPaths;
+
 };
 
 #endif // SIMULATIONLOGGER_H

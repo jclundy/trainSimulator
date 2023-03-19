@@ -1,17 +1,30 @@
 #include "simulationlogger.h"
 #include <QDebug>
 
-SimulationLogger::SimulationLogger(QString fileName, Simulation* simulation)
+SimulationLogger::SimulationLogger(QString fileName)
 {
     m_fileName = fileName;
-    m_simulation = simulation;
-
     m_file = new QFile(fileName);
+}
+
+void SimulationLogger::openFile() {
     if (m_file->open(QIODevice::WriteOnly | QIODevice::Text)) {
-            m_out.setDevice(m_file);
+        qDebug() << " opened file";
+        m_out.setDevice(m_file);
     }
 }
 
+void SimulationLogger::closeFile() {
+    m_file->close();
+}
+
+void SimulationLogger::setTrackSystem(TrackSystem* trackSystem) {
+    m_trackSystem = trackSystem;
+}
+
+void SimulationLogger::setTrainPaths(QMap<unsigned int, TrackPathTable*> trainPaths) {
+    m_trainPaths = trainPaths;
+}
 
 // high-level logging
 void SimulationLogger::logTrackSystemInfo() {
@@ -32,35 +45,37 @@ void SimulationLogger::logTrackSystemInfo() {
 }
 
 void SimulationLogger::logAllTracks() {
-    QList<ITrackSegment*> trackList = m_simulation->getTrackSystem()->getTrackSegments();
+    QList<ITrackSegment*> trackList = m_trackSystem->getTrackSegments();
     for(int i = 0; i < trackList.size(); i++) {
         logTrackInfo(trackList.at(i));
     }
 }
 
 void SimulationLogger::logAllSignals() {
-    QList<Signal*> signalList = m_simulation->getTrackSystem()->getSignals();
+    QList<Signal*> signalList = m_trackSystem->getSignals();
     for(int i =0; i < signalList.size(); i++) {
         logSignalInfo(signalList.at(i));
     }
 }
 
 void SimulationLogger::logAllJunctions() {
-    QList<JunctionTrack*> junctionList = m_simulation->getTrackSystem()->getJunctions();
+    QList<JunctionTrack*> junctionList = m_trackSystem->getJunctions();
     for(int i = 0; i < junctionList.size(); i++) {
         logJunctionInfo(junctionList.at(i));
     }
 }
 
 void SimulationLogger::logAllTrains() {
-    QList<Train*> trainList = m_simulation->getTrackSystem()->getTrains();
+    QList<Train*> trainList = m_trackSystem->getTrains();
     for(int i = 0; i < trainList.size(); i++) {
         logTrainInfo(trainList.at(0));
     }
 }
 
 void SimulationLogger::logTrainPaths() {
-    QList<Train*> trainList = m_simulation->getTrackSystem()->getTrains();
+    m_out << "=========================== \n";
+    m_out << "TRAIN PATH INFO  \n";
+    QList<Train*> trainList = m_trackSystem->getTrains();
     for(int i = 0; i < trainList.size(); i++) {
         Train* train = trainList.at(i);
         int trainId = train->getId();
@@ -68,8 +83,7 @@ void SimulationLogger::logTrainPaths() {
 
         m_out << "Path for Train " << trainId << "Starting from track " << trainTrackId << "\n";
 
-        QMap<unsigned int, TrackPathTable*> pathTable = m_simulation->getController()->getTrainPaths();
-        QList<path_step> pathList = pathTable[trainId]->getPathListFrom(trainTrackId);
+        QList<path_step> pathList = m_trainPaths[trainId]->getPathListFrom(trainTrackId);
         logTrackPath(pathList);
 
     }
@@ -77,9 +91,9 @@ void SimulationLogger::logTrainPaths() {
 
 
 
-void SimulationLogger::logTimeStep() {
+void SimulationLogger::logTimeStep(int iterations, float elapsedSeconds) {
     m_out << "+++++++++++++++++++++++++++ \n";
-    m_out << "Iteration: " << m_simulation->getIterations() << ", Time: " << m_simulation->getElapsedSeconds() << " s \n";
+    m_out << "Iteration: " << iterations << ", Time: " << elapsedSeconds << " s \n";
     logTrainMovements();
 //    logAllSignals();
     logAllJunctions();
@@ -91,7 +105,7 @@ void SimulationLogger::logTimeStep() {
 void SimulationLogger::logTrainMovements() {
     m_out << "Train Movements: \n";
     // logTrainMovements
-    QList<Train*> trainList = m_simulation->getTrackSystem()->getTrains();
+    QList<Train*> trainList = m_trackSystem->getTrains();
     for(int i = 0; i < trainList.size(); i++) {
         logTrainMovementInfo(trainList.at(i));
     }
