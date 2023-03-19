@@ -104,21 +104,23 @@ void SimulationLogger::logSignalInfo(Signal* signal) {
             placementStr = "Rear";
         }
 
-        m_out << "Signal ID" << signal->getId() << "on Track " << track->getId() << placementStr << "; state=" << color;
+        m_out << "Signal ID" << signal->getId() << "on Track " << track->getId() << placementStr << "; state=" << color  << "\n";
     } else {
-        m_out << "Signal ID" << signal->getId() << "not placed" << "; state=" << color;
+        m_out << "Signal ID" << signal->getId() << "not placed" << "; state=" << color  << "\n";
     }
 }
 
-void SimulationLogger::logJunctionInfo(Junction* junction) {
-
+void SimulationLogger::logJunctionInfo(JunctionTrack* track) {
+    m_out << "Junction ID " << track->getId() << "\n";
+    m_out << "Selected front " << track->getSelectedForwardEnd()->getId() << "\n";
+    m_out << "Selected rear " << track->getSelectedRearEnd()->getId() << "\n";
 }
 
 void SimulationLogger::logTrainInfo(Train* train) {
     m_out << "Train ID: " << train->getId() << "\n";
-    m_out << "Train length " << train->getLength();
-    m_out << "Train max speed " << train->getMaxSpeed();
-    m_out << "Train track id: " << train->getFrontLocation().getTrackId() << ", " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear";
+    m_out << "Train length " << train->getLength()  << "\n";
+    m_out << "Train max speed " << train->getMaxSpeed()  << "\n";
+    m_out << "Train track id: " << train->getFrontLocation().getTrackId() << ", " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear"  << "\n";
 }
 
 void SimulationLogger::logTrainMovementInfo(Train* train) {
@@ -127,6 +129,6 @@ void SimulationLogger::logTrainMovementInfo(Train* train) {
     m_out << "Train front world location";
     logPoint(train->getFrontLocationInWorld());
     m_out << "\n";
-    m_out << "Train track id: " << train->getFrontLocation().getTrackId() << ", " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear";
+    m_out << "Train track id: " << train->getFrontLocation().getTrackId() << ", " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear"  << "\n";
 
 }

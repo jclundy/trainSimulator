@@ -28,7 +28,7 @@ public:
     // logging for individual components
     void logTrackInfo(ITrackSegment *track);
     void logSignalInfo(Signal* signal);
-    void logJunctionInfo(Junction* junction);
+    void logJunctionInfo(JunctionTrack* track);
     void logTrainInfo(Train* train);
     void logTrainMovementInfo(Train* train);
 
