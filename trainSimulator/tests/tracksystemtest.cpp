@@ -263,7 +263,7 @@ void TrackSystemTest::testPathPlanning() {
     TrackPathTable *table = new TrackPathTable();
 
     qDebug() << "Initializing table";
-    table->initialize(m_trackSystem, 5);
+    table->initialize(m_trackSystem, 3);
 
     qDebug() << "Computing table";
     table->computeTable();
@@ -274,9 +274,14 @@ void TrackSystemTest::testPathPlanning() {
     printTrackPath(pathFromTrack0);
 
     qDebug() << "---------------------------------------";
-    qDebug() << "Path from 3";
-    QList<path_step> pathFromTrack3 = table->getPathListFrom(3);
+    qDebug() << "Path from 4";
+    QList<path_step> pathFromTrack3 = table->getPathListFrom(4);
     printTrackPath(pathFromTrack3);
+
+    qDebug() << "---------------------------------------";
+    qDebug() << "Path from 5";
+    QList<path_step> pathFromTrack5 = table->getPathListFrom(5);
+    printTrackPath(pathFromTrack5);
 }
 
 void TrackSystemTest::printAllSignalInfo() {
