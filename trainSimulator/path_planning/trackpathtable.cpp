@@ -25,7 +25,11 @@ void TrackPathTable::computeTable() {
     // run
     int currentId = m_targetId;
 
-    while(m_unvisited.size() > 0) {
+    int iterations = 0;
+
+    while(m_unvisited.size() > 0 && iterations < m_maxIterations) {
+        iterations++;
+
         // 1. Set current entry as visited from set of unvisited
         PathTableEntry currentEntry = m_table[m_targetId];
         currentEntry.setVisited();
