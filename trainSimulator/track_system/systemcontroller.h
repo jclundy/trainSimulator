@@ -17,7 +17,7 @@ public:
     void setAllTrainDestinations(QMap<unsigned int, unsigned int> trainDestinations); // key - trainId, value - trackId
     void setTrainDestination(int trainId, int destinationId);
     void controlTrains();
-    void controlJunctions();
+    void controlJunctions(); // todo - rename to controlJunctionTracks
 
     void stopAllTrains();
 
@@ -26,6 +26,12 @@ public:
 private:
     TrackSystem* m_trackSystem;
     QMap<unsigned int, TrackPathTable*> m_trainPaths;
+
+    // Junction control methods
+    void controlSingleJunction(JunctionTrack* track);  // todo - rename to controlSingleJunctionTrack
+    void handleTrainOnJunctionTrack(JunctionTrack* track, int trainID);
+    void handleApproachingTrains(JunctionTrack* track);
+    int getIdOfFastestApproachingTrain(JunctionTrack* track);
 };
 
 #endif // SYSTEMCONTROLLER_H
