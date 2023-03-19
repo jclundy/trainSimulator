@@ -37,7 +37,7 @@ void TrackPathTable::computeTable() {
         iterations++;
 
         // 1. Set current entry as visited from set of unvisited
-        PathTableEntry* currentEntry = m_table[m_targetId];
+        PathTableEntry* currentEntry = m_table[currentId];
         currentEntry->setVisited();
 
         // 2. Update neighbours of current
