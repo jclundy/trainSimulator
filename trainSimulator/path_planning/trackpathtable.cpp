@@ -142,16 +142,17 @@ QList<path_step> TrackPathTable::getPathListFrom(unsigned int trackId) {
     if(m_table.contains(trackId)) {
 
         int iterations = 0;
-        while(currentId != m_targetId && iterations < m_maxIterations) {
+        do {
             path_step step;
             step.trackId = currentId;
-            step.nextTrackId = m_table[trackId]->getNextId();
-            step.directionToNext = m_table[trackId]->getDirectionToNext();
+            step.nextTrackId = m_table[currentId]->getNextId();
+            step.directionToNext = m_table[currentId]->getDirectionToNext();
 
             currentId = step.nextTrackId;
             pathList.append(step);
             iterations++;
-        }
+        } while(currentId != m_targetId && iterations < m_maxIterations);
+
     }
 
     return pathList;
