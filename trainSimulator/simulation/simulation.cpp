@@ -49,13 +49,23 @@ void Simulation::stopSimulation() {
     m_timeSinceLastMovement = 0;
     m_timer.stop();
     // train controller - should stop all trains
+
+    qDebug() << "stopped simulation";
 }
 
 void Simulation::slot_timerEvent() {
     m_controller->controlTrains();
     m_trackSystem->driveTrains(m_dt);
 
-    if(m_trackSystem->areAllTrainsStopped())
+    if(m_trackSystem->areAllTrainsStopped()) {
+        m_timeSinceLastMovement+= m_timer.interval();
+    } else {
+        m_timeSinceLastMovement = 0;
+    }
+
+    if(m_timeSinceLastMovement > m_timeout) {
+        stopSimulation();
+    }
 
     qDebug() << "timer event";
     // m_trackSystem->driveSignals();
