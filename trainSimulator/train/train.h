@@ -45,6 +45,7 @@ public:
     void setControlModel(TrainControlModel *controlModel);
     // control and simulation
     void setDesiredSpeed(float setpoint);
+    float getDesiredSpeed();
     bool drive(float dt);
     void stop();
     float getMaxSpeed();

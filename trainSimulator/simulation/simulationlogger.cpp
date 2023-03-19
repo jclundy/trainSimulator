@@ -200,6 +200,7 @@ void SimulationLogger::logTrainMovementInfo(Train* train) {
     m_out << "-------------------------------------\n";
     m_out << "Train ID: " << train->getId() << "\n";
     m_out << "Train speed: " << train->getSpeed() << "\n";
+    m_out << "Train speed setpoint: " << train->getDesiredSpeed() << "\n";
     m_out << "Train front world location";
     logPoint(train->getFrontLocationInWorld());
     m_out << "\n";

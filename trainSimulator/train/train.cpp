@@ -137,6 +137,10 @@ void Train::setDesiredSpeed(float setpoint) {
     m_speedSetpoint = setpoint;
 }
 
+float Train::getDesiredSpeed() {
+    return m_speedSetpoint;
+}
+
 bool Train::drive(float dt) {
     m_isDriving = true;
     if(m_isHalted) {
