@@ -17,6 +17,7 @@ class TrackPathTable
 {
 public:
     TrackPathTable();
+    ~TrackPathTable();
     void initialize(TrackSystem *trackSystem, unsigned int targetId);
     void computeTable();
     int getDirectionToNext(unsigned int trackId);

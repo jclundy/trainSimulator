@@ -6,6 +6,24 @@ TrackPathTable::TrackPathTable()
 
 }
 
+TrackPathTable::~TrackPathTable() {
+    QMapIterator<unsigned int, PathTableEntry*> unVisitedIterator(m_unvisited);
+    while (unVisitedIterator.hasNext()) {
+        unVisitedIterator.next();
+        int key = unVisitedIterator.key();
+        delete m_unvisited[key];
+        m_unvisited.remove(key);
+    }
+
+    QMapIterator<unsigned int, PathTableEntry*> tableIterator(m_table);
+    while (tableIterator.hasNext()) {
+        tableIterator.next();
+        int key = tableIterator.key();
+        delete m_unvisited[key];
+        m_unvisited.remove(key);
+    }
+}
+
 void TrackPathTable::initialize(TrackSystem *trackSystem, unsigned int targetId) {
     m_table.clear();
     m_targetId = targetId;

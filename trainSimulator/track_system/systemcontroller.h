@@ -12,6 +12,7 @@ class SystemController
 {
 public:
     SystemController(TrackSystem* system);
+    ~SystemController();
 
     void setAllTrainDestinations(QMap<unsigned int, unsigned int>); // key - trainId, value - trackId
     void setTrainDestination(int trainId, int destinationId);
