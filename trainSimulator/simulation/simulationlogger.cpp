@@ -59,6 +59,8 @@ void SimulationLogger::logAllSignals() {
 }
 
 void SimulationLogger::logAllJunctions() {
+    m_out << "-------------------------------------\n";
+    m_out << "JUNCTION INFO  \n";
     QList<JunctionTrack*> junctionList = m_trackSystem->getJunctions();
     for(int i = 0; i < junctionList.size(); i++) {
         logJunctionInfo(junctionList.at(i));
@@ -80,10 +82,10 @@ void SimulationLogger::logTrainPaths() {
         Train* train = trainList.at(i);
         int trainId = train->getId();
         int trainTrackId = train->getFrontLocation().getTrackId();
-
-        m_out << "Path for Train " << trainId << "Starting from track " << trainTrackId << "\n";
-
+        m_out << "-------------------------------------\n";
+        m_out << "Path for Train " << trainId << "\n";
         QList<path_step> pathList = m_trainPaths[trainId]->getPathListFrom(trainTrackId);
+        m_out << "From track " << trainTrackId <<  " to track " <<  m_trainPaths[trainId]->getTargetId() << "\n";
         logTrackPath(pathList);
 
     }
@@ -92,10 +94,14 @@ void SimulationLogger::logTrainPaths() {
 
 
 void SimulationLogger::logTimeStep(int iterations, float elapsedSeconds) {
-    m_out << "+++++++++++++++++++++++++++ \n";
+    m_out << "****************************** \n";
     m_out << "Iteration: " << iterations << ", Time: " << elapsedSeconds << " s \n";
+    m_out << "++++++++++++++++++++++++++++++ \n";
+    m_out << "Train movements \n";
     logTrainMovements();
 //    logAllSignals();
+    m_out << "++++++++++++++++++++++++++++++ \n";
+    m_out << "Junction states \n";
     logAllJunctions();
 
     // todo - change to log signal changes and junction changes
@@ -121,6 +127,7 @@ void SimulationLogger::logChangedJunctions() {
 
 // logging for individual components
 void SimulationLogger::logTrackInfo(ITrackSegment *track) {
+    m_out << "----------------------------\n";
     m_out << "ID " << track->getId() << "\n";
     m_out << "length " << track->getTrackGeometry()->getLength() << "\n";
     m_out << "heading " << track->getTrackGeometry()->getHeading() << "\n";
@@ -136,6 +143,7 @@ void SimulationLogger::logTrackInfo(ITrackSegment *track) {
 
     m_out << "Front neighbours: ";
     logNeighbours(track->getForwardNeighbours());
+
     m_out << "Front neighbours: ";
     logNeighbours(track->getRearNeighbours());
 
@@ -152,8 +160,8 @@ void SimulationLogger::logNeighbours(QList<ITrackSegment*> list) {
         if(i < list.size() -1) {
             m_out << ",";
         }
-        m_out << "\n";
     }
+    m_out << "\n";
 }
 
 void SimulationLogger::logSignalInfo(Signal* signal) {
@@ -164,14 +172,14 @@ void SimulationLogger::logSignalInfo(Signal* signal) {
         QString placementStr = "";
         auto placement = signal->getPlacement();
         if(placement == SIGNAL_TRACK_FRONT) {
-            placementStr = "Front";
+            placementStr = " Front";
         } else if (placement == SIGNAL_TRACK_REAR) {
-            placementStr = "Rear";
+            placementStr = " Rear";
         }
 
-        m_out << "Signal ID" << signal->getId() << "on Track " << track->getId() << placementStr << "; state=" << color  << "\n";
+        m_out << "Signal ID " << signal->getId() << "; on Track " << track->getId() << placementStr << "; state=" << color  << "\n";
     } else {
-        m_out << "Signal ID" << signal->getId() << "not placed" << "; state=" << color  << "\n";
+        m_out << "Signal ID " << signal->getId() << "; not placed " << "; state=" << color  << "\n";
     }
 }
 
@@ -189,9 +197,9 @@ void SimulationLogger::logTrainInfo(Train* train) {
 }
 
 void SimulationLogger::logTrainMovementInfo(Train* train) {
-    m_out << "-------------------------------------";
+    m_out << "-------------------------------------\n";
     m_out << "Train ID: " << train->getId() << "\n";
-    m_out << "Train speed: " << train->getSpeed();
+    m_out << "Train speed: " << train->getSpeed() << "\n";
     m_out << "Train front world location";
     logPoint(train->getFrontLocationInWorld());
     m_out << "\n";
@@ -199,7 +207,7 @@ void SimulationLogger::logTrainMovementInfo(Train* train) {
 }
 
 void SimulationLogger::logTrackPath(QList<path_step> pathList) {
-    m_out << "Track Path:" << "/n";
+    m_out << "Track Path:" << "\n";
     for (int i = 0; i < pathList.size(); i++) {
         path_step step = pathList.at(i);
         m_out << "Track: " << step.trackId << "; Next " << step.nextTrackId << " direction " << step.directionToNext << "\n";
