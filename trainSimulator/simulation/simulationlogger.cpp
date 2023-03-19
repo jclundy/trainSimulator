@@ -7,9 +7,9 @@ SimulationLogger::SimulationLogger(QString fileName, Simulation* simulation)
     m_simulation = simulation;
 
     m_file = new QFile(fileName);
-//    if (m_file->open(QIODevice::WriteOnly | QIODevice::Text)) {
-//        m_out = new QTextStream(m_file);
-//    }
+    if (m_file->open(QIODevice::WriteOnly | QIODevice::Text)) {
+            m_out.setDevice(m_file);
+    }
 }
 
 
