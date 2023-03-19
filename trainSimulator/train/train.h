@@ -28,6 +28,7 @@ public:
     float getSpeed() override;
     float getAcceleration();
     int getPriority() override;
+    float getLength();
     TrainLocation getFrontLocation();
     TrainLocation getRearLocation();
     void setPriority(int priority);

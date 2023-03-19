@@ -39,6 +39,10 @@ int Train::getPriority() {
     return m_priority;
 }
 
+float Train::getLength() {
+    return m_length;
+}
+
 TrainLocation Train::getFrontLocation() {
     return m_frontLocation;
 }
