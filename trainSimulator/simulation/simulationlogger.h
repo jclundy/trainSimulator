@@ -30,10 +30,15 @@ public:
     void logJunctionInfo(Junction* junction);
     void logTrainInfo(Train* train);
 
+    // logging utils
+    void logPoint(QPointF point);
+    void logNeighbours(QList<ITrackSegment*> list);
+
+
 private:
     QFile *m_file;
     QString m_fileName;
-    QTextStream *m_out;
+    QTextStream m_out;
     Simulation* m_simulation;
 };
 
