@@ -37,7 +37,6 @@ public slots:
 
 private:
     int m_timeout; //ms
-    int m_timeSinceLastMovement; //ms
     float m_dt;
     int m_interval;
 

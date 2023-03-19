@@ -6,7 +6,6 @@ Simulation::Simulation(QObject *parent) : QObject(parent),
     m_timer(this)
 {
     m_timeout = 5000; //set timeout to 5 seconds
-    m_timeSinceLastMovement = 0;
     m_dt = 0.25;
     m_interval = 10; // timer interval 10 ms
     m_elapsedSeconds = 0;
@@ -67,7 +66,6 @@ void Simulation::startSimulation() {
 
     m_trackSystem->unHaltAllTrains();
 
-    m_timeSinceLastMovement = 0;
     m_elapsedSeconds = 0;
     m_iterations = 0;
     m_timer.setInterval(m_interval);
@@ -75,7 +73,6 @@ void Simulation::startSimulation() {
 }
 
 void Simulation::stopSimulation() {
-    m_timeSinceLastMovement = 0;
     m_timer.stop();
     m_controller->stopAllTrains();
     m_logger->closeFile();
@@ -90,18 +87,10 @@ void Simulation::slot_timerEvent() {
     m_elapsedSeconds += m_dt;
     m_iterations++;
 
-    if(m_trackSystem->areAllTrainsStopped()) {
-        m_timeSinceLastMovement+= m_timer.interval();
-    } else {
-        m_timeSinceLastMovement = 0;
-    }
-
-    if(m_timeSinceLastMovement > m_timeout || m_trackSystem->areAllTrainsHalted()) {
+    if(m_trackSystem->areAllTrainsStopped() && m_iterations > 1) {
+        qDebug() << "all trains stopped";
         stopSimulation();
     }
-
-    qDebug() << "timer event";
-    // m_trackSystem->driveSignals();
 
     m_logger->logTimeStep(m_iterations, m_elapsedSeconds);
 
