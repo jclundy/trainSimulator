@@ -1,4 +1,5 @@
 #include "systemcontroller.h"
+#include <math.h>
 
 SystemController::SystemController(TrackSystem* system)
 {
@@ -57,14 +58,27 @@ void SystemController::controlTrains() {
 
         TrackPathTable* table = m_trainPaths[train->getId()];
 
-        float newDesiredSpeed = train->getSpeed();
+        float currentSpeed = train->getSpeed();
+        float newDesiredSpeed = currentSpeed;
+        int directionToNext = table->getDirectionToNext(trackId);
+
         //1. Control speed based on destination
         if(table->getTargetId() == trackId) {
-            // if we've reached our destination track, stop
-            train->stop();
-            newDesiredSpeed = 0;
+            // slow down to 1 m/s
+            newDesiredSpeed = copysign(1.0, currentSpeed);
+            // if we've reached our destination track, stop when reaching midpoint
+            if(currentSpeed < 0) {
+                // stop when our rear is at midpoint of track
+                if(location.getPositionOnTrack() > location.getTrack()->getLength()/2) {
+                    newDesiredSpeed = 0;
+                }
+            } else {
+                // stop when our rear is at midpoint of track
+                if(location.getPositionOnTrack() > location.getTrack()->getLength()/2) {
+                    newDesiredSpeed = 0;
+                }
+            }
         } else {
-            int directionToNext = table->getDirectionToNext(trackId);
 
             float maxSpeed = train->getMaxSpeed();
             newDesiredSpeed = maxSpeed * directionToNext;
@@ -83,10 +97,15 @@ void SystemController::controlTrains() {
         }
         if(signal != NULL) {
             if(signal->isRed()) {
-                newDesiredSpeed = 0;
+                newDesiredSpeed = copysign(1.0, currentSpeed);
+                if(newDesiredSpeed > 0 && location.getPositionOnTrack() > location.getTrack()->getLength() - train->getLength() * 1.5) {
+                    newDesiredSpeed = 0;
+                } else if (newDesiredSpeed < 0 && location.getPositionOnTrack() < train->getLength() * 1.5) {
+                    newDesiredSpeed = 0;
+                }
             }
         }
-        train->setDesiredSpeed(0);
+        train->setDesiredSpeed(newDesiredSpeed);
     }
 }
 
@@ -96,4 +115,8 @@ void SystemController::stopAllTrains() {
         Train* train = trainList.at(i);
         train->stop();
     }
+}
+
+QMap<unsigned int, TrackPathTable*> SystemController::getTrainPaths() {
+    return m_trainPaths;
 }

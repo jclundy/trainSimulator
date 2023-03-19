@@ -67,6 +67,10 @@ TrackSystem * ExampleTrackSystem::generateExample1() {
     Signal* signal_5_front = trackSystem->addSignal();
     signal_5_front->placeOnTrackFront(track5);
 
+    track1->selectRearBranchById(0);
+    track1->selectForwardBranchById(5);
+
+
     return trackSystem;
 }
 

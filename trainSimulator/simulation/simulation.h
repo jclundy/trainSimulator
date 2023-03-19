@@ -6,6 +6,7 @@
 
 #include "track_system/tracksystem.h"
 #include "track_system/systemcontroller.h"
+#include "simulationlogger.h"
 
 class Simulation : public QObject
 {
@@ -16,6 +17,10 @@ public:
 
     // getters
     TrackSystem* getTrackSystem();
+    SystemController* getController();
+
+    float getElapsedSeconds();
+    int getIterations();
     // initialization
     void loadTrackSystem();
     void loadTrainDestinations();
@@ -32,13 +37,16 @@ public slots:
 
 private:
     int m_timeout; //ms
-    int m_timeSinceLastMovement; //ms
     float m_dt;
     int m_interval;
+
+    float m_elapsedSeconds;
+    int m_iterations;
 
     TrackSystem* m_trackSystem;
     SystemController* m_controller;
     QTimer m_timer;
+    SimulationLogger* m_logger;
 };
 
 #endif // SIMULATION_H

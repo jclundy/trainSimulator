@@ -13,7 +13,7 @@ TrackSystemTest::TrackSystemTest()
 void TrackSystemTest::runTests() {
     testSetup();
 //    testSignals();
-//    testDrive1();
+    testDrive1();
     testPathPlanning();
 
 }
@@ -135,7 +135,7 @@ void TrackSystemTest::testDriving(int iterations, float dt) {
     int i = 0;
     for(i = 0; i < iterations && !stopped; i++) {
         m_trackSystem->driveTrains(dt);
-        stopped = m_trackSystem->areAllTrainsStopped();
+        stopped = m_trackSystem->areAllTrainsHalted();
 
         qDebug() << "---------------------------";
         qDebug() << "iteration " << i;
