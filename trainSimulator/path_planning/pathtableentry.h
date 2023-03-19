@@ -12,6 +12,7 @@ class PathTableEntry
 public:
     PathTableEntry() {}
     PathTableEntry(unsigned int id, float trackLength);
+    void initializeAsTarget();
     void update(unsigned int neighbourId, float neighbourDistance, path_direction direction);
 
     bool getVisited();

@@ -29,7 +29,7 @@ void TrackPathTable::initialize(TrackSystem *trackSystem, unsigned int targetId)
 void TrackPathTable::computeTable() {
     // run
     int currentId = m_targetId;
-    m_table[currentId]->update(currentId,0,PATH_STAY_PUT);
+    m_table[currentId]->initializeAsTarget();
 
     int iterations = 0;
 
@@ -77,10 +77,18 @@ void TrackPathTable::computeTable() {
 
 int TrackPathTable::findIdOfClosest() {
 
+    QMapIterator<unsigned int, PathTableEntry*> i(m_unvisited);
     int closestId = -1;
     float closestDistance = -1;
 
-    QMapIterator<unsigned int, PathTableEntry*> i(m_unvisited);
+    if(i.hasNext()) {
+        i.next();
+        closestId = i.key();
+        closestDistance = m_unvisited[closestId]->getDistanceToTarget();
+    } else {
+        return -1;
+    }
+
     while (i.hasNext()) {
         i.next();
         float newId = i.key();
@@ -99,16 +107,15 @@ int TrackPathTable::findIdOfClosest() {
 
         float newDistance = entry->getDistanceToTarget();
 
-        if(closestId == -1) {
+        if(closestDistance == -1 && newDistance >= 0) {
             closestId = newId;
             closestDistance = newDistance;
         } else {
-            if(closestDistance == -1 && newDistance >= 0) {
-                closestId = newId;
-                closestDistance = newDistance;
-            } else if (newDistance < closestDistance) {
-                closestId = newId;
-                closestDistance = newDistance;
+            if(closestDistance >= 0 && newDistance >= 0) {
+                if (newDistance < closestDistance) {
+                    closestId = newId;
+                    closestDistance = newDistance;
+                }
             }
         }
     }
