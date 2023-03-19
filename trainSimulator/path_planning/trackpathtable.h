@@ -18,10 +18,12 @@ class TrackPathTable
 public:
     TrackPathTable();
     ~TrackPathTable();
+    void reset();
     void initialize(TrackSystem *trackSystem, unsigned int targetId);
     void computeTable();
     int getDirectionToNext(unsigned int trackId);
     QList<path_step> getPathListFrom(unsigned int trackId);
+    int getTargetId();
 
 private:
     int findIdOfClosest();

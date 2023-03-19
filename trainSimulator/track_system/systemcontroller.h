@@ -14,7 +14,7 @@ public:
     SystemController(TrackSystem* system);
     ~SystemController();
 
-    void setAllTrainDestinations(QMap<unsigned int, unsigned int>); // key - trainId, value - trackId
+    void setAllTrainDestinations(QMap<unsigned int, unsigned int> trainDestinations); // key - trainId, value - trackId
     void setTrainDestination(int trainId, int destinationId);
     void controlTrains();
     void controlJunctions();

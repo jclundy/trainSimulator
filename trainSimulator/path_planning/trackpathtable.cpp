@@ -7,6 +7,10 @@ TrackPathTable::TrackPathTable()
 }
 
 TrackPathTable::~TrackPathTable() {
+    reset();
+}
+
+void TrackPathTable::reset() {
     QMapIterator<unsigned int, PathTableEntry*> unVisitedIterator(m_unvisited);
     while (unVisitedIterator.hasNext()) {
         unVisitedIterator.next();
@@ -19,13 +23,19 @@ TrackPathTable::~TrackPathTable() {
     while (tableIterator.hasNext()) {
         tableIterator.next();
         int key = tableIterator.key();
-        delete m_unvisited[key];
-        m_unvisited.remove(key);
+        delete m_table[key];
+        m_table.remove(key);
     }
+
+    m_table.clear();
+    m_unvisited.clear();
+
 }
 
 void TrackPathTable::initialize(TrackSystem *trackSystem, unsigned int targetId) {
-    m_table.clear();
+
+    reset();
+
     m_targetId = targetId;
     m_trackSystem = trackSystem;
     m_maxIterations = trackSystem->getTrackSegments().size();
@@ -174,4 +184,8 @@ QList<path_step> TrackPathTable::getPathListFrom(unsigned int trackId) {
     }
 
     return pathList;
+}
+
+int TrackPathTable::getTargetId() {
+    return m_targetId;
 }
