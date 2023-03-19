@@ -13,6 +13,8 @@ typedef struct {
     float dt;
     float distance;
     int trainId;
+    int trackId;
+    int trainDirection; // -1 if reversing, 1 if advancing
 } train_approach_data;
 
 class SystemController
@@ -38,8 +40,8 @@ private:
     void controlSingleJunction(JunctionTrack* track);  // todo - rename to controlSingleJunctionTrack
     void handleTrainOnJunctionTrack(JunctionTrack* track, int trainID);
     void handleApproachingTrains(JunctionTrack* track);
-    int getIdOfClosestApproachingTrain(JunctionTrack* track);
-    train_approach_data computeTrainApproachData(TrackSensor* sensor);
+    train_approach_data getDataOfClosestApproachingTrain(JunctionTrack* track);
+    train_approach_data computeTrainApproachData(TrackSensor* sensor, int trackId, int approachDirection);
     train_approach_data getCloserTrain(train_approach_data winner, train_approach_data candidate);
 };
 
