@@ -8,7 +8,7 @@ Simulation::Simulation(QObject *parent) : QObject(parent),
     m_timeout = 5000; //set timeout to 5 seconds
     m_timeSinceLastMovement = 0;
     m_dt = 0.25;
-    m_interval = 250;
+    m_interval = 10; // timer interval 10 ms
     m_elapsedSeconds = 0;
     m_iterations = 0;
 
