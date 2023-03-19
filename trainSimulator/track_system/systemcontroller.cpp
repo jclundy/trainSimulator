@@ -86,7 +86,7 @@ void SystemController::controlTrains() {
                 newDesiredSpeed = 0;
             }
         }
-        train->setDesiredSpeed(0);
+        train->setDesiredSpeed(newDesiredSpeed);
     }
 }
 
