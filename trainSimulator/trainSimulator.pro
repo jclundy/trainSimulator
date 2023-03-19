@@ -46,7 +46,8 @@ SOURCES += \
     path_planning/pathtableentry.cpp \
     track_system/systemcontroller.cpp \
     simulation/simulation.cpp \
-    simulation/exampletracksystem.cpp
+    simulation/exampletracksystem.cpp \
+    simulation/simulationlogger.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -74,4 +75,5 @@ HEADERS += \
     path_planning/pathtableentry.h \
     track_system/systemcontroller.h \
     simulation/simulation.h \
-    simulation/exampletracksystem.h
+    simulation/exampletracksystem.h \
+    simulation/simulationlogger.h
