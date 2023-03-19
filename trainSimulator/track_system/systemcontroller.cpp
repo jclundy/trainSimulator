@@ -63,8 +63,7 @@ void SystemController::controlTrains() {
         } else {
             int directionToNext = table->getDirectionToNext(trackId);
 
-            // todo - get this from train class
-            float maxSpeed = 5;
+            float maxSpeed = train->getMaxSpeed();
             train->setDesiredSpeed(maxSpeed * directionToNext);
         }
 

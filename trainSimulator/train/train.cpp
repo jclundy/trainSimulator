@@ -157,6 +157,14 @@ void Train::stop() {
     m_speed = 0;
 }
 
+float Train::getMaxSpeed() {
+    if(m_controlModel == NULL) {
+        m_controlModel = new SimpleControlModel();
+        qDebug() << "didn't set control model - creating new simple control model";
+    }
+    return m_controlModel->getMaxSpeed();
+}
+
 /* Train 2D location */
 QPointF Train::getLocationInWorld() {
     QPointF frontPosition = m_frontLocation.getPositionInWorld();

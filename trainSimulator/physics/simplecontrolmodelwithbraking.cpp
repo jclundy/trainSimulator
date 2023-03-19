@@ -35,3 +35,7 @@ void SimpleControlModelWithBraking::computeNewStates(float &speed, float &accele
     // update speed
     speed = speed + dt*acceleration;
 }
+
+float SimpleControlModelWithBraking::getMaxSpeed() {
+    return m_maxSpeed;
+}
