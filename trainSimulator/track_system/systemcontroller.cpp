@@ -97,7 +97,12 @@ void SystemController::controlTrains() {
         }
         if(signal != NULL) {
             if(signal->isRed()) {
-                newDesiredSpeed = 0;
+                newDesiredSpeed = copysign(1.0, currentSpeed);
+                if(newDesiredSpeed > 0 && location.getPositionOnTrack() > location.getTrack()->getLength() - train->getLength() * 1.5) {
+                    newDesiredSpeed = 0;
+                } else if (newDesiredSpeed < 0 && location.getPositionOnTrack() < train->getLength() * 1.5) {
+                    newDesiredSpeed = 0;
+                }
             }
         }
         train->setDesiredSpeed(newDesiredSpeed);
