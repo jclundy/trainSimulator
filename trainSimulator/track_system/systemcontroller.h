@@ -8,6 +8,13 @@
 
 #include <QMap>
 
+typedef struct {
+    float speed;
+    float dt;
+    float distance;
+    int trainId;
+} train_approach_data;
+
 class SystemController
 {
 public:
@@ -31,7 +38,9 @@ private:
     void controlSingleJunction(JunctionTrack* track);  // todo - rename to controlSingleJunctionTrack
     void handleTrainOnJunctionTrack(JunctionTrack* track, int trainID);
     void handleApproachingTrains(JunctionTrack* track);
-    int getIdOfFastestApproachingTrain(JunctionTrack* track);
+    int getIdOfClosestApproachingTrain(JunctionTrack* track);
+    train_approach_data computeTrainApproachData(TrackSensor* sensor);
+    train_approach_data getCloserTrain(train_approach_data winner, train_approach_data candidate);
 };
 
 #endif // SYSTEMCONTROLLER_H
