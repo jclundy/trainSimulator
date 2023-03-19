@@ -28,22 +28,27 @@ public:
     float getSpeed() override;
     float getAcceleration();
     int getPriority() override;
+    float getLength();
     TrainLocation getFrontLocation();
     TrainLocation getRearLocation();
     void setPriority(int priority);
     void setLength(float length);
     bool isStopped();
+    bool isHalted();
+    void unHalt();
     train_motion_result getRailState();
 
     // initialization
-    void place(ITrackSegment* track, train_orientation orientation=TRAIN_HEAD_TOWARDS_TRACK_FRONT);
+    void place(ITrackSegment* track, float rearPositionOnTrack=0, train_orientation orientation=TRAIN_HEAD_TOWARDS_TRACK_FRONT);
     void slide(float distance);
     void setStartingSpeed(float speed);
     void setControlModel(TrainControlModel *controlModel);
     // control and simulation
     void setDesiredSpeed(float setpoint);
+    float getDesiredSpeed();
     bool drive(float dt);
     void stop();
+    float getMaxSpeed();
     // train 2D location
     QPointF getLocationInWorld();
     QPointF getFrontLocationInWorld();
@@ -64,6 +69,7 @@ private:
 
     float m_length;
     bool m_isDriving;
+    bool m_isHalted;
 
     TrainControlModel *m_controlModel;
     train_motion_result m_railState;

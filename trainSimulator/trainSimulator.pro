@@ -41,7 +41,13 @@ SOURCES += \
     tests/tracksystemtest.cpp \
     track_components/tracksensor.cpp \
     track_components/basictracksegment.cpp \
-    track_system/collisionchecker.cpp
+    track_system/collisionchecker.cpp \
+    path_planning/trackpathtable.cpp \
+    path_planning/pathtableentry.cpp \
+    track_system/systemcontroller.cpp \
+    simulation/simulation.cpp \
+    simulation/exampletracksystem.cpp \
+    simulation/simulationlogger.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -64,4 +70,10 @@ HEADERS += \
     track_components/tracksensor.h \
     train/ivehicle.h \
     track_components/basictracksegment.h \
-    track_system/collisionchecker.h
+    track_system/collisionchecker.h \
+    path_planning/trackpathtable.h \
+    path_planning/pathtableentry.h \
+    track_system/systemcontroller.h \
+    simulation/simulation.h \
+    simulation/exampletracksystem.h \
+    simulation/simulationlogger.h
