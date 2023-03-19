@@ -26,8 +26,8 @@ private:
     int findIdOfClosest();
 
     TrackSystem* m_trackSystem;
-    QMap<unsigned int, PathTableEntry> m_table;
-    QList<unsigned int> m_unvisited;
+    QMap<unsigned int, PathTableEntry*> m_table;
+    QMap<unsigned int, PathTableEntry*> m_unvisited;
     unsigned int m_targetId;
     int m_maxIterations;
 };
