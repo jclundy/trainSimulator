@@ -12,14 +12,14 @@ class Simulation : public QObject
     Q_OBJECT
 public:
     explicit Simulation(QObject *parent = nullptr);
+    void connectSlots();
 
     // getters
     TrackSystem* getTrackSystem();
     // initialization
     void loadTrackSystem();
     void loadTrainDestinations();
-
-    void setTimeout(float timeout); // in seconds
+    void setTimeout(unsigned long timeout); // in ms
 
     // running simulation
     void startSimulation();
@@ -28,8 +28,14 @@ public:
 signals:
 
 public slots:
+    void slot_timerEvent();
 
 private:
+    int m_timeout; //ms
+    int m_timeSinceLastMovement; //ms
+    float m_dt;
+    int m_interval;
+
     TrackSystem* m_trackSystem;
     SystemController* m_controller;
     QTimer m_timer;
