@@ -10,6 +10,7 @@
 typedef struct {
     unsigned int trackId;
     int directionToNext; //-1=reverse, 1=forward, 0=stop
+    unsigned int nextTrackId;
 } path_step;
 
 class TrackPathTable
@@ -25,9 +26,10 @@ private:
     int findIdOfClosest();
 
     TrackSystem* m_trackSystem;
-    QMap<unsigned int, ITrackSegment*> m_unvisited;
     QMap<unsigned int, PathTableEntry> m_table;
+    QList<unsigned int> m_unvisited;
     unsigned int m_targetId;
+    int m_maxIterations;
 };
 
 #endif // TRACKPATHTABLE_H

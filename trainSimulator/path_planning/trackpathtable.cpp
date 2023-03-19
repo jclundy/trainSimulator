@@ -9,13 +9,14 @@ void TrackPathTable::initialize(TrackSystem *trackSystem, unsigned int targetId)
     m_table.clear();
     m_targetId = targetId;
     m_trackSystem = trackSystem;
+    m_maxIterations = trackSystem->getTrackSegments().size();
 
     for(int i = 0; i < trackSystem->getTrackSegments().size(); i++) {
         ITrackSegment* track = trackSystem->getTrackSegments().at(i);
-        m_unvisited.insert(track->getId(), track);
 
         PathTableEntry entry = PathTableEntry(track->getId(), track->getLength());
         m_table.insert(entry.getTrackId(), entry);
+        m_unvisited.push_back(entry.getTrackId());
     }
 
 }
@@ -30,7 +31,7 @@ void TrackPathTable::computeTable() {
         currentEntry.setVisited();
 
         // 2. Update neighbours of current
-        ITrackSegment* currentTrack = m_unvisited[currentId];
+        ITrackSegment* currentTrack = m_trackSystem->getTrackSegmentById(currentId);
         float currentDistance = m_table[currentId].getDistanceToTarget();
 
         if(currentTrack != NULL) {
@@ -52,7 +53,7 @@ void TrackPathTable::computeTable() {
         }
 
         //3. Remove current from list of unvisited
-        m_unvisited.remove(currentEntry.getTrackId());
+        m_unvisited.removeOne(currentId);
 
         //4. Find next closest node and re[eat
         currentId = findIdOfClosest();
@@ -69,13 +70,21 @@ int TrackPathTable::findIdOfClosest() {
     int closestId = -1;
     float closestDistance = -1;
 
-    QMapIterator<unsigned int, PathTableEntry> i(m_table);
-    while (i.hasNext()) {
-        i.next();
-        float newId = i.key();
-        PathTableEntry entry = m_table[newId];
-        float newDistance = entry.getDistanceToTarget();
+    for(int i = 0; i < m_unvisited.size(); i++) {
+        float newId = m_unvisited.at(i);
 
+        if(m_table.contains(newId) == false) {
+            continue;
+        }
+
+        PathTableEntry entry = m_table[newId];
+
+        // if entry is already visited, continue
+        if(entry.getVisited()) {
+            continue;
+        }
+
+        float newDistance = entry.getDistanceToTarget();
 
         if(closestId == -1) {
             closestId = newId;
@@ -96,10 +105,32 @@ int TrackPathTable::findIdOfClosest() {
 
 
 int TrackPathTable::getDirectionToNext(unsigned int trackId) {
+
+    if(m_table.contains(trackId)) {
+        return m_table[trackId].getDirectionToNext();
+    }
     return 0;
 }
 
 QList<path_step> TrackPathTable::getPathListFrom(unsigned int trackId) {
     QList<path_step> pathList;
+
+    unsigned int currentId = trackId;
+
+    if(m_table.contains(trackId)) {
+
+        int iterations = 0;
+        while(currentId != m_targetId && iterations < m_maxIterations) {
+            path_step step;
+            step.trackId = currentId;
+            step.nextTrackId = m_table[trackId].getNextId();
+            step.directionToNext = m_table[trackId].getDirectionToNext();
+
+            currentId = step.nextTrackId;
+            pathList.append(step);
+            iterations++;
+        }
+    }
+
     return pathList;
 }
