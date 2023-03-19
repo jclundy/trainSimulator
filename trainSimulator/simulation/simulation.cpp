@@ -1,7 +1,7 @@
 #include "simulation.h"
 #include "exampletracksystem.h"
 #include <QDebug>
-
+#include <QDateTime>
 Simulation::Simulation(QObject *parent) : QObject(parent),
     m_timer(this)
 {
@@ -14,7 +14,9 @@ Simulation::Simulation(QObject *parent) : QObject(parent),
 
     connectSlots();
 
-    m_logger = new SimulationLogger("output.txt");
+    QDateTime time = QDateTime::currentDateTime();
+    QString fileName = QString("simulation_output_") + time.toString(Qt::ISODate) + QString(".txt");
+    m_logger = new SimulationLogger(fileName);
 
 }
 
