@@ -1,4 +1,5 @@
 #include "trackpathtable.h"
+#include <QDebug>
 
 TrackPathTable::TrackPathTable()
 {
@@ -11,6 +12,8 @@ void TrackPathTable::initialize(TrackSystem *trackSystem, unsigned int targetId)
     m_trackSystem = trackSystem;
     m_maxIterations = trackSystem->getTrackSegments().size();
 
+    qDebug() << "debug-track-path-table: initializing; num tracks=" << m_maxIterations;
+
     for(int i = 0; i < trackSystem->getTrackSegments().size(); i++) {
         ITrackSegment* track = trackSystem->getTrackSegments().at(i);
 
@@ -19,6 +22,8 @@ void TrackPathTable::initialize(TrackSystem *trackSystem, unsigned int targetId)
         m_unvisited.push_back(entry.getTrackId());
     }
 
+    qDebug() << "debug-track-path-table: created table, num entries=" << m_table.size();
+    qDebug() << "debug-track-path-table: created unvisited, num entries=" << m_unvisited.size();
 }
 
 void TrackPathTable::computeTable() {
