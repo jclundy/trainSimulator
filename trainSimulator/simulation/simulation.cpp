@@ -90,6 +90,8 @@ void Simulation::slot_timerEvent() {
 
     if(m_trackSystem->areAllTrainsStopped() && m_iterations > 1) {
         qDebug() << "all trains stopped";
+        qDebug() << "Ran " << m_iterations << "iterations";
+        qDebug() << "Simulation lasted " << m_elapsedSeconds << " seconds";
         stopSimulation();
     }
 

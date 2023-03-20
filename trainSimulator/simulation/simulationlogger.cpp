@@ -68,7 +68,7 @@ void SimulationLogger::logAllJunctions() {
 void SimulationLogger::logAllTrains() {
     QList<Train*> trainList = m_trackSystem->getTrains();
     for(int i = 0; i < trainList.size(); i++) {
-        logTrainInfo(trainList.at(0));
+        logTrainInfo(trainList.at(i));
     }
 }
 
@@ -193,7 +193,8 @@ void SimulationLogger::logTrainInfo(Train* train) {
     m_out << "Train ID: " << train->getId() << "\n";
     m_out << "Train length " << train->getLength()  << "\n";
     m_out << "Train max speed " << train->getMaxSpeed()  << "\n";
-    m_out << "Train track id: " << train->getFrontLocation().getTrackId() << ", " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear"  << "\n";
+    m_out << "Train track id: " << train->getFrontLocation().getTrackId() << "\n";
+    m_out << "Strating location: " << train->getFrontLocation().getPositionOnTrack() << " meters from track rear"  << "\n";
 }
 
 void SimulationLogger::logTrainMovementInfo(Train* train) {
