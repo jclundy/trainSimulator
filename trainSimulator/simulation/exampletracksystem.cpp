@@ -28,8 +28,8 @@ TrackSystem * ExampleTrackSystem::generateExample1() {
 
     Train* train0 = trackSystem->addTrain();
     train0->place(track3);
-//    Train* train1 = trackSystem->addTrain();
-//    train1->place(track5);
+    Train* train1 = trackSystem->addTrain();
+    train1->place(track5);
 
     Signal* signal_0_rear = trackSystem->addSignal();
     signal_0_rear->placeOnTrackRear(track0);
@@ -78,6 +78,6 @@ QMap<unsigned int, unsigned int> ExampleTrackSystem::generateExample1Destination
     QMap<unsigned int, unsigned int> map;
     // key - train, value - destination track id
     map.insert(0, 4);
-//    map.insert(1, 0);
+    map.insert(1, 0);
     return map;
 }
