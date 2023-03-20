@@ -59,8 +59,9 @@ void SystemController::controlTrains() {
         TrackPathTable* table = m_trainPaths[train->getId()];
 
         float currentSpeed = train->getSpeed();
-        float newDesiredSpeed = currentSpeed;
         int directionToNext = table->getDirectionToNext(trackId);
+
+        float newDesiredSpeed = directionToNext * train->getMaxSpeed();
 
         //1. Control speed based on destination
         if(table->getTargetId() == trackId) {
@@ -88,7 +89,7 @@ void SystemController::controlTrains() {
         // otherwise, set speed towards next destination
         ITrackSegment* trackSegment;
         ISignal* signal;
-        if(newDesiredSpeed < 0) {
+        if(directionToNext < 0) {
             trackSegment = train->getRearLocation().getTrack();
             signal = trackSegment->getRearSignal();
         } else {
@@ -97,7 +98,7 @@ void SystemController::controlTrains() {
         }
         if(signal != NULL) {
             if(signal->isRed()) {
-                newDesiredSpeed = copysign(1.0, currentSpeed);
+                newDesiredSpeed = copysign(1.0, newDesiredSpeed);
                 if(newDesiredSpeed > 0 && location.getPositionOnTrack() > location.getTrack()->getLength() - train->getLength() * 1.5) {
                     newDesiredSpeed = 0;
                 } else if (newDesiredSpeed < 0 && location.getPositionOnTrack() < train->getLength() * 1.5) {
