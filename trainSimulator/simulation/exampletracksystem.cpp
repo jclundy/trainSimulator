@@ -27,9 +27,9 @@ TrackSystem * ExampleTrackSystem::generateExample1() {
     track5->getTrackGeometry()->setRotationAboutRear(-120);
 
     Train* train0 = trackSystem->addTrain();
-    train0->place(track0);
+    train0->place(track3);
     Train* train1 = trackSystem->addTrain();
-    train1->place(track4);
+    train1->place(track5);
 
     Signal* signal_0_rear = trackSystem->addSignal();
     signal_0_rear->placeOnTrackRear(track0);
@@ -77,7 +77,7 @@ TrackSystem * ExampleTrackSystem::generateExample1() {
 QMap<unsigned int, unsigned int> ExampleTrackSystem::generateExample1Destinations() {
     QMap<unsigned int, unsigned int> map;
     // key - train, value - destination track id
-    map.insert(0, 5);
-    map.insert(1, 3);
+    map.insert(0, 4);
+    map.insert(1, 0);
     return map;
 }
