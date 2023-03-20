@@ -55,12 +55,6 @@ public:
     bool selectRearBranch(ITrackSegment* track);
     bool selectRearBranchById(unsigned int id);
 
-    void checkCollisions();
-
-    int mostViableForwardBranchNumber();
-    int mostViableRearBranchNumber();
-    branch_selection_criteria selectMostViableBranch(branch_selection_criteria winningBranch, branch_selection_criteria candidateBranch);
-
 private:
 
     // private members
