@@ -128,7 +128,7 @@ bool Signal::checkCollisionFree() {
         bool forwardBlocked = CollisionChecker::trainBlockingForward(m_trackSegment);
         return !forwardCollision && !forwardBlocked;
     } else if (m_placement == SIGNAL_TRACK_REAR) {
-        bool rearCollision = CollisionChecker::collisionWillOccurInReverseDirection(m_trackSegment, m_trackSegment->getSelectedForwardEnd());
+        bool rearCollision = CollisionChecker::collisionWillOccurInReverseDirection(m_trackSegment->getSelectedRearEnd(), m_trackSegment);
         bool rearBlocked = CollisionChecker::trainBlockingRear(m_trackSegment);
         return !rearCollision && !rearBlocked;
     }
