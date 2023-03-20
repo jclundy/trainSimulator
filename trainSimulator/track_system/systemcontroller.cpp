@@ -169,7 +169,7 @@ void SystemController::handleApproachingTrains(JunctionTrack* track) {
     }
 
     int junctionId = track->getId();
-    int trainTargetTrackId = m_trainPaths[closestTrainData.trainId]->getDirectionToNext(junctionId);
+    int trainTargetTrackId = m_trainPaths[closestTrainData.trainId]->getNextTrackId(junctionId);
 
     // if train will need to drive forward (ie approaching our rear)
     if(closestTrainData.trainDirection == 1) {
@@ -198,9 +198,17 @@ train_approach_data SystemController::getDataOfClosestApproachingTrain(JunctionT
     for (int i = 0; i < rearNeighbours.size(); i++) {
         ITrackSegment* neighbour = rearNeighbours.at(i);
         TrackSensor* forwardSensor = neighbour->getFrontSensor();
-        if(forwardSensor->isTrainPresent() && forwardSensor->getTrainSpeed() >= 0) {
-            train_approach_data candidateTrain = computeTrainApproachData(forwardSensor, neighbour->getId(), 1);
-            winningTrain = getCloserTrain(winningTrain, candidateTrain);
+        if(forwardSensor->isTrainPresent()) {
+            int neighbourId = neighbour->getId();
+            int trainId = forwardSensor->getTrainId();
+            if(m_trainPaths.contains(trainId)) {
+                int direction = m_trainPaths[trainId]->getDirectionToNext(neighbourId);
+                if(direction > 0) {
+                    train_approach_data candidateTrain = computeTrainApproachData(forwardSensor, neighbourId, 1);
+                    winningTrain = getCloserTrain(winningTrain, candidateTrain);
+                }
+            }
+
         }
     }
 
@@ -209,9 +217,18 @@ train_approach_data SystemController::getDataOfClosestApproachingTrain(JunctionT
     for (int i = 0; i < forwardNeighbours.size(); i++) {
         ITrackSegment* neighbour = forwardNeighbours.at(i);
         TrackSensor* rearSensor = neighbour->getRearSensor();
-        if(rearSensor->isTrainPresent() && rearSensor->getTrainSpeed() <= 0) {
-            train_approach_data candidateTrain = computeTrainApproachData(rearSensor, neighbour->getId(), -1);
-            winningTrain = getCloserTrain(winningTrain, candidateTrain);
+        if(rearSensor->isTrainPresent()) {
+
+            int neighbourId = neighbour->getId();
+            int trainId = rearSensor->getTrainId();
+            if(m_trainPaths.contains(trainId)) {
+
+                int direction = m_trainPaths[trainId]->getDirectionToNext(neighbourId);
+                if(direction < 0) {
+                    train_approach_data candidateTrain = computeTrainApproachData(rearSensor, neighbourId, -1);
+                    winningTrain = getCloserTrain(winningTrain, candidateTrain);
+                }
+            }
         }
     }
     return winningTrain;

@@ -61,12 +61,12 @@ void TrackSensor::trigger(IVehicle *train, float positionOnTrack)
 {
     // reset countdown
     m_countDown = m_timeoutSetting;
-    m_trainPresent = true;
 
     if (isTrainPresent() == false)
     {
         // if no train previously present, just trigger the sensor
         updateTrainInfo(train, positionOnTrack);
+        m_trainPresent = true;
     }
     else if (m_trainId == (int)train->getId())
     {
