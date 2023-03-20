@@ -59,8 +59,6 @@ void SimulationLogger::logAllSignals() {
 }
 
 void SimulationLogger::logAllJunctions() {
-    m_out << "-------------------------------------\n";
-    m_out << "JUNCTION INFO  \n";
     QList<JunctionTrack*> junctionList = m_trackSystem->getJunctions();
     for(int i = 0; i < junctionList.size(); i++) {
         logJunctionInfo(junctionList.at(i));
@@ -99,10 +97,12 @@ void SimulationLogger::logTimeStep(int iterations, float elapsedSeconds) {
     m_out << "++++++++++++++++++++++++++++++ \n";
     m_out << "Train movements \n";
     logTrainMovements();
-//    logAllSignals();
     m_out << "++++++++++++++++++++++++++++++ \n";
     m_out << "Junction states \n";
     logAllJunctions();
+    m_out << "+++++++++++++++++++++++++++ \n";
+    m_out << "Signals states \n";
+    logAllSignals();
 
     // todo - change to log signal changes and junction changes
 }
